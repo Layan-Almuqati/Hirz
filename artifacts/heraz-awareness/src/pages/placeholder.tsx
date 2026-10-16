@@ -44,7 +44,7 @@ type PageKey = keyof typeof pageContent;
 function PlaceholderPage({ pageKey }: { pageKey: PageKey }) {
   const page = pageContent[pageKey];
   return (
-    <main id="main-content" className="page-wrap min-h-[56vh] py-10 sm:py-16" data-testid={`page-${pageKey}`}>
+    <main id="main-content" tabIndex={-1} className="page-wrap min-h-[56vh] py-10 sm:py-16" data-testid={`page-${pageKey}`}>
       <PageHeader title={page.title} description={page.description} kids={'kids' in page && page.kids} />
       <section aria-label="محتوى الصفحة" className={`page-card ${'kids' in page && page.kids ? 'border-[var(--kids)]/30 bg-[var(--kids-10)]' : ''}`} data-testid="placeholder-card">
         <p className="text-center text-lg font-semibold" data-testid="status-content-pending">المحتوى قيد الإعداد</p>

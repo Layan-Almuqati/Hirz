@@ -43,7 +43,7 @@ function Router() {
           <Route path="/quiz"><PlaceholderPage pageKey="quiz" /></Route>
           <Route path="/kids"><PlaceholderPage pageKey="kids" /></Route>
           <Route>
-            <main id="main-content" className="page-wrap py-20">
+            <main id="main-content" tabIndex={-1} className="page-wrap py-20">
               <NotFound />
               <Link href="/" data-testid="link-not-found-home" className="primary-button mt-6">العودة للرئيسية</Link>
             </main>

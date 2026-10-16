@@ -299,6 +299,7 @@ img { max-width: 100%; }
   background: var(--kids);
 }
 .kids-accent { color: var(--kids); }
+.mobile-menu a[aria-current='page'].kids-accent { color: var(--navy); }
 .section-title.kids-accent::before { background: var(--kids); }
 .kids-button { background: var(--kids); color: white; }
 .kids-button:hover { background: #6950b6; }

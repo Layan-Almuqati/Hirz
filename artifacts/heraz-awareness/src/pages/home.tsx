@@ -9,7 +9,7 @@ const journeyCards = [
   },
   {
     n: '2', title: 'المخاطر المستقبلية', path: '/risks',
-    description: 'تعرّف على أثر استخدام صور الأطفال وبياناتهم في المحتوى المزيّف.',
+    description: 'الأثر بعيد المدى لاستخدام صور الأطفال وبياناتهم في المحتوى المزيّف وانتحال الهوية.',
     icon: 'photos',
   },
   {
@@ -19,12 +19,12 @@ const journeyCards = [
   },
   {
     n: '4', title: 'احمِ هوية طفلك', path: '/protect',
-    description: 'إجراءات وقائية وإعدادات خصوصية وخطوات للتعامل مع الاستخدام غير المصرّح.',
+    description: 'الحلول والإجراءات الوقائية، وضبط إعدادات الخصوصية، وخطوات التعامل مع الاستخدام غير المصرّح به.',
     icon: 'child-protected',
   },
   {
     n: '5', title: 'التشريعات', path: '/laws',
-    description: 'تعرّف على الأنظمة والحقوق المرتبطة بحماية بيانات الأطفال.',
+    description: 'الأنظمة والحقوق المرتبطة بحماية بيانات الأطفال.',
     icon: 'hands-heart',
   },
   {
@@ -51,7 +51,7 @@ function IdentityIcon({ icon, label }: { icon: string; label: string }) {
 
 function HomePage() {
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <section className="relative isolate overflow-hidden bg-[var(--navy)] text-white" aria-labelledby="hero-title" data-testid="section-hero">
         <img src="/assets/brand-svg/heraz-mark-turquoise.svg" alt="رمز درع حِرز" className="hero-mark" />
         <div className="page-wrap relative z-10 flex min-h-[440px] flex-col justify-center py-10 md:min-h-[520px] md:py-16">
