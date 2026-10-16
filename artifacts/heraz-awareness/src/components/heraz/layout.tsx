@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'wouter';
-import { ArrowLeft, Menu, X } from 'lucide-react';
+import { ArrowLeft, Menu, ShieldCheck, X } from 'lucide-react';
 
 type PageLink = { path: string; label: string };
 
@@ -27,11 +27,20 @@ const journey = [
 export function Navbar() {
   const [location] = useLocation();
   const [open, setOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const updateScrollState = () => setIsScrolled(window.scrollY > 24);
+    updateScrollState();
+    window.addEventListener('scroll', updateScrollState, { passive: true });
+    return () => window.removeEventListener('scroll', updateScrollState);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--navy-10)] bg-white/[.96] backdrop-blur-sm" data-testid="site-header">
-      <div className="page-wrap flex min-h-[76px] items-center justify-between gap-4">
-        <Link href="/" aria-label="حِرز - الرئيسية" data-testid="link-brand-home" className="flex shrink-0 items-center rounded-sm p-2">
-          <img src="/assets/logo/heraz-logo-horizontal-color.png" alt="شعار حِرز" className="h-auto w-[132px] sm:w-[160px]" />
+    <header className={`site-navbar sticky top-0 z-50 border-b border-[var(--navy-10)] bg-white ${isScrolled ? 'is-scrolled' : ''}`} data-testid="site-header">
+      <div className="navbar-inner page-wrap flex items-center justify-between gap-4">
+        <Link href="/" aria-label="حِرز - الرئيسية" data-testid="link-brand-home" className="flex shrink-0 items-center rounded-sm">
+          <img src="/assets/logo/heraz-logo-horizontal-color.png" alt="شعار حِرز" className="navbar-logo" />
         </Link>
         <nav aria-label="التنقل الرئيسي" className="hidden items-center gap-3 lg:flex">
           {navItems.map((item) => (
@@ -79,29 +88,30 @@ export function Navbar() {
 
 export function Footer({ pages }: { pages: PageLink[] }) {
   return (
-    <footer className="bg-[var(--navy)] text-white" data-testid="site-footer">
-      <div className="page-wrap grid gap-10 py-12 md:grid-cols-[.8fr_1.2fr] md:gap-16 md:py-16">
+    <footer className="site-footer bg-[var(--navy)] text-white" data-testid="site-footer">
+      <div className="page-wrap grid gap-8 py-10 md:grid-cols-2 md:gap-10 md:py-12 lg:grid-cols-[minmax(170px,.75fr)_minmax(220px,.85fr)_minmax(280px,1.3fr)]">
         <div>
           <Link href="/" aria-label="حِرز - الرئيسية" data-testid="footer-brand-home" className="inline-flex rounded-sm p-2">
             <img src="/assets/logo/heraz-logo-horizontal-white-turquoise.png" alt="شعار حِرز" className="w-[170px]" />
           </Link>
-          <p className="mt-5 max-w-sm text-sm leading-8 text-white/80" data-testid="text-data-privacy">لا نجمع أي بيانات من زوارنا.</p>
+          <p className="privacy-badge mt-5" data-testid="text-data-privacy">
+            <ShieldCheck size={20} strokeWidth={1.75} className="shrink-0 text-[var(--turquoise)]" aria-hidden="true" />
+            <span>لا نجمع أي بيانات من زوارنا.</span>
+          </p>
         </div>
-        <div className="grid gap-8 sm:grid-cols-2">
-          <nav aria-label="روابط سريعة" className="grid grid-cols-2 gap-x-5 gap-y-2 sm:grid-cols-1">
-            <h2 className="col-span-2 mb-1 font-bold text-[var(--turquoise)] sm:col-span-1">روابط سريعة</h2>
-            {pages.map((page) => (
-              <Link key={page.path} href={page.path} data-testid={`footer-${page.path === '/' ? 'home' : page.path.slice(1)}`} className="min-h-11 py-1 text-sm text-white/85 underline-offset-4 hover:text-white hover:underline">
-                {page.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="text-sm leading-8 text-white/85">
-            <p data-testid="text-project-university">مشروع تخرج - جامعة الأميرة نورة بنت عبدالرحمن</p>
-            <p data-testid="text-project-college">كلية العلوم الإنسانية والاجتماعية - قسم الصحافة والإعلام</p>
-            <p data-testid="text-project-advisor">إشراف: د. نوال المنيف</p>
-            <p data-testid="text-project-team">فريق العمل: ليان المقاطي، أفنان الشميمري، آية الغامدي، دانا رحالي، ريما عباس، ريناد الألمعي، غادة العنقودي، جواهر المنهالي</p>
-          </div>
+        <nav aria-label="روابط سريعة" className="grid grid-cols-2 content-start gap-x-5 gap-y-2">
+          <h2 className="col-span-2 mb-1 font-bold text-[var(--turquoise)]">روابط سريعة</h2>
+          {pages.map((page) => (
+            <Link key={page.path} href={page.path} data-testid={`footer-${page.path === '/' ? 'home' : page.path.slice(1)}`} className="min-h-11 py-0 text-sm text-white/85 underline-offset-4 hover:text-white hover:underline">
+              {page.label}
+            </Link>
+          ))}
+        </nav>
+        <div className="min-w-[280px] text-sm leading-8 text-white/85 md:col-span-2 lg:col-span-1">
+          <p data-testid="text-project-university">مشروع تخرج - جامعة الأميرة نورة بنت عبدالرحمن</p>
+          <p data-testid="text-project-college">كلية العلوم الإنسانية والاجتماعية - قسم الصحافة والإعلام</p>
+          <p data-testid="text-project-advisor">إشراف: د. نوال المنيف</p>
+          <p data-testid="text-project-team">فريق العمل: ليان المقاطي، أفنان الشميمري، آية الغامدي، دانا رحالي، ريما عباس، ريناد الألمعي، غادة العنقودي، جواهر المنهالي</p>
         </div>
       </div>
       <div className="bg-[var(--teal)] px-5 py-2 text-center text-sm font-semibold text-[var(--navy)]" data-testid="text-hijri-year">1448 هـ / 2027 م</div>
@@ -119,7 +129,7 @@ export function PageHeader({ title, description, kids = false }: HeaderProps) {
         <span aria-current="page" data-testid="breadcrumb-current">{title}</span>
       </nav>
       <h1 className={`section-title mb-4 ${kids ? 'kids-accent' : ''}`} data-testid="heading-page-title">{title}</h1>
-      <p className="max-w-[65ch] text-base leading-8 text-[var(--navy)] sm:text-lg" data-testid="text-page-description">{description}</p>
+      <p className="max-w-[65ch] text-[17px] leading-8 text-[var(--navy)]/80 sm:text-lg" data-testid="text-page-description">{description}</p>
     </div>
   );
 }

@@ -1,0 +1,36 @@
+Polish pass on the existing site. Change only what is listed below. Do not add pages, features, or any text I did not write. Keep all design tokens, fonts, and colors exactly as they are.
+
+NAVBAR
+1. Solid white background (no transparency), 1px navy-10 bottom border. Height 80px on desktop, 64px on mobile. After the user scrolls more than 24px, reduce the desktop height to 64px with a 180ms ease transition (respect prefers-reduced-motion). Keep position: sticky; top: 0 and a z-index above page content.
+2. Logo (heraz-logo-horizontal-color.png): height 48px on desktop, 40px on mobile. Do not recolor or add effects.
+3. Nav links: color solid navy (#1D2254), font Alexandria 500, size 16px (17px on screens 1280px and wider), padding 10px 14px, min height 44px. Active link: turquoise (#51EDC8) pill background, navy bold text, no underline. Hover on other links: navy-10 background pill.
+4. Restore the diacritic: the link label must read «احمِ» (with the kasra) in the navbar, the footer, and everywhere else.
+
+HEADINGS AND TEXT BLOCKS
+5. In the section "ما هو الاستنساخ الرقمي؟" and the section "رحلتك في حِرز": put the heading and its text in the same right-aligned column, stacked (heading first, text below). Max text width 65ch. Paragraph text 20px, line-height 1.9, color navy. Remove the two-column split that pushes the text far from the heading.
+6. Remove any copy I did not provide: the small line above the hero headline, the label "خطوة هادئة نحو معرفة أوضح", and the sentence under the heading "رحلتك في حِرز".
+7. Section vertical spacing: 72px between sections on desktop, 56px on mobile (currently too large).
+8. Secondary and sub text (for example "أسئلة سريعة تساعدك تقرر بوعي."): navy at 80% opacity, 17px minimum, Alexandria 400. Do not use the Light serif for text under 20px.
+
+HERO
+9. Reduce the hero minimum height to 520px on desktop (no fixed 100vh) and 440px on mobile; vertically center the content. Make the decorative turquoise mark 12% opacity, larger, and partly cropped by the left edge of the hero.
+10. Under the two buttons add one small line of reassurance chips with a Lucide Check icon (size 18) in white/turquoise on navy: "بدون تسجيل" and "لا نجمع أي بيانات". Nothing else.
+
+CARDS (the 6 journey cards)
+11. The teal side bar must run the full height of the card on its right edge, 4px wide, rounded, inside the card (not a short floating line in the corner). On hover it turns turquoise.
+12. Card 06 (اختبر وعيك) uses the Lucide ClipboardCheck icon: render it at 40px, stroke 1.5, navy, centered inside the same turquoise-10 rounded square (72px) as the other five cards, so all six icon boxes are identical in size.
+
+BANNERS
+13. Kids banner (عالم حرز): background a slightly stronger tint of --kids (about 12% over white), plus a full-height 4px side bar in --kids on the right edge, matching the style of the "قبل أن تنشر" banner. Title text in --kids stays; keep the button as is.
+
+FOOTER
+14. Put the 8 quick links in two columns with 8px vertical spacing (each link still a 44px touch target via padding). Remove the large empty space under them.
+15. Widen the text column (min-width 280px) so the university lines wrap into 2-3 lines. Show the team list ("فريق العمل: ...") as its own paragraph under the supervisor line.
+16. Turn "لا نجمع أي بيانات من زوارنا." into a small badge: Lucide ShieldCheck icon (20px, turquoise) next to the text, inside a rounded rectangle with a thin turquoise border on the navy background.
+
+TECHNICAL CHECKS
+17. Make sure the favicon is the heraz mark (from the mark SVG), the page <title> is "حِرز | التوعية بالهوية الرقمية للأطفال", and add a meta description: "منصة توعوية عربية تساعد أولياء الأمور على فهم الاستنساخ الرقمي بالذكاء الاصطناعي وحماية هوية أطفالهم."
+18. Verify keyboard navigation (Tab) shows a visible focus ring on every link and button, and that the skip-to-content link works.
+19. Test at 375px, 768px, and 1280px. Nothing may overflow horizontally. Keep the navbar fully visible and unclipped while scrolling at every width.
+
+When done, give me a short numbered list of what you changed.
