@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "حِرز — التوعية بالهوية الرقمية للأطفال"
+description = "موقع توعوي عربي لأولياء الأمور في السعودية حول الاستنساخ الرقمي بالذكاء الاصطناعي وحماية الهوية الرقمية للأطفال."
+version = "1.0.0"
+id = "artifacts/heraz-awareness"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23255
+
+[services.development]
+run = "pnpm --filter @workspace/heraz-awareness run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/heraz-awareness", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/heraz-awareness/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23255"
+BASE_PATH = "/"
