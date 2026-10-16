@@ -92,7 +92,7 @@ export function Footer({ pages }: { pages: PageLink[] }) {
       <div className="page-wrap grid gap-8 py-10 md:grid-cols-2 md:gap-10 md:py-12 lg:grid-cols-[minmax(170px,.75fr)_minmax(220px,.85fr)_minmax(280px,1.3fr)]">
         <div>
           <Link href="/" aria-label="حِرز - الرئيسية" data-testid="footer-brand-home" className="inline-flex rounded-sm p-2">
-            <img src="/assets/logo/heraz-logo-horizontal-white-turquoise.png" alt="شعار حِرز" className="w-[170px]" />
+            <img src="/assets/logo/heraz-logo-horizontal-white-turquoise.png" alt="شعار حِرز" className="h-[96px] w-auto" />
           </Link>
           <p className="privacy-badge mt-5" data-testid="text-data-privacy">
             <ShieldCheck size={20} strokeWidth={1.75} className="shrink-0 text-[var(--turquoise)]" aria-hidden="true" />
