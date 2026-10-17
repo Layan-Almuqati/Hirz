@@ -1,0 +1,90 @@
+You are editing an existing Arabic (RTL) React/Vite site called "حِرز". Do all of the following in one pass. Keep the existing design tokens (navy #1D2254, turquoise #51EDC8, teal #56AAAA, bg #EEEEEF), fonts, and header/footer. Never use red, orange or yellow anywhere. Do not add analytics or data collection. All visible site text must be in simple Modern Standard Arabic exactly as written below. Do not translate, rephrase, or add extra text, badges or decorative elements that are not listed.
+
+## PART 1 — /protect page («احمِ»)
+
+Replace the current content of /protect with exactly three cards in this order. Remove everything else on the page, including any "حصّن حساباتك" button, privacy-settings content, or platform-specific sections. Keep the page title and existing hero as they are.
+
+Card 1 (largest, first, visually prominent)
+- Title: حصل لي موقف الآن؟
+- Text: اختر أقرب حالة، وسنرتب لك الخطوات.
+- Button: ابدأ  → navigates to /protect/help
+
+Card 2
+- Title: علامات تساعدك على الشك
+- Intro: هذه علامات شائعة يذكرها دليل سدايا، وهي تساعد على التشكيك في صحة المقطع، لكنها لا تثبت شيئًا. وقد يكون المقطع مزيّفًا دون أن تظهر فيه أي منها.
+- Three short items (icon + one line each):
+  1. حركات وجه غير طبيعية
+  2. إضاءة وظلال غير منتظمة
+  3. عدم اتساق في الصوت
+- Closing line: إذا شككت، لا تعتمد على عينك وحدها: قارن المقطع بمصدره الأصلي، أو تواصل مع صاحبه مباشرة.
+- Small source line with link: المصدر: دليل سدايا للتزييف العميق، القسم 8.5  → link to the SDAIA guidelines PDF URL already used on the «افهم» page (reuse the exact same URL constant; do not invent a new one).
+
+Card 3
+- Title: اتفقوا على كلمة سر عائلية
+- Text: في حالة موثّقة في دليل سدايا، اتصل محتال بوالدين بصوت يشبه صوت طفلهم وادّعى أنه مخطوف وطلب مالًا. كان الصوت مستنسخًا، ودفع الوالدان مبلغًا كبيرًا. بعد الحادثة نُصح الناس باستخدام كلمات رمزية خاصة بالأسرة للتحقق.
+- Action line: اتفقوا مسبقًا على كلمة لا يعرفها غيركم، واطلبوها إذا اتصل أحد يدّعي أنه طفلك أو يطلب مالًا بسرعة.
+- Small note: الحالة وردت في الدليل كمثال من دولة في جنوب آسيا.
+- Small source line with link to the same SDAIA PDF: المصدر: دليل سدايا، الملحق 3، المثال 12
+
+Put all these strings and URLs in src/data/protectContent.ts (single source of truth). Cards stack on mobile; two-column grid is NOT needed. Card 1 is full width.
+
+## PART 2 — /before-you-post («قبل أن تنشر»)
+
+Build an interactive checklist of exactly 10 yes/no questions, one list on the page (not a wizard). Data in src/data/postChecklist.ts.
+Behavior:
+- Each question shows two buttons: نعم / لا. "نعم" = safe answer. Neither is selected initially. The user can change an answer at any time.
+- When the answer is لا, reveal under that question the advice text and a small source link (opens in a new tab with rel="noopener noreferrer").
+- When the answer is نعم, show nothing extra.
+- Under the list show a summary that updates live:
+  - If at least one question is answered لا: عندك {n} من النقاط تستحق المراجعة قبل النشر.
+  - If all 10 are answered نعم: لا توجد نقاط للمراجعة. وهذا لا يعني أن النشر بلا مخاطر.
+  - If not all questions are answered yet, show: أجبت عن {answered} من 10.
+- Button: إعادة القائمة (clears all answers).
+- Do not store answers anywhere (no localStorage, no sessionStorage). State lives in memory only.
+- Group headings (small, above each group): ما تُظهره الصورة (Q1–4), مع من تُشارَك (Q5–7), قبل النشر (Q8–10).
+- Make each question keyboard accessible, with aria-pressed on the answer buttons.
+
+Questions (question | advice if لا | source label | URL):
+1. هل خلت الصورة والنص المصاحب لها من اسم طفلي الكامل ومن أي بيانات تواصل؟ | احذف الاسم الكامل وبيانات التواصل قبل النشر. | eSafety — الخصوصية وطفلك | https://www.esafety.gov.au/parents/issues-and-advice/privacy-child
+2. هل خلت الصورة مما يدل على مدرسته أو بيتكم أو مكان تواجده المعتاد (مثل الزي المدرسي أو واجهة المنزل)؟ | ابتعد عن نشر صور تظهر الزي المدرسي أو المكان أو المواعيد التي تعرّف بمكانه. | eSafety — الخصوصية وطفلك | https://www.esafety.gov.au/parents/issues-and-advice/privacy-child
+3. هل خلا المنشور من جدول أنشطة طفلي وروتينه ومكان وجوده الآن؟ | احذف تفاصيل المكان والروتين وجداول الأنشطة من النص والصورة. | eSafety — الخصوصية وطفلك | same URL as Q1
+4. هل أيقنت أن خدمة الموقع معطّلة في الكاميرا والتطبيقات التي لا تحتاجها؟ | عطّل تحديد الموقع للتطبيقات التي لا تحتاجه، وراجع بيانات الصورة (metadata) قبل نشرها، فمعظم الصور الرقمية تحمل الوقت والتاريخ وإحداثيات المكان. | eSafety — الخصوصية وطفلك | same URL as Q1
+5. هل حسابي مضبوط على أعلى إعدادات الخصوصية، ومتابعوه أشخاص أعرفهم وأثق بهم؟ | اجعل الحساب خاصًا، وراجع قائمة المتابعين وأزل من لا تعرفه أو لا تثق به. | IC3 — تنبيه I-060523-PSA | https://www.ic3.gov/PSA/2023/psa230605
+6. هل فكّرت في إرسالها في رسالة خاصة أو مجموعة مغلقة بدل نشرها على الحساب؟ | شاركها مع من تقصدهم فقط عبر رسالة خاصة أو مجموعة مغلقة. | eSafety — الخصوصية وطفلك | same URL as Q1
+7. هل خلت الصورة من أطفال آخرين، أو استأذنت أهاليهم إن وُجدوا؟ | اسأل أهالي الأطفال قبل نشر الصورة أو مشاركتها أو وضع علامة عليهم فيها. | eSafety — الخصوصية وطفلك | same URL as Q1
+8. هل سألت طفلي إن كان يرغب في نشرها وأخذت برأيه؟ | اشرح له لماذا تريد نشرها واسأله هل يوافق؛ وإن فضّل ألا تنشرها فاحترم قراره. | eSafety — الخصوصية وطفلك | same URL as Q1
+9. هل أقبل أن تبقى هذه الصورة متاحة للنسخ والتعديل، مع أن سحبها بعد انتشارها قد يكون صعبًا؟ | لا تنشرها، أو شاركها مع من تثق بهم فقط بشكل خاص. المصدر يحذّر من أن الصور يمكن نسخها وتعديلها دون موافقة أصحابها. | IC3 — تنبيه I-060523-PSA | https://www.ic3.gov/PSA/2023/psa230605
+10. هل راجعت سياسة الخصوصية للمنصة التي أرفع عليها (ماذا تفعل بالمحتوى وكم تحتفظ به)؟ | راجع سياسات الخصوصية ومشاركة البيانات والاحتفاظ بها في المنصة قبل رفع أي محتوى. | IC3 — تنبيه I-060523-PSA | https://www.ic3.gov/PSA/2023/psa230605
+
+Below the checklist add one small line: المصادر: هيئة eSafety الأسترالية، ومركز IC3 التابع لمكتب التحقيقات الفيدرالي الأمريكي. (No intro paragraph above the list.)
+
+## PART 3 — Wizard fixes (/protect/help)
+
+Keep all four cases, steps, links and wording as they are, and apply ONLY these changes:
+
+1. Fixed emergency line on the FIRST screen (case list), above the four options: إذا كان طفلك في خطر الآن، اتصل بـ 911. Make "911" a tel:911 link.
+2. The 911 button must show the number as visible text inside the button (so it is usable on desktop), and clicking it must NEVER trigger the return modal.
+3. Return modal («هل أتممت هذه الخطوة؟» with «تمّت» / «لم أتمكن»): show it ONLY when the user returns to the tab after clicking an external-link button (not tel: links), only once per click, and never on plain tab switches. If two external buttons are clicked before returning, show one modal only. White modal background. Remove the extra "رجوع" button inside the modal. Escape closes the modal without recording an answer. Clicking outside the modal does nothing. Move focus into the modal when it opens and back to the triggering button when it closes.
+4. «لم أتمكن»: keep the step on screen, show the existing helper line, and add a text link below it: المتابعة بدون إتمام هذه الخطوة. Clicking it moves to the next step and marks the step as not completed.
+5. App-store buttons: under them add one helper line: لديك التطبيق؟ افتح المتجر واضغط «فتح».
+6. End screen must be conditional:
+   - Title when all steps were marked done: أتممت الخطوات المطلوبة.
+   - Show the existing "10 working days" sentence ONLY if the user pressed «تمّت» on the official report step (cases 1, 2, 3 report step). Prefix it with: إذا قدّمت البلاغ، and keep the existing sentence wording after it.
+   - If any step was skipped or unfinished, show instead the title: بقيت خطوات لم تكتمل، then a list of those steps, each with a button العودة للخطوة, and do not show the 10-day sentence.
+   - Keep the button ابدأ من جديد, which clears the wizard's sessionStorage and returns to the case list.
+7. Navigation and refresh:
+   - Each step change pushes a history entry, so the browser Back button goes to the previous step (step 1 → case list → /protect) instead of leaving the flow.
+   - The app «رجوع» button behaves the same way: step>1 → previous step, step 1 → case list, case list → /protect.
+   - Persist only case id, step index and per-step status in sessionStorage (wrap in try/catch, the page must work if storage is blocked).
+   - On refresh, restore the same case and step. Opening /protect/help in a fresh tab shows the case list.
+   - If a saved unfinished session exists when the user opens /protect/help from the entry card, show a small prompt: هل تريد المتابعة من حيث توقفت؟ with buttons متابعة and ابدأ من جديد.
+8. Remove the «حصّن حساباتك» button from the wizard entirely (and from the end screen). Nothing else should link to a privacy-settings section.
+9. On /protect and the wizard entry card: make sure the card has comfortable inner padding on mobile (at least 20px).
+10. Accessibility: the step title receives focus on each step change, the progress indicator has an accessible name (e.g. "الخطوة 2 من 5"), buttons that open external pages have an accessible name that says they open in a new tab.
+
+## Do NOT
+- Do not add any new pages, platforms, privacy-settings sections, footer names or credits in this pass.
+- Do not change links already in src/data/helpFlow.ts.
+- Do not add any text that is not listed above.
+
+When finished, list the files you changed and confirm each numbered item.
