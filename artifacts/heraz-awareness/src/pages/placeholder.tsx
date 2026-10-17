@@ -1,4 +1,6 @@
 import { PageHeader, NextStep } from '@/components/heraz/layout';
+import { Link } from 'wouter';
+import { helpFlowCopy, helpFlowLinks } from '@/data/helpFlow';
 
 const pageContent = {
   understand: {
@@ -46,6 +48,14 @@ function PlaceholderPage({ pageKey }: { pageKey: PageKey }) {
   return (
     <main id="main-content" tabIndex={-1} className="page-wrap min-h-[56vh] py-10 sm:py-16" data-testid={`page-${pageKey}`}>
       <PageHeader title={page.title} description={page.description} kids={'kids' in page && page.kids} />
+      {pageKey === 'protect' && (
+        <section aria-labelledby="protect-help-title" className="page-card mb-8 border-[var(--teal)] bg-[var(--turquoise-10)]" data-testid="card-protect-help-entry">
+          <h2 id="protect-help-title" className="mb-4 text-xl font-bold" data-testid="heading-protect-help-entry">{helpFlowCopy.entryTitle}</h2>
+          <Link href={helpFlowLinks.helpPage.href} className="primary-button min-h-11" data-testid="link-protect-help">
+            {helpFlowCopy.pageTitle}
+          </Link>
+        </section>
+      )}
       <section aria-label="محتوى الصفحة" className={`page-card ${'kids' in page && page.kids ? 'border-[var(--kids)]/30 bg-[var(--kids-10)]' : ''}`} data-testid="placeholder-card">
         <p className="text-center text-lg font-semibold" data-testid="status-content-pending">المحتوى قيد الإعداد</p>
       </section>

@@ -1,0 +1,77 @@
+Add a new sub-page to the site called "ماذا حدث؟" (What happened?), a step-by-step helper for parents. Do not change any other page except where I say so explicitly.
+
+## General rules
+- Route: /protect/help
+- Full RTL layout. All user-facing text is in simple Modern Standard Arabic, exactly as written in the quotes below. Keep the existing design system (colors, fonts, spacing, components). Do NOT use red, orange or yellow anywhere, including the emergency button.
+- No sign-up, no forms that submit data, no file uploads, no data collection, no analytics or tracking.
+- External buttons open in a new tab: target="_blank" rel="noopener noreferrer".
+- Store every link and phone number in one file, src/data/helpFlow.ts, with a lastVerified field = "2026-10-17" for each, so they are easy to update later.
+
+## Entry points
+1. On /protect: add a prominent card at the top with the title "حصل لي موقف الآن؟" and a button linking to /protect/help.
+2. Add a permanent footer link with the same label.
+
+## First screen
+Title: "ماذا حدث؟"
+Subtitle: "اختر أقرب حالة، وسنرتب لك الخطوات."
+Four large clickable cards:
+1. "وجدت صورة أو فيديو مزيّفًا لطفلي"
+2. "اتصل بي أحد بصوت يشبه صوت طفلي"
+3. "أحد يهددني بمحتوى مزيّف عن طفلي"
+4. "وجدت صور طفلي منشورة عند غيري"
+
+## Steps
+Show one step at a time with a progress indicator (e.g. "الخطوة 1 من 3"). Steps marked (no button) are plain text.
+
+### Case 1
+- Step 1 (no button): "وثّق المحتوى: احفظ الرابط ولقطة الشاشة والتاريخ واسم المنصة."
+- Step 2 (no button): "بلّغ المنصة من داخل تطبيقها واطلب الإزالة."
+- Step 3: "قدّم بلاغًا رسميًا."
+  Primary button: "قدّم البلاغ في كلنا أمن". Under it two small buttons: "Google Play" and "App Store", and a small text link: "صفحة الخدمة الرسمية".
+  Helper line: "التقديم داخل التطبيق: سجّل الدخول، ثم اختر تصنيف الجريمة، ثم التصنيف الفرعي، ثم أضف الوصف والمرفقات وأرسل."
+
+### Case 2
+- Step 1: "إذا لم تستطع التأكد من سلامة طفلك الآن." Button: "اتصل 911" (tel:911).
+- Step 2 (no button): "أنهِ المكالمة، واتصل بطفلك أو بمن معه على رقم تعرفه."
+- Step 3 (no button): "إن اتفقتم مسبقًا على كلمة سر عائلية، اسأل عنها."
+- Step 4: "بعد أن تتأكد، قدّم بلاغًا رسميًا." Same Kollona Amn buttons as Case 1.
+
+### Case 3
+- Step 1 (no button): "وثّق الرسائل واسم الحساب والتاريخ والمنصة."
+- Step 2 (no button): "بلّغ المنصة من داخل تطبيقها."
+- Step 3: "قدّم بلاغًا رسميًا." Same Kollona Amn buttons.
+
+### Case 4
+- Step 1 (no button): "وثّق الرابط ولقطة الشاشة وتاريخ النشر."
+- Step 2 (no button): "اطلب الإزالة من المنصة."
+- Step 3: "إذا نُشرت صور طفلك للعموم دون إذنك، يمكنك تقديم شكوى." Button: "قدّم شكوى بيانات شخصية". Small line: "تحتاج حساب أبشر".
+
+## Links (put these in helpFlow.ts)
+- Kollona Amn, Google Play: https://play.google.com/store/apps/details?id=sa.gov.moi.securityinform
+- Kollona Amn, App Store: https://apps.apple.com/us/app/%D9%83%D9%84%D9%86%D8%A7-%D8%A3%D9%85%D9%86/id1085635249
+- Official service page: https://my.gov.sa/ar/services/398352
+- SDAIA personal data complaint: https://dgp.sdaia.gov.sa/wps/myportal/pdp/eservices/complaints
+- Emergency: tel:911
+
+## Behavior when the user returns from an external tab
+When an external button is clicked, open the link and listen for the visibilitychange event. When the user comes back to this tab, immediately show a small modal (not a new page) with: "هل أتممت هذه الخطوة؟" and two buttons: "تمّت" and "لم أتمكن".
+- "تمّت": go to the next step.
+- "لم أتمكن": show a helper line and stay on the same step. For the Kollona Amn button: "لا يوجد لديك التطبيق؟ حمّله من الرابط ثم قدّم البلاغ داخله." For the SDAIA button: "الخدمة تتطلب حساب أبشر."
+Store only the case number and step number in sessionStorage so progress survives switching between apps. Store nothing else. Wrap all storage access in try/catch and make sure the page works without it.
+
+## End screen (after the last step)
+Title: "أتممت الخطوات المطلوبة"
+Text: "تتابع الجهات المختصة بلاغك. المدة المعلنة لخدمة بلاغات الجرائم المعلوماتية 10 أيام عمل."
+Show the sentence about 10 working days in Cases 1, 2 and 3 only, not in Case 4.
+Two buttons: "حصّن حساباتك" (link to the privacy-settings section on /protect; if that section does not exist, link to the top of /protect) and "ابدأ من جديد".
+A "رجوع" (back) button must be available on every screen.
+
+## Permanent note at the bottom of every screen of this page
+"منصة حِرز توعوية وليست جهة بلاغات. الأزرار تفتح خدمات الجهات الرسمية."
+
+## Accessibility
+- Touch targets at least 44px, sufficient contrast, full keyboard navigation.
+- Every button has a clear text label; never rely on color alone.
+- Test at 375px width with no horizontal scroll.
+
+When finished, tell me only what you built. Do not suggest extra features.

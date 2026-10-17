@@ -3,6 +3,7 @@ import { Route, Switch, useLocation, Router as WouterRouter, Link } from 'wouter
 import { ErrorBoundary } from '@/components/error-boundary';
 import NotFound from '@/pages/not-found';
 import HomePage from '@/pages/home';
+import HelpPage from '@/pages/help';
 import PlaceholderPage from '@/pages/placeholder';
 import { Footer, Navbar } from '@/components/heraz/layout';
 
@@ -38,6 +39,7 @@ function Router() {
           <Route path="/understand"><PlaceholderPage pageKey="understand" /></Route>
           <Route path="/risks"><PlaceholderPage pageKey="risks" /></Route>
           <Route path="/before-you-post"><PlaceholderPage pageKey="before-you-post" /></Route>
+          <Route path="/protect/help" component={HelpPage} />
           <Route path="/protect"><PlaceholderPage pageKey="protect" /></Route>
           <Route path="/laws"><PlaceholderPage pageKey="laws" /></Route>
           <Route path="/quiz"><PlaceholderPage pageKey="quiz" /></Route>

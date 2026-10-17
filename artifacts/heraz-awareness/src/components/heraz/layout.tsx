@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { ArrowLeft, Menu, ShieldCheck, X } from 'lucide-react';
+import { helpFlowCopy, helpFlowLinks } from '@/data/helpFlow';
 
 type PageLink = { path: string; label: string };
 
@@ -106,6 +107,9 @@ export function Footer({ pages }: { pages: PageLink[] }) {
               {page.label}
             </Link>
           ))}
+          <Link href={helpFlowLinks.helpPage.href} data-testid="footer-protect-help" className="min-h-11 py-0 text-sm text-white/85 underline-offset-4 hover:text-white hover:underline">
+            {helpFlowCopy.entryTitle}
+          </Link>
         </nav>
         <div className="min-w-[280px] text-[17px] leading-[1.8] text-white/85 md:col-span-2 lg:col-span-1">
           <p data-testid="text-project-university">مشروع تخرج - جامعة الأميرة نورة بنت عبدالرحمن</p>
