@@ -62,6 +62,7 @@ export default function HelpPage() {
   const [unableToComplete, setUnableToComplete] = useState(false);
   const awaitingReturn = useRef(false);
   const dialogRef = useRef<HTMLElement>(null);
+  const screenHeadingRef = useRef<HTMLHeadingElement>(null);
 
   const selectedCase = findCase(progress?.caseNumber);
   const isEndScreen = Boolean(progress && selectedCase && progress.stepNumber > selectedCase.steps.length);
@@ -115,6 +116,10 @@ export default function HelpPage() {
       if (previouslyFocused?.isConnected) previouslyFocused.focus();
     };
   }, [confirmationOpen]);
+
+  useEffect(() => {
+    screenHeadingRef.current?.focus();
+  }, [progress]);
 
   const updateProgress = (nextProgress: Progress) => {
     saveProgress(nextProgress);
@@ -238,7 +243,7 @@ export default function HelpPage() {
 
         {!progress && (
           <section aria-labelledby="help-title" className="max-w-4xl">
-            <h1 id="help-title" className="section-title" data-testid="heading-help-title">{helpFlowCopy.pageTitle}</h1>
+            <h1 ref={screenHeadingRef} tabIndex={-1} id="help-title" className="section-title" data-testid="heading-help-title">{helpFlowCopy.pageTitle}</h1>
             <p className="mb-8 mt-2 text-[17px] text-[var(--navy)]/80 sm:text-lg" data-testid="text-help-subtitle">{helpFlowCopy.subtitle}</p>
             <div className="grid gap-4 md:grid-cols-2" data-testid="list-help-cases">
               {helpCases.map((helpCase) => (
@@ -259,7 +264,7 @@ export default function HelpPage() {
 
         {progress && selectedCase && !isEndScreen && currentStep && (
           <section aria-labelledby="help-case-title" className="max-w-4xl" data-testid={`screen-case-${selectedCase.number}`}>
-            <h1 id="help-case-title" className="section-title" data-testid="heading-help-case">{selectedCase.title}</h1>
+            <h1 ref={screenHeadingRef} tabIndex={-1} id="help-case-title" className="section-title" data-testid="heading-help-case">{selectedCase.title}</h1>
             <div className="mb-7 mt-5 max-w-xl">
               <p className="mb-2 text-sm font-semibold" aria-live="polite" data-testid="text-help-progress">
                 {helpFlowCopy.progress(progress.stepNumber, selectedCase.steps.length)}
@@ -300,7 +305,7 @@ export default function HelpPage() {
 
         {progress && selectedCase && isEndScreen && (
           <section aria-labelledby="help-end-title" className="page-card max-w-4xl" data-testid={`screen-end-case-${selectedCase.number}`}>
-            <h1 id="help-end-title" className="section-title" data-testid="heading-help-end">{helpFlowCopy.endTitle}</h1>
+            <h1 ref={screenHeadingRef} tabIndex={-1} id="help-end-title" className="section-title" data-testid="heading-help-end">{helpFlowCopy.endTitle}</h1>
             {selectedCase.showEndMessage && (
               <p className="mb-7 max-w-[65ch] text-[17px] leading-8 text-[var(--navy)]/80" data-testid="text-help-end-message">
                 {helpFlowCopy.endMessage}
