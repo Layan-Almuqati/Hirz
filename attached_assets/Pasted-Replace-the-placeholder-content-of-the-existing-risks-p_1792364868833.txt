@@ -1,0 +1,69 @@
+Replace the placeholder content of the existing /risks page with the page below. Reuse the existing components, layout, header, footer and navigation. Do not add new fonts, colors or libraries. Do NOT use red, orange or yellow anywhere (no warning-style colors). Use only the existing tokens: Navy #1D2254, Turquoise #51EDC8, Teal #56AAAA, background #EEEEEF, white #FFFFFF. Fonts: Alexandria for UI, Thmanyah Serif for body headings, as in the other pages. The page is RTL, frontend-only, no data collection, no cookies, no analytics. All site text is Arabic and must be used exactly as written below (do not rephrase, shorten or "improve" it).
+
+Page title (<title> and h1): «المخاطر»
+Subtitle under h1: «لماذا يتزايد الخطر، وما أثره على الأطفال، وما الذي قد يبقى بعد النشر.»
+
+Tone: calm and serious. No icons of warning (no triangles, exclamation marks, skulls, lock-breaking, red alerts). No scary imagery. No animations except a subtle fade-in already used on other pages.
+
+SECTION 1 — h2: «لماذا يكبر الخطر؟»
+Paragraph (card, white background, Navy text):
+«لم تعد صناعة محتوى مزيّف تحتاج خبرة عالية. تذكر دراسة سدايا أن أدواته سهلة الوصول ولا تتطلب خبرة تقنية عالية أو موارد مالية كبيرة. وتشير الدراسة إلى أن التقدم التقني السريع لم يواكبه تطور تنظيمي كافٍ، مما أتاح بيئة غير محوكمة قد تزيد من مخاطر هذه التقنية. ومن استخداماتها الضارة انتحال الهوية والاحتيال والابتزاز. ولا يزال اكتشافها تحديًا لأنها تتطور باستمرار.»
+Small source line under the card (small text, Teal-dark readable, link opens in a new tab with rel="noopener noreferrer"):
+«المصدر: سدايا، «التزييف العميق: المخاطر والفرص المحتملة»، يوليو 2025.» — link on "سدايا، «التزييف العميق: المخاطر والفرص المحتملة»" to https://sdaia.gov.sa/ar/MediaCenter/KnowledgeCenter/ResearchLibrary/DeepfakeStudy.pdf
+
+SECTION 2 — h2: «ما علاقة ذلك بالأطفال؟»
+Paragraph 1:
+«تذكر دراسة سدايا أن المخاوف تتزايد من إساءة استخدام التزييف العميق خصوصًا في المحتوى الموجه للأطفال، وأنه يمكن أن يُستخدم في التنمر الإلكتروني بما يسبب أضرارًا نفسية بالغة للقاصرين.»
+Paragraph 2 (with a stat highlight): show a large number block "1.2 مليون" (Navy, large) next to the text:
+«وفي دراسة ميدانية لليونيسف (فبراير 2026)، أفاد ما لا يقل عن 1.2 مليون طفل أن صورهم عُدّلت إلى صور مزيّفة ذات طابع جنسي صريح خلال العام الماضي، في 11 دولة شملتها الدراسة. وفي بعض هذه الدول يعادل ذلك طفلًا من كل 25 طفلًا. شملت الدراسة أطفالًا من 12 إلى 17 سنة يستخدمون الإنترنت.»
+Directly under paragraph 2, a small-print scope note (smaller size, muted Navy at 70%, must stay readable, minimum contrast 4.5:1):
+«النطاق: مسوح أسرية ممثلة وطنيًا نفّذتها اليونيسف وإبسوس في 11 دولة لم تسمّها النشرة، بنحو ألف طفل وألف ولي أمر في كل دولة، ضمن مشروع Disrupting Harm المرحلة الثانية. لا تتضمن النشرة تعميمًا على المملكة.»
+Paragraph 3:
+«وفي استطلاع أجرته منظمة Thorn على 1,200 من الشباب بين 13 و20 سنة (مارس 2025)، قال واحد من كل 17 منهم إن شخصًا آخر صنع له صورًا عارية مزيّفة. وقال 62% إنهم سيخبرون أحد والديهم لو حدث لهم ذلك، لكن 34% فقط من الضحايا أخبروهم فعلًا.»
+Scope note under it:
+«النطاق: صفحة المنظمة لا تذكر الدولة ولا تاريخ المسح، والعينة تشمل أعمارًا حتى 20 سنة.»
+Sources line:
+«المصادر: سدايا (قسم «التأثير على القُصَّر»، صفحة 29)، اليونيسف «Deepfake abuse is abuse» (4 فبراير 2026)، Thorn (3 مارس 2025).»
+Links: 
+- سدايا → the same SDAIA PDF URL above
+- اليونيسف → https://www.unicef.org/asia-pacific/press-releases/deepfake-abuse-abuse
+- Thorn → https://www.thorn.org/blog/deepfake-nudes-are-a-harmful-reality-for-youth-new-research-from-thorn/
+
+SECTION 3 — h2: «ماذا عن الأثر بعيد المدى؟»
+Intro line (one sentence, muted): «ما يلي مما تذكره المصادر الموثقة فقط.»
+Show four numbered cards (1–4), each with a short bold title and a paragraph. On mobile stack in one column; on desktop 2×2 grid. Same card style as the existing cards (white, soft border, Navy numbers in Turquoise circles).
+
+Card 1 title: «الصورة التي تُنشر اليوم قد تُستخدم بعد سنوات.»
+Text: «أشارت هيومن رايتس ووتش إلى أن صورًا لأطفال وجدتها ضمن مجموعة بيانات لتدريب أدوات ذكاء اصطناعي كانت منشورة قبل سنوات طويلة، حتى قبل عشر سنوات من إنشائها. وفي تقرير آخر (2 يوليو 2024) وجدت المنظمة 190 صورة لأطفال أستراليين ضمن المجموعة نفسها، وذكرت أن كثيرًا منها كان منشورًا بدرجة من الخصوصية، منها مقطع «غير مدرج» على يوتيوب.»
+Source: «هيومن رايتس ووتش، البرازيل (يونيو 2024) وأستراليا (يوليو 2024).» Links: https://www.hrw.org/news/2024/06/10/brazil-childrens-personal-photos-misused-power-ai-tools and https://hrw.org/news/2024/07/03/australia-childrens-personal-photos-misused-power-ai-tools
+
+Card 2 title: «ما يُنشر يصعب سحبه بعد انتشاره.»
+Text: «تذكر نشرة مركز IC3 التابع للمكتب الفيدرالي للتحقيقات (5 يونيو 2023) أن المحتوى بعد مشاركته على الإنترنت قد يصعب جدًا، بل يستحيل، إزالته بعد تداوله أو نشره من أطراف أخرى. وتذكر النشرة أن ضحايا هذه الصور المعدّلة إلى محتوى صريح يشملون أطفالًا قاصرين.»
+Source: «مركز IC3 (FBI)، تنبيه I-060523-PSA، 5 يونيو 2023.» Link: https://www.ic3.gov/PSA/2023/psa230605
+
+Card 3 title: «قد تضعف ثقة الناس بما يرونه ويسمعونه.»
+Text: «تذكر دراسة سدايا أنه إذا استمر تداول هذه التقنية على نطاق واسع، فقد تواجه الأجيال القادمة صعوبة في تصديق أي محتوى منشور عبر الإنترنت، وقد يصل الناس إلى مرحلة يتوقفون فيها عن تصديق أي مقطع مرئي أو صوتي حتى لو كان حقيقيًا.»
+Source: «سدايا، صفحة 29.» Link: the SDAIA PDF URL.
+
+Card 4 title: «صور الاعتداء على الأطفال المولّدة بالذكاء الاصطناعي تزداد فيما ترصده الجهات المختصة.»
+Text: «أعلنت مؤسسة مراقبة الإنترنت البريطانية (IWF) في 5 أكتوبر 2026 أنها رصدت في النصف الأول من 2026 صورًا واقعية المظهر مولّدة بالذكاء الاصطناعي لاعتداء على أطفال أكثر مما رصدته في 2025 كله: 6,310 صور مقابل 4,512 (زيادة 40%). وتذكر المؤسسة في تقريرها السنوي 2025 أن هذا النوع من المواد كثيرًا ما يستند إلى وجوه أو أجساد أطفال حقيقيين.»
+Small note: «الأرقام عمّا قيّمته المؤسسة نفسها، وليست قياسًا لانتشار الظاهرة عالميًا.»
+Source: «مؤسسة IWF، بيان 5 أكتوبر 2026، وتقريرها السنوي 2025.» Links: https://www.iwf.org.uk/news-media/news/more-ai-generated-child-sexual-abuse-images-found-in-the-first-six-months-of-2026-than-all-of-2025-iwf-warns and https://www.iwf.org.uk/annual-data-insights-report-2025/emerging-and-persistent-harms/ai-generated-child-sexual-abuse-material
+
+Do not add any text about Saudi Arabia, statistics, or predictions beyond what is written above.
+
+CLOSING BLOCK (full-width card, Navy background, white text):
+Text: «ليس الهدف أن تخاف، بل أن تعرف ماذا تفعل. راجع قائمة «قبل أن تنشر» قبل أي صورة، وإذا حدث موقف فصفحة «احمِ» ترتّب لك الخطوات.»
+Two buttons side by side (stack on mobile):
+- Primary (Turquoise #51EDC8 background, Navy text): «قبل أن تنشر» → internal link /before-you-post
+- Secondary (outline white): «احمِ» → internal link /protect
+Use the router's internal links (no full page reload), not target="_blank".
+
+GENERAL RULES
+- All external links: target="_blank" rel="noopener noreferrer", with visually-hidden text " (يفتح في نافذة جديدة)" appended for screen readers; visible focus ring on every link and button; minimum touch target 44px.
+- Semantic structure: one h1, h2 per section, h3 for card titles; sections as <section aria-labelledby>.
+- Body text size 17–18px, line-height 1.9, max line length ~70 characters on desktop, comfortable padding on mobile (16px gutters), no horizontal scroll at 360px width.
+- Respect prefers-reduced-motion (disable the fade-in).
+- Keep the same page transition and active-state behavior in the top navigation: «المخاطر» highlighted as the current page.
+- No localStorage/sessionStorage, no network calls, no images needed.
+- After implementing, do not change any other page. Report which files you changed.

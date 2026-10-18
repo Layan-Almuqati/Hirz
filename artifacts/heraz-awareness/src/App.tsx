@@ -6,6 +6,7 @@ import HomePage from '@/pages/home';
 import BeforeYouPostPage from '@/pages/before-you-post';
 import HelpPage from '@/pages/help';
 import PlaceholderPage from '@/pages/placeholder';
+import RisksPage from '@/pages/risks';
 import ProtectPage from '@/pages/protect';
 import { Footer, Navbar } from '@/components/heraz/layout';
 
@@ -39,7 +40,7 @@ function Router() {
         <Switch>
           <Route path="/" component={HomePage} />
           <Route path="/understand"><PlaceholderPage pageKey="understand" /></Route>
-          <Route path="/risks"><PlaceholderPage pageKey="risks" /></Route>
+          <Route path="/risks" component={RisksPage} />
           <Route path="/before-you-post" component={BeforeYouPostPage} />
           <Route path="/protect/help" component={HelpPage} />
           <Route path="/protect" component={ProtectPage} />
