@@ -1,5 +1,5 @@
 import { Link } from 'wouter';
-import { ArrowDown, ArrowLeft, Check, ClipboardCheck, Image, Lock, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Check, ClipboardCheck } from 'lucide-react';
 
 const journeyCards = [
   {
@@ -53,43 +53,33 @@ function HomePage() {
   return (
     <main id="main-content" tabIndex={-1}>
       <section className="hero-section relative isolate overflow-hidden text-white" aria-labelledby="hero-title" data-testid="section-hero">
-        <div className="page-wrap hero-layout relative z-10">
-          <div className="hero-copy">
-            <div className="hero-badge"><span aria-hidden="true" />منصة توعوية لأولياء الأمور</div>
-            <h1 id="hero-title" className="hero-title display-font" data-testid="heading-hero">
-              <span>حِرز..</span><span className="hero-title-accent">هويتك الرقمية أمانة</span>
-            </h1>
-            <p className="hero-description" data-testid="text-hero-description">
-              منصة توعوية تساعدك على حماية صور وبيانات طفلك من الاستخدام غير المصرح به في تقنيات الذكاء الاصطناعي
-            </p>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Link href="/understand" data-testid="button-hero-understand" className="primary-button hero-primary">
-                <span>ابدأ التوعية</span><ArrowLeft size={19} aria-hidden="true" />
-              </Link>
-              <Link href="/quiz" data-testid="button-hero-quiz" className="secondary-button secondary-button-light">
-                <span>اختبر وعيك</span><ArrowLeft size={19} aria-hidden="true" />
-              </Link>
-            </div>
-            <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/90" aria-label="معلومات الخصوصية">
-              <span className="inline-flex items-center gap-1.5">
-                <Check size={18} strokeWidth={1.75} className="text-[var(--turquoise)]" aria-hidden="true" />
-                بدون تسجيل
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <Check size={18} strokeWidth={1.75} className="text-[var(--turquoise)]" aria-hidden="true" />
-                لا نجمع أي بيانات
-              </span>
-            </div>
+        <img src="/assets/brand-svg/heraz-mark-turquoise.svg" alt="رمز درع حِرز" className="hero-mark" />
+        <div className="page-wrap relative z-10 flex min-h-[440px] flex-col justify-center py-10 md:min-h-[520px] md:py-16">
+          <h1 id="hero-title" className="hero-title display-font max-w-[780px] text-[clamp(32px,5vw,56px)] leading-[1.35] text-white" data-testid="heading-hero">
+            صورة طفلك...<br className="hidden sm:block" /> هويته الرقمية
+          </h1>
+          <p className="mt-5 max-w-[690px] text-lg font-normal leading-[1.9] text-white/85 md:text-xl" data-testid="text-hero-description">
+            حِرز منصة توعوية تساعدك تفهم الاستنساخ الرقمي بالذكاء الاصطناعي وتحمي هوية طفلك قبل ما تنشر.
+          </p>
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Link href="/understand" data-testid="button-hero-understand" className="primary-button">
+              <span>ابدأ بفهم الاستنساخ</span><ArrowLeft size={19} aria-hidden="true" />
+            </Link>
+            <Link href="/quiz" data-testid="button-hero-quiz" className="secondary-button secondary-button-light">
+              <span>اختبر وعيك</span><ArrowLeft size={19} aria-hidden="true" />
+            </Link>
           </div>
-          <div className="hero-art">
-            <div className="hero-orb" role="img" aria-label="رمز قفل يعبّر عن حماية الهوية الرقمية">
-              <div className="hero-orb-inner"><Lock size={52} strokeWidth={1.7} aria-hidden="true" /></div>
-            </div>
-            <div className="hero-chip hero-chip-lock"><Lock size={19} aria-hidden="true" /><span>حماية رقمية</span></div>
-            <div className="hero-chip hero-chip-image"><span className="chip-shield"><Image size={18} aria-hidden="true" /><ShieldCheck size={11} aria-hidden="true" /></span><span>حماية الصور والبيانات</span></div>
+          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/90" aria-label="معلومات الخصوصية">
+            <span className="inline-flex items-center gap-1.5">
+              <Check size={18} strokeWidth={1.75} className="text-[var(--turquoise)]" aria-hidden="true" />
+              بدون تسجيل
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Check size={18} strokeWidth={1.75} className="text-[var(--turquoise)]" aria-hidden="true" />
+              لا نجمع أي بيانات
+            </span>
           </div>
         </div>
-        <div className="hero-down" aria-hidden="true"><ArrowDown size={20} /></div>
       </section>
 
       <section className="intro-section page-wrap flex flex-col items-start gap-3 py-14 md:py-[72px]" aria-labelledby="what-title" data-testid="section-understanding-intro">

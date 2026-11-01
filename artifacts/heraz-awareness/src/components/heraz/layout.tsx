@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'wouter';
-import { ArrowLeft, Menu, Shield, ShieldCheck, X } from 'lucide-react';
+import { ArrowLeft, Menu, ShieldCheck, X } from 'lucide-react';
 import { helpFlowCopy, helpFlowLinks } from '@/data/helpFlow';
 
 type PageLink = { path: string; label: string };
@@ -32,7 +32,7 @@ export function Navbar() {
   const isHome = location === '/';
 
   useEffect(() => {
-    const updateScrollState = () => setIsScrolled(window.scrollY > 40);
+    const updateScrollState = () => setIsScrolled(window.scrollY > 24);
     updateScrollState();
     window.addEventListener('scroll', updateScrollState, { passive: true });
     return () => window.removeEventListener('scroll', updateScrollState);
@@ -41,9 +41,8 @@ export function Navbar() {
   return (
     <header className={`site-navbar sticky top-0 z-50 ${isHome ? 'home-navbar' : 'inner-navbar'} ${isScrolled ? 'is-scrolled' : ''}`} data-testid="site-header">
       <div className="navbar-inner page-wrap flex items-center justify-between gap-4">
-        <Link href="/" aria-label="حِرز - الرئيسية" data-testid="link-brand-home" className="brand-lockup flex shrink-0 items-center gap-2 rounded-sm">
-          <span className="brand-mark" aria-hidden="true"><Shield size={23} strokeWidth={2} /></span>
-          <span className="brand-word">حرز</span>
+        <Link href="/" aria-label="حِرز - الرئيسية" data-testid="link-brand-home" className="flex shrink-0 items-center rounded-sm">
+          <img src="/assets/logo/heraz-logo-horizontal-white-turquoise.png" alt="شعار حِرز" className="navbar-logo" />
         </Link>
         <nav aria-label="التنقل الرئيسي" className="hidden items-center gap-3 lg:flex">
           {navItems.map((item) => (
@@ -94,9 +93,8 @@ export function Footer({ pages }: { pages: PageLink[] }) {
     <footer className="site-footer bg-[var(--navy)] text-white" data-testid="site-footer">
       <div className="page-wrap grid gap-8 py-10 md:grid-cols-2 md:gap-10 md:py-12 lg:grid-cols-[minmax(170px,.75fr)_minmax(220px,.85fr)_minmax(280px,1.3fr)]">
         <div>
-          <Link href="/" aria-label="حِرز - الرئيسية" data-testid="footer-brand-home" className="brand-lockup inline-flex rounded-sm p-2">
-            <span className="brand-mark" aria-hidden="true"><Shield size={23} strokeWidth={2} /></span>
-            <span className="brand-word">حرز</span>
+          <Link href="/" aria-label="حِرز - الرئيسية" data-testid="footer-brand-home" className="inline-flex rounded-sm p-2">
+            <img src="/assets/logo/heraz-logo-horizontal-white-turquoise.png" alt="شعار حِرز" className="h-[96px] w-auto" />
           </Link>
           <p className="privacy-badge mt-5" data-testid="text-data-privacy">
             <ShieldCheck size={20} strokeWidth={1.75} className="shrink-0 text-[var(--turquoise)]" aria-hidden="true" />
