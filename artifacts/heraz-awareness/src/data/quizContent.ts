@@ -1,0 +1,250 @@
+export type QuizOption = {
+  id: 'a' | 'b' | 'c';
+  text: string;
+};
+
+export type QuizQuestion = {
+  prompt: string;
+  options: QuizOption[];
+  correctOption: QuizOption['id'];
+  correction: string;
+  sourceLabel: string;
+  sourceUrl: string;
+};
+
+export type QuizSection = {
+  id: 'understand' | 'risks' | 'before-you-post' | 'protect' | 'laws';
+  title: string;
+  route: string;
+  goal: string;
+  questions: QuizQuestion[];
+};
+
+const sdaiaUrl = 'https://sdaia.gov.sa/ar/SDAIA/eParticipation/consulting/SDAIADeepfakesGuidelinesAr.pdf';
+const ftcUrl = 'https://consumer.ftc.gov/consumer-alerts/2023/03/scammers-use-ai-enhance-their-family-emergency-schemes';
+
+export const quizSections: QuizSection[] = [
+  {
+    id: 'understand',
+    title: 'افهم',
+    route: '/understand',
+    goal: 'يميّز المصطلحات وكيف تعمل التقنية',
+    questions: [
+      {
+        prompt: 'ما الاسم الذي تستخدمه المصادر الرسمية، ومنها سدايا، للاستنساخ الرقمي؟',
+        options: [
+          { id: 'a', text: 'التشفير العميق' },
+          { id: 'b', text: 'التزييف العميق (Deepfake)' },
+          { id: 'c', text: 'التخزين السحابي' },
+        ],
+        correctOption: 'b',
+        correction: 'تعرّف سدايا التزييف العميق بأنه وسائط اصطناعية واقعية للغاية يصعب تمييزها عن الواقع.',
+        sourceLabel: 'سدايا — مبادئ التزييف العميق',
+        sourceUrl: sdaiaUrl,
+      },
+      {
+        prompt: 'بحسب لجنة التجارة الفيدرالية الأمريكية (FTC)، ما الذي يكفي برنامجًا لاستنساخ صوت شخص؟',
+        options: [
+          { id: 'a', text: 'ساعات طويلة من التسجيل داخل استوديو' },
+          { id: 'b', text: 'تسجيل قصير قد يُجمع من محتوى منشور على الإنترنت' },
+          { id: 'c', text: 'لا يمكن استنساخ الصوت أصلًا' },
+        ],
+        correctOption: 'b',
+        correction: 'تقول لجنة التجارة الفيدرالية إن تسجيلًا قصيرًا من صوت شخص قد يُجمع من محتوى منشور على الإنترنت يكفي ليستنسخ برنامج صوته.',
+        sourceLabel: 'FTC — مارس 2023',
+        sourceUrl: ftcUrl,
+      },
+      {
+        prompt: 'ما الذي تراه هيومن رايتس ووتش بشأن عدد الصور اللازمة لإنتاج شبيه مقنع لطفل؟',
+        options: [
+          { id: 'a', text: 'آلاف الصور دائمًا' },
+          { id: 'b', text: 'عدد قليل من الصور أو حتى صورة واحدة' },
+          { id: 'c', text: 'لا يمكن ذلك مع صور الأطفال' },
+        ],
+        correctOption: 'b',
+        correction: 'ترى المنظمة أن التدريب على صور الأطفال يمكّن الذكاء الاصطناعي من إنتاج شبيه مقنع لأي طفل من عدد قليل من الصور أو حتى من صورة واحدة. (رأي المنظمة)',
+        sourceLabel: 'Human Rights Watch — 10 يونيو 2024',
+        sourceUrl: 'https://www.hrw.org/news/2024/06/10/brazil-childrens-personal-photos-misused-power-ai-tools',
+      },
+    ],
+  },
+  {
+    id: 'risks',
+    title: 'المخاطر',
+    route: '/risks',
+    goal: 'يعرف حجم الخطر بدقة بلا تهويل وبلا تهون',
+    questions: [
+      {
+        prompt: 'أي عبارة تصف دراسة اليونيسف بدقة؟',
+        options: [
+          { id: 'a', text: 'أفاد ما لا يقل عن 1.2 مليون طفل في 11 دولة أن صورهم عدّلت إلى صور مزيّفة جنسية صريحة خلال العام الماضي' },
+          { id: 'b', text: 'هذه نسبة تنطبق على كل أطفال المملكة' },
+          { id: 'c', text: 'لم تجد الدراسة أي حالة' },
+        ],
+        correctOption: 'a',
+        correction: 'أفاد ما لا يقل عن 1.2 مليون طفل أن صورهم عدّلت إلى صور مزيّفة ذات طابع جنسي صريح خلال العام الماضي، في 11 دولة شملتها الدراسة. والنشرة لا تسمّي الدول ولا تعمّم على المملكة.',
+        sourceLabel: 'اليونيسف — Deepfake abuse is abuse، 4 فبراير 2026',
+        sourceUrl: 'https://www.unicef.org/asia-pacific/press-releases/deepfake-abuse-abuse',
+      },
+      {
+        prompt: 'ماذا تذكر نشرة مركز IC3 عن إزالة المحتوى المعدّل بعد تداوله؟',
+        options: [
+          { id: 'a', text: 'تُزال تلقائيًا خلال أيام' },
+          { id: 'b', text: 'قد يصعب جدًا، بل يستحيل، إزالته' },
+          { id: 'c', text: 'يمكن سحبها من كل المواقع بسهولة' },
+        ],
+        correctOption: 'b',
+        correction: 'تذكر نشرة IC3 أن المحتوى بعد مشاركته على الإنترنت قد يصعب جدًا، بل يستحيل، إزالته بعد تداوله أو نشره من أطراف أخرى.',
+        sourceLabel: 'مركز IC3 — I-060523-PSA، 5 يونيو 2023',
+        sourceUrl: 'https://www.ic3.gov/PSA/2023/psa230605',
+      },
+      {
+        prompt: 'في استطلاع Thorn قال 62% من الشباب إنهم سيخبرون أحد والديهم لو تعرّضوا لصور عارية مزيّفة، لكن 34% فقط من الضحايا أخبروهم فعلًا. ماذا يعني ذلك لولي الأمر؟',
+        options: [
+          { id: 'a', text: 'أن الطفل سيخبرك دائمًا' },
+          { id: 'b', text: 'أنه قد لا يخبرك حتى لو قال إنه سيخبرك' },
+          { id: 'c', text: 'أن الظاهرة نادرة' },
+        ],
+        correctOption: 'b',
+        correction: 'قال 62% إنهم سيخبرون أحد والديهم، لكن 34% فقط من الضحايا أخبروهم فعلًا. الاستطلاع عن شباب بين 13 و20 سنة. (الاستنتاج «قد لا يخبرك» قراءتنا للفرق بين الرقمين، وليس جملة من Thorn.)',
+        sourceLabel: 'Thorn — 3 مارس 2025',
+        sourceUrl: 'https://www.thorn.org/blog/deepfake-nudes-are-a-harmful-reality-for-youth-new-research-from-thorn/',
+      },
+    ],
+  },
+  {
+    id: 'before-you-post',
+    title: 'قبل أن تنشر',
+    route: '/before-you-post',
+    goal: 'يقرّر قبل نشر أي صورة',
+    questions: [
+      {
+        prompt: 'تريد نشر صورة لطفلك بزيّه المدرسي أمام المدرسة. ماذا تنصح هيئة eSafety؟',
+        options: [
+          { id: 'a', text: 'انشرها، فالمدرسة مكان عام' },
+          { id: 'b', text: 'ابتعد عن نشر صور تظهر الزي المدرسي أو المكان أو المواعيد التي تعرّف بمكانه' },
+          { id: 'c', text: 'انشرها واكتب اسم المدرسة لتكون الصورة موثّقة' },
+        ],
+        correctOption: 'b',
+        correction: 'ابتعد عن نشر صور تظهر الزي المدرسي أو المكان أو المواعيد التي تعرّف بمكانه.',
+        sourceLabel: 'eSafety — الخصوصية وطفلك',
+        sourceUrl: 'https://www.esafety.gov.au/parents/issues-and-advice/privacy-child',
+      },
+      {
+        prompt: 'في الصورة أطفال آخرون غير ابنك. ما التصرّف المنصوح به؟',
+        options: [
+          { id: 'a', text: 'أنشرها فهي صورة عائلية' },
+          { id: 'b', text: 'أسأل أهالي هؤلاء الأطفال قبل نشر الصورة أو مشاركتها أو وضع علامة عليهم' },
+          { id: 'c', text: 'أضع علامة على الأطفال لكي يعرف أهاليهم' },
+        ],
+        correctOption: 'b',
+        correction: 'اسأل أهالي الأطفال قبل نشر الصورة أو مشاركتها أو وضع علامة عليهم فيها.',
+        sourceLabel: 'eSafety — الخصوصية وطفلك',
+        sourceUrl: 'https://www.esafety.gov.au/parents/issues-and-advice/privacy-child',
+      },
+      {
+        prompt: 'طفلك يفضّل ألا تنشر صورته. ما التصرّف المنصوح به؟',
+        options: [
+          { id: 'a', text: 'أنشرها لأنني الوالد' },
+          { id: 'b', text: 'أشرح له لماذا أريد نشرها وأسأله هل يوافق، وإن فضّل ألا أنشرها أحترم قراره' },
+          { id: 'c', text: 'أنشرها بعد أسبوع حتى ينسى' },
+        ],
+        correctOption: 'b',
+        correction: 'اشرح له لماذا تريد نشرها واسأله هل يوافق؛ وإن فضّل ألا تنشرها فاحترم قراره.',
+        sourceLabel: 'eSafety — الخصوصية وطفلك',
+        sourceUrl: 'https://www.esafety.gov.au/parents/issues-and-advice/privacy-child',
+      },
+    ],
+  },
+  {
+    id: 'protect',
+    title: 'احمِ',
+    route: '/protect',
+    goal: 'يعرف أول خطوة إذا حدث موقف',
+    questions: [
+      {
+        prompt: 'اتصل بك أحدهم بصوت يشبه صوت طفلك، يقول إنه في مأزق ويطلب مالًا بسرعة. ماذا تنصح لجنة التجارة الفيدرالية؟',
+        options: [
+          { id: 'a', text: 'تحوّل المبلغ فورًا ثم تتحقق' },
+          { id: 'b', text: 'لا تعتمد على الصوت، تنهي المكالمة وتتصل بالشخص على رقم تعرفه' },
+          { id: 'c', text: 'تبقى على الخط حتى يشرح المتصل ما حدث' },
+        ],
+        correctOption: 'b',
+        correction: 'نصيحة اللجنة: لا تعتمد على الصوت، أنهِ المكالمة واتصل بالشخص على رقم تعرفه.',
+        sourceLabel: 'FTC — مارس 2023',
+        sourceUrl: ftcUrl,
+      },
+      {
+        prompt: 'متى يُفضّل أن تتفقوا على «كلمة سر عائلية»؟',
+        options: [
+          { id: 'a', text: 'بعد أن يتصل المحتال' },
+          { id: 'b', text: 'مسبقًا، قبل أن يحدث أي موقف' },
+          { id: 'c', text: 'لا حاجة لها إذا كان الصوت مألوفًا' },
+        ],
+        correctOption: 'b',
+        correction: 'اتفقوا مسبقًا على كلمة لا يعرفها غيركم، واطلبوها إذا اتصل أحد يدعي أنه طفلك أو يطلب مالًا بسرعة. وذكرت سدايا حالة في دولة من جنوب آسيا استُنسخ فيها صوت طفل، نُصح بعدها المواطنون باستخدام «كلمات رمزية خاصة بالأسرة للتحقق». لا تُنسب الحالة للمملكة.',
+        sourceLabel: 'سدايا — مبادئ التزييف العميق',
+        sourceUrl: sdaiaUrl,
+      },
+      {
+        prompt: 'تعرّض طفلك لابتزاز بمحتوى مزيّف. ما القناة الرسمية الموثّقة في الموقع للإبلاغ؟',
+        options: [
+          { id: 'a', text: 'الرد على المبتزّ والتفاوض معه' },
+          { id: 'b', text: 'خدمة بلاغات الجرائم المعلوماتية في وزارة الداخلية عبر تطبيق «كلنا أمن»' },
+          { id: 'c', text: 'الانتظار حتى يتوقف المبتزّ من تلقاء نفسه' },
+        ],
+        correctOption: 'b',
+        correction: 'تذكر صفحة الخدمة على المنصة الوطنية أن بلاغات الجرائم المعلوماتية في وزارة الداخلية تشمل الابتزاز الإلكتروني وانتحال الهوية والتشهير والاحتيال المالي عبر الإنترنت، وأنها مجانية وتُقدَّم عبر تطبيق «كلنا أمن».',
+        sourceLabel: 'المنصة الوطنية الموحدة — بلاغات الجرائم المعلوماتية',
+        sourceUrl: 'https://my.gov.sa/ar/services/398352',
+      },
+    ],
+  },
+  {
+    id: 'laws',
+    title: 'التشريعات',
+    route: '/laws',
+    goal: 'يعرف ما تنص عليه الأنظمة ومن يُبلّغ',
+    questions: [
+      {
+        prompt: 'بحسب نظام حماية البيانات الشخصية، صورة الفرد الثابتة أو المتحركة تُعد:',
+        options: [
+          { id: 'a', text: 'بيانًا شخصيًا' },
+          { id: 'b', text: 'ملفًا عامًا لا تنطبق عليه أحكام النظام' },
+          { id: 'c', text: 'بيانًا حساسًا دائمًا' },
+        ],
+        correctOption: 'a',
+        correction: 'يعرّف النظام البيانات الشخصية بأنها كل بيان يؤدي إلى معرفة الفرد على وجه التحديد، ويذكر من أمثلتها «صور الفرد الثابتة أو المتحركة» (المادة 1).',
+        sourceLabel: 'نظام حماية البيانات الشخصية — نسخة غير رسمية',
+        sourceUrl: 'https://qadha.org.sa/files/shares/%D9%86%D8%B8%D8%A7%D9%85%20%D8%AD%D9%85%D8%A7%D9%8A%D8%A9%20%D8%A7%D9%84%D8%A8%D9%8A%D8%A7%D9%86%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B4%D8%AE%D8%B5%D9%8A%D8%A9%20%D9%88%D9%84%D9%88%D8%A7%D8%A6%D8%AD%D9%87%20%D8%A7%D9%84%D8%AA%D9%86%D9%81%D9%8A%D8%B0%D9%8A%D8%A9.pdf',
+      },
+      {
+        prompt: 'من الذي يحتاج موافقة وليّ الأمر وفق اللائحة التنفيذية؟',
+        options: [
+          { id: 'a', text: 'الجهات الحكومية فقط' },
+          { id: 'b', text: 'أي جهة تعالج بيانات من لم تكتمل أهليته' },
+          { id: 'c', text: 'لا أحد، فالنظام لا يتناول بيانات الأطفال' },
+        ],
+        correctOption: 'b',
+        correction: 'أي جهة تعالج بيانات من لم تكتمل أهليته تحتاج موافقة وليّ أمره، وعليها التحقق من صحة الولاية (اللائحة التنفيذية، المادة 13).',
+        sourceLabel: 'جريدة أم القرى — اللائحة التنفيذية',
+        sourceUrl: 'https://www.uqn.gov.sa/details?p=23595',
+      },
+      {
+        prompt: 'في نظام حماية الطفل، من هو «الطفل»؟',
+        options: [
+          { id: 'a', text: 'كل إنسان لم يتجاوز الثامنة عشرة من عمره' },
+          { id: 'b', text: 'كل إنسان لم يتجاوز الخامسة عشرة' },
+          { id: 'c', text: 'كل إنسان لم يتجاوز العاشرة' },
+        ],
+        correctOption: 'a',
+        correction: 'الطفل: كل إنسان لم يتجاوز الثامنة عشرة من عمره.',
+        sourceLabel: 'وزارة الموارد البشرية — نظام حماية الطفل',
+        sourceUrl: 'https://www.hrsd.gov.sa/knowledge-centre/decisions-and-regulations/regulation-and-procedures/%D9%86%D8%B8%D8%A7%D9%85-%D8%AD%D9%85%D8%A7%D9%8A%D8%A9-%D8%A7%D9%84%D8%B7%D9%81%D9%84',
+      },
+    ],
+  },
+];
+
+export const quizIntro = 'خمسة أقسام قصيرة، لكل قسم ثلاثة أسئلة. ابدأ من أي قسم تريد، ولا نحتفظ بإجاباتك.';
+export const quizFooter = 'يمكنك إعادة أي قسم متى شئت، ولا نحتفظ بنتائجك.';

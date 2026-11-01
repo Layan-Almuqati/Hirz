@@ -8,6 +8,7 @@ import HelpPage from '@/pages/help';
 import PlaceholderPage from '@/pages/placeholder';
 import RisksPage from '@/pages/risks';
 import ProtectPage from '@/pages/protect';
+import QuizPage from '@/pages/quiz';
 import { Footer, Navbar } from '@/components/heraz/layout';
 
 const pages = [
@@ -45,7 +46,7 @@ function Router() {
           <Route path="/protect/help" component={HelpPage} />
           <Route path="/protect" component={ProtectPage} />
           <Route path="/laws"><PlaceholderPage pageKey="laws" /></Route>
-          <Route path="/quiz"><PlaceholderPage pageKey="quiz" /></Route>
+          <Route path="/quiz" component={QuizPage} />
           <Route path="/kids"><PlaceholderPage pageKey="kids" /></Route>
           <Route>
             <main id="main-content" tabIndex={-1} className="page-wrap py-20">
