@@ -134,7 +134,7 @@ function MagazineReader() {
     }
     updateVoices();
     window.speechSynthesis.addEventListener('voiceschanged', updateVoices);
-    const fallbackTimer = window.setTimeout(() => setVoicesReady(true), 1200);
+    const fallbackTimer = window.setTimeout(() => setVoicesReady(true), 600);
     return () => {
       window.clearTimeout(fallbackTimer);
       window.speechSynthesis.removeEventListener('voiceschanged', updateVoices);
@@ -196,6 +196,7 @@ function MagazineReader() {
       className="magazine-reader"
       aria-label="مجلة درع المستقبل"
       onPointerDownCapture={unlockAudio}
+      onClickCapture={unlockAudio}
       data-testid="magazine-reader"
     >
       <div className="magazine-reader-toolbar" dir="rtl">
@@ -212,7 +213,7 @@ function MagazineReader() {
           <span className="magazine-switch" aria-hidden="true" />
           <span>الصوت</span>
         </label>
-        {!voiceUnavailable && (
+        {voicesReady && arabicVoice && (
           <label className="magazine-toggle">
             <input
               type="checkbox"
@@ -222,7 +223,6 @@ function MagazineReader() {
                 writeToggle(autoReadStorageKey, event.target.checked);
                 if (!event.target.checked) cancelSpeech();
               }}
-              disabled={!arabicVoice}
               data-testid="toggle-auto-read"
             />
             <span className="magazine-switch" aria-hidden="true" />
@@ -274,17 +274,16 @@ function MagazineReader() {
 
       {voiceUnavailable ? (
         <p className="magazine-voice-unavailable" data-testid="status-voice-unavailable">القراءة الصوتية غير متاحة على هذا الجهاز.</p>
-      ) : (
+      ) : voicesReady && arabicVoice ? (
         <div className="magazine-listen-row">
           <button
             type="button"
             className="magazine-listen-button"
             onClick={speaking ? cancelSpeech : speakCurrentPage}
-            disabled={!arabicVoice}
             data-testid="button-magazine-listen"
           >{speaking ? '⏹ إيقاف' : '🔊 اسمعني'}</button>
         </div>
-      )}
+      ) : null}
     </section>
   );
 }
