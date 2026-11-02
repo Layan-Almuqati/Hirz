@@ -5,6 +5,7 @@ import { ExternalLink, Heart, Scale, Shield } from 'lucide-react';
 import './laws.css';
 import './understand-content.css';
 import { understandContent, understandSourceList } from '@/data/understandContent';
+import MagazineReader from '@/components/heraz/MagazineReader';
 
 const pageContent = {
   understand: {
@@ -280,6 +281,8 @@ function PlaceholderPage({ pageKey }: { pageKey: PageKey }) {
       <PageHeader title={page.title} description={page.description} kids={'kids' in page && page.kids} />
       {pageKey === 'understand' ? (
         <UnderstandContent />
+      ) : pageKey === 'kids' ? (
+        <MagazineReader />
       ) : (
         <section aria-label="محتوى الصفحة" className={`page-card ${'kids' in page && page.kids ? 'border-[var(--kids)]/30 bg-[var(--kids-10)]' : ''}`} data-testid="placeholder-card">
           <p className="text-center text-lg font-semibold" data-testid="status-content-pending">المحتوى قيد الإعداد</p>
