@@ -1,0 +1,216 @@
+.understand-content {
+  display: grid;
+  gap: 22px;
+  padding-bottom: 4px;
+  color: #1d2254;
+}
+
+.understand-card,
+.understand-sources {
+  min-width: 0;
+  padding: clamp(22px, 4vw, 38px);
+  border: 1px solid rgba(29, 34, 84, .09);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 8px 28px rgba(29, 34, 84, .045);
+}
+
+.understand-card h2,
+.understand-sources h2 {
+  margin: 0 0 20px;
+  color: #1d2254;
+  font-family: var(--font-headline);
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.5;
+}
+
+.understand-card p {
+  margin: 0 0 18px;
+  font-size: 17px;
+  line-height: 2;
+  overflow-wrap: anywhere;
+}
+
+.understand-card p:last-child { margin-bottom: 0; }
+
+.understand-callout {
+  margin-bottom: 24px;
+  padding: 24px clamp(20px, 3vw, 32px);
+  border-radius: 14px;
+  background: #1d2254;
+  color: #fff;
+  font-size: clamp(18px, 2vw, 21px);
+  font-weight: 600;
+  line-height: 1.9;
+}
+
+.understand-note {
+  margin-top: 24px !important;
+  padding: 17px 20px;
+  border-right: 4px solid #56aaaa;
+  border-radius: 8px;
+  background: #eeeeef;
+}
+
+.understand-sources-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.understand-source-link {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 13px;
+  border: 1px solid #56aaaa;
+  border-radius: 999px;
+  background: #fff;
+  color: #1d2254;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.understand-source-link:hover {
+  transform: translateY(-1px);
+  background: #eeeeef;
+}
+
+.understand-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.understand-step {
+  min-width: 0;
+  padding: 22px 20px;
+  border: 1px solid rgba(29, 34, 84, .08);
+  border-radius: 16px;
+  background: #eeeeef;
+}
+
+.understand-step-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.understand-step-number {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  place-items: center;
+  border-radius: 50%;
+  background: #51edc8;
+  color: #1d2254;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.understand-step h3,
+.understand-example h3 {
+  margin: 0;
+  color: #1d2254;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.65;
+}
+
+.understand-step p,
+.understand-example p { margin: 0; }
+
+.understand-examples {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.understand-example {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 22px;
+  border: 1px solid rgba(29, 34, 84, .08);
+  border-radius: 16px;
+  background: #eeeeef;
+}
+
+.understand-example h3 { margin-bottom: 10px; }
+.understand-example .understand-source-link { margin-top: auto; }
+
+.understand-bullets {
+  display: grid;
+  gap: 13px;
+  margin: 20px 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+.understand-bullets li {
+  position: relative;
+  padding: 15px 30px 15px 16px;
+  border-radius: 12px;
+  background: #eeeeef;
+  font-size: 17px;
+  line-height: 1.95;
+  overflow-wrap: anywhere;
+}
+
+.understand-bullets li::before {
+  position: absolute;
+  top: 1.2em;
+  right: 13px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #56aaaa;
+  content: '';
+}
+
+.understand-closing {
+  margin-top: 22px !important;
+  padding-top: 20px;
+  border-top: 1px solid rgba(29, 34, 84, .12);
+}
+
+.understand-sources h2 { margin-bottom: 14px; }
+.understand-source-list { display: grid; gap: 8px; }
+.understand-source-entry {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(29, 34, 84, .08);
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.understand-source-entry:last-child { border-bottom: 0; }
+.understand-source-entry .understand-source-link { flex: 0 0 auto; }
+
+@media (max-width: 767px) {
+  .understand-content { gap: 16px; }
+  .understand-card,
+  .understand-sources { padding: 22px 19px; border-radius: 16px; }
+  .understand-steps,
+  .understand-examples { grid-template-columns: minmax(0, 1fr); }
+  .understand-step,
+  .understand-example { padding: 19px; }
+  .understand-card p,
+  .understand-bullets li { font-size: 16px; }
+  .understand-source-entry { align-items: flex-start; }
+}

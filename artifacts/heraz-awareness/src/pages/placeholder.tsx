@@ -3,6 +3,8 @@ import { PageHeader, NextStep } from '@/components/heraz/layout';
 import { Link } from 'wouter';
 import { ExternalLink, Heart, Scale, Shield } from 'lucide-react';
 import './laws.css';
+import './understand-content.css';
+import { understandContent, understandSourceList } from '@/data/understandContent';
 
 const pageContent = {
   understand: {
@@ -177,15 +179,112 @@ function LawsPage() {
   );
 }
 
+function UnderstandSourceLink({ href, testId }: { href: string; testId: string }) {
+  return (
+    <a className="understand-source-link" href={href} target="_blank" rel="noopener noreferrer" data-testid={testId}>
+      «المصدر ↗»
+    </a>
+  );
+}
+
+function UnderstandContent() {
+  const { definition, process, examples, children } = understandContent;
+  return (
+    <section className="understand-content" aria-label="محتوى الاستنساخ الرقمي" data-testid="understand-content">
+      <article className="understand-card" aria-labelledby="understand-definition-title" data-testid="card-understand-definition">
+        <h2 id="understand-definition-title">{definition.title}</h2>
+        <div className="understand-callout">{definition.callout}</div>
+        {definition.paragraphs.map((paragraph, index) => (
+          <p key={paragraph} data-testid={`text-understand-definition-${index + 1}`}>{paragraph}</p>
+        ))}
+        <p className="understand-note" data-testid="text-understand-definition-note">{definition.note}</p>
+        <div className="understand-sources-row">
+          {definition.sources.map((source) => (
+            <UnderstandSourceLink key={source.id} href={source.href} testId={`link-source-definition-${source.id}`} />
+          ))}
+        </div>
+      </article>
+
+      <article className="understand-card" aria-labelledby="understand-process-title" data-testid="card-understand-process">
+        <h2 id="understand-process-title">{process.title}</h2>
+        <p data-testid="text-understand-process-intro">{process.intro}</p>
+        <div className="understand-steps">
+          {process.steps.map((step, index) => (
+            <section className="understand-step" key={step.title} data-testid={`step-understand-${index + 1}`}>
+              <div className="understand-step-head">
+                <span className="understand-step-number" aria-hidden="true">{index + 1}</span>
+                <h3>{step.title}</h3>
+              </div>
+              <p>{step.text}</p>
+            </section>
+          ))}
+        </div>
+        <p data-testid="text-understand-process-detail">{process.paragraph}</p>
+        <div className="understand-sources-row">
+          {process.sources.map((source) => (
+            <UnderstandSourceLink key={source.id} href={source.href} testId={`link-source-process-${source.id}`} />
+          ))}
+        </div>
+      </article>
+
+      <article className="understand-card" aria-labelledby="understand-examples-title" data-testid="card-understand-examples">
+        <h2 id="understand-examples-title">{examples.title}</h2>
+        <p data-testid="text-understand-examples-intro">{examples.intro}</p>
+        <div className="understand-examples">
+          {examples.items.map((example, index) => (
+            <section className="understand-example" key={example.title} data-testid={`card-understand-example-${index + 1}`}>
+              <h3>{example.title}</h3>
+              <p>{example.text}</p>
+              <UnderstandSourceLink href={example.source.href} testId={`link-source-example-${index + 1}`} />
+            </section>
+          ))}
+        </div>
+      </article>
+
+      <article className="understand-card" aria-labelledby="understand-children-title" data-testid="card-understand-children">
+        <h2 id="understand-children-title">{children.title}</h2>
+        <p data-testid="text-understand-children-intro">{children.intro}</p>
+        <ul className="understand-bullets">
+          {children.bullets.map((bullet, index) => (
+            <li key={bullet} data-testid={`text-understand-children-point-${index + 1}`}>{bullet}</li>
+          ))}
+        </ul>
+        <p className="understand-closing" data-testid="text-understand-children-closing">{children.closing}</p>
+        <div className="understand-sources-row">
+          {children.sources.map((source) => (
+            <UnderstandSourceLink key={source.id} href={source.href} testId={`link-source-children-${source.id}`} />
+          ))}
+        </div>
+      </article>
+
+      <aside className="understand-sources" aria-labelledby="understand-sources-title" data-testid="understand-sources">
+        <h2 id="understand-sources-title">المصادر</h2>
+        <div className="understand-source-list">
+          {understandSourceList.map((source) => (
+            <div className="understand-source-entry" key={source.id} data-testid={`entry-understand-source-${source.id}`}>
+              <span>{source.name}</span>
+              <UnderstandSourceLink href={source.href} testId={`link-understand-source-list-${source.id}`} />
+            </div>
+          ))}
+        </div>
+      </aside>
+    </section>
+  );
+}
+
 function PlaceholderPage({ pageKey }: { pageKey: PageKey }) {
   if (pageKey === 'laws') return <LawsPage />;
   const page = pageContent[pageKey];
   return (
     <main id="main-content" tabIndex={-1} className="page-wrap min-h-[56vh] py-10 sm:py-16" data-testid={`page-${pageKey}`}>
       <PageHeader title={page.title} description={page.description} kids={'kids' in page && page.kids} />
-      <section aria-label="محتوى الصفحة" className={`page-card ${'kids' in page && page.kids ? 'border-[var(--kids)]/30 bg-[var(--kids-10)]' : ''}`} data-testid="placeholder-card">
-        <p className="text-center text-lg font-semibold" data-testid="status-content-pending">المحتوى قيد الإعداد</p>
-      </section>
+      {pageKey === 'understand' ? (
+        <UnderstandContent />
+      ) : (
+        <section aria-label="محتوى الصفحة" className={`page-card ${'kids' in page && page.kids ? 'border-[var(--kids)]/30 bg-[var(--kids-10)]' : ''}`} data-testid="placeholder-card">
+          <p className="text-center text-lg font-semibold" data-testid="status-content-pending">المحتوى قيد الإعداد</p>
+        </section>
+      )}
       <NextStep path={page.path} />
     </main>
   );
