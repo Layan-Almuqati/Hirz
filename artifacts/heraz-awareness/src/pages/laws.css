@@ -29,7 +29,7 @@
   border-radius: 999px;
   background: #56aaaa;
   color: #1d2254;
-  font-size: 14px;
+  font-size: .875rem;
   font-weight: 700;
   letter-spacing: .02em;
 }
@@ -45,7 +45,7 @@
 .laws-page h1 {
   max-width: 780px;
   margin: 0;
-  font-size: clamp(32px, 5vw, 48px);
+  font-size: clamp(2rem, 5vw, 3rem);
   line-height: 1.38;
 }
 
@@ -53,7 +53,7 @@
   max-width: 760px;
   margin: 16px 0 0;
   color: #1d2254;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.95;
 }
 
@@ -89,7 +89,7 @@
   border-radius: 999px;
   background: #56aaaa;
   color: #1d2254;
-  font-size: 13px;
+  font-size: .8125rem;
   font-weight: 700;
   letter-spacing: .06em;
   direction: ltr;
@@ -113,14 +113,14 @@
 
 .laws-page h2 {
   margin: 0;
-  font-size: clamp(24px, 3.5vw, 30px);
+  font-size: clamp(1.5rem, 3.5vw, 1.875rem);
   line-height: 1.45;
 }
 
 .laws-page .laws-decree {
   margin: 5px 0 0;
   color: rgba(29, 34, 84, .75);
-  font-size: 13px;
+  font-size: .8125rem;
   line-height: 1.8;
 }
 
@@ -130,7 +130,7 @@
   margin: 0;
   padding: 0 1.45rem 0 0;
   color: #1d2254;
-  font-size: 15px;
+  font-size: .9375rem;
   line-height: 1.95;
 }
 
@@ -153,14 +153,14 @@
 
 .laws-page .laws-subblock h3 {
   margin: 0 0 7px;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 1.5;
 }
 
 .laws-page .laws-subblock p {
   margin: 0;
   color: #1d2254;
-  font-size: 15px;
+  font-size: .9375rem;
   line-height: 1.95;
 }
 
@@ -218,7 +218,7 @@
   border-radius: 999px;
   background: #ffffff;
   color: #1d2254;
-  font-size: 12px;
+  font-size: .75rem;
   font-weight: 600;
   line-height: 1.65;
   text-decoration: none;
@@ -246,7 +246,7 @@
   margin: 0;
   color: #ffffff;
   font-family: 'Thmanyah Text', serif;
-  font-size: clamp(21px, 3vw, 27px);
+  font-size: clamp(1.3125rem, 3vw, 1.6875rem);
   font-weight: 700;
   line-height: 1.65;
 }
@@ -266,7 +266,7 @@
   padding: 9px 20px;
   border: 1px solid transparent;
   border-radius: 999px;
-  font-size: 14px;
+  font-size: .875rem;
   font-weight: 700;
   line-height: 1.5;
   text-decoration: none;
@@ -341,12 +341,12 @@
   }
 
   .laws-page .laws-decree {
-    font-size: 12px;
+    font-size: .75rem;
   }
 
   .laws-page .laws-list,
   .laws-page .laws-subblock p {
-    font-size: 14px;
+    font-size: .875rem;
   }
 
   .laws-page .laws-subblock {
@@ -363,6 +363,68 @@
     justify-content: space-between;
     border-radius: 14px;
   }
+}
+
+html[data-theme="dark"] .laws-page {
+  background: var(--bg);
+  color: var(--text-primary);
+}
+
+html[data-theme="dark"] .laws-page h1,
+html[data-theme="dark"] .laws-page h2,
+html[data-theme="dark"] .laws-page h3,
+html[data-theme="dark"] .laws-page .laws-intro,
+html[data-theme="dark"] .laws-page .laws-list,
+html[data-theme="dark"] .laws-page .laws-subblock p,
+html[data-theme="dark"] .laws-page .laws-subblock strong {
+  color: var(--text-primary);
+}
+
+html[data-theme="dark"] .laws-page .laws-card,
+html[data-theme="dark"] .laws-page .laws-source-link {
+  border-color: var(--surface-border);
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+html[data-theme="dark"] .laws-page .laws-eyebrow,
+html[data-theme="dark"] .laws-page .laws-number {
+  border-color: var(--turquoise);
+  background: var(--turquoise);
+  color: var(--navy);
+}
+
+html[data-theme="dark"] .laws-page .laws-icon {
+  background: rgba(81,237,200,.12);
+  color: var(--turquoise);
+}
+
+html[data-theme="dark"] .laws-page .laws-decree {
+  color: var(--text-secondary);
+}
+
+html[data-theme="dark"] .laws-page .laws-list li::marker {
+  color: var(--turquoise);
+}
+
+html[data-theme="dark"] .laws-page .laws-subblock {
+  border-color: var(--surface-border);
+  background: rgba(255,255,255,.08);
+}
+
+html[data-theme="dark"] .laws-page .laws-phone,
+html[data-theme="dark"] .laws-page .laws-inline-link,
+html[data-theme="dark"] .laws-page .laws-source-link {
+  color: var(--turquoise);
+}
+
+html[data-theme="dark"] .laws-page .laws-sources {
+  border-color: var(--surface-border);
+}
+
+html[data-theme="dark"] .laws-page a:focus-visible {
+  outline-color: var(--turquoise);
+  box-shadow: 0 0 0 2px var(--navy);
 }
 
 @media (prefers-reduced-motion: reduce) {

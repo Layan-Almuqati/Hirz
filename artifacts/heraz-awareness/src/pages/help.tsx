@@ -370,7 +370,7 @@ export default function HelpPage() {
       <p className="text-sm text-[var(--navy)]/80" data-testid="text-kollona-open-store-helper">
         {helpFlowCopy.openStoreHelper}
       </p>
-      <p className="max-w-[65ch] text-[15px] leading-7 text-[var(--navy)]/80" data-testid="text-kollona-instructions">
+      <p className="max-w-[65ch] text-[.9375rem] leading-7 text-[var(--navy)]/80" data-testid="text-kollona-instructions">
         {helpFlowCopy.kollonaInstructions}
       </p>
     </div>
@@ -425,8 +425,8 @@ export default function HelpPage() {
         {!progress && (
           <section aria-labelledby="help-title" className="max-w-4xl">
             <h1 ref={screenHeadingRef} tabIndex={-1} id="help-title" className="section-title" data-testid="heading-help-title">{helpFlowCopy.pageTitle}</h1>
-            <p className="mb-5 mt-2 text-[17px] text-[var(--navy)]/80 sm:text-lg" data-testid="text-help-subtitle">{helpFlowCopy.subtitle}</p>
-            <p className="mb-6 text-[17px] font-semibold leading-8" data-testid="text-help-emergency-notice">
+            <p className="mb-5 mt-2 text-[1.0625rem] text-[var(--navy)]/80 sm:text-lg" data-testid="text-help-subtitle">{helpFlowCopy.subtitle}</p>
+            <p className="mb-6 text-[1.0625rem] font-semibold leading-8" data-testid="text-help-emergency-notice">
               {emergencyNoticeParts[0]}
               <a href={helpFlowLinks.emergency911.href} className="underline underline-offset-4" data-testid="link-help-emergency-notice">
                 {helpFlowLinks.emergency911.phoneNumber}
@@ -435,7 +435,7 @@ export default function HelpPage() {
             </p>
             {resumeProgress && (
               <section className="page-card mb-6 flex flex-wrap items-center justify-between gap-4 border-[var(--teal)] bg-[var(--turquoise-10)] p-5" data-testid="prompt-resume-help">
-                <p className="text-[17px] font-semibold" data-testid="text-resume-help">{helpFlowCopy.resumeQuestion}</p>
+                <p className="text-[1.0625rem] font-semibold" data-testid="text-resume-help">{helpFlowCopy.resumeQuestion}</p>
                 <div className="flex flex-wrap gap-3">
                   <button type="button" onClick={continueSavedProgress} className="primary-button min-h-11" data-testid="button-resume-help">{helpFlowCopy.resume}</button>
                   <button type="button" onClick={startFromPrompt} className="secondary-button min-h-11" data-testid="button-new-help">{helpFlowCopy.startAgain}</button>
@@ -486,8 +486,8 @@ export default function HelpPage() {
               {currentStep.action && renderAction(currentStep.action)}
               {unableToComplete && unableMessage && (
                 <div className="mt-4 rounded-xl bg-[var(--turquoise-10)] p-4" data-testid="section-help-unable">
-                  <p role="status" className="text-[17px] leading-8" data-testid="text-help-unable">{unableMessage}</p>
-                  <button type="button" onClick={markCurrentStepSkipped} className="mt-2 inline-flex min-h-11 items-center text-[16px] font-semibold underline underline-offset-4" data-testid="button-skip-help-step">
+                  <p role="status" className="text-[1.0625rem] leading-8" data-testid="text-help-unable">{unableMessage}</p>
+                  <button type="button" onClick={markCurrentStepSkipped} className="mt-2 inline-flex min-h-11 items-center text-[1rem] font-semibold underline underline-offset-4" data-testid="button-skip-help-step">
                     {helpFlowCopy.skipStep}
                   </button>
                 </div>
@@ -509,7 +509,7 @@ export default function HelpPage() {
               {allStepsDone ? helpFlowCopy.endTitle : helpFlowCopy.incompleteEndTitle}
             </h1>
             {allStepsDone && showReportDuration && (
-              <p className="mb-7 max-w-[65ch] text-[17px] leading-8 text-[var(--navy)]/80" data-testid="text-help-end-message">
+              <p className="mb-7 max-w-[65ch] text-[1.0625rem] leading-8 text-[var(--navy)]/80" data-testid="text-help-end-message">
                 {helpFlowCopy.reportPrefix} {helpFlowCopy.endMessage}
               </p>
             )}
@@ -517,7 +517,7 @@ export default function HelpPage() {
               <ol className="mb-7 grid gap-4" data-testid="list-incomplete-help-steps">
                 {incompleteSteps.map(({ index, step }) => (
                   <li key={index} className="flex flex-col items-start gap-3 rounded-xl bg-[var(--turquoise-10)] p-4 sm:flex-row sm:items-center sm:justify-between" data-testid={`incomplete-step-${index + 1}`}>
-                    <p className="text-[16px] leading-7">{step.text}</p>
+                    <p className="text-[1rem] leading-7">{step.text}</p>
                     <button type="button" onClick={() => returnToStep(index)} className="secondary-button min-h-11 shrink-0" aria-label={`${helpFlowCopy.returnToStep} ${index + 1}`} data-testid={`button-return-to-step-${index + 1}`}>
                       {helpFlowCopy.returnToStep}
                     </button>

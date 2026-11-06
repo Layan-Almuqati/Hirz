@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'wouter';
-import { ArrowLeft, Menu, ShieldCheck, X } from 'lucide-react';
+import { ArrowLeft, Menu, Moon, ShieldCheck, Sun, X } from 'lucide-react';
 import { helpFlowCopy, helpFlowLinks } from '@/data/helpFlow';
 
 type PageLink = { path: string; label: string };
+type Theme = 'light' | 'dark';
+const fontScalePercentages = [87.5, 100, 112.5, 125, 137.5] as const;
 
 const navItems: PageLink[] = [
   { path: '/', label: 'الرئيسية' },
@@ -24,6 +26,85 @@ const journey = [
   { path: '/quiz', label: 'اختبر وعيك' },
   { path: '/kids', label: 'عالم حرز' },
 ];
+
+export function UtilityBar() {
+  const [theme, setTheme] = useState<Theme>(() =>
+    typeof document !== 'undefined' && document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
+  );
+  const [fontStep, setFontStep] = useState(() => {
+    if (typeof document === 'undefined') return 2;
+    const parsed = Number(document.documentElement.dataset.fontStep);
+    return Number.isInteger(parsed) && parsed >= 0 && parsed <= 4 ? parsed : 2;
+  });
+
+  const changeTheme = () => {
+    const nextTheme: Theme = theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = nextTheme;
+    setTheme(nextTheme);
+    try {
+      window.localStorage.setItem('heraz-theme', nextTheme);
+    } catch {
+      // The current page still updates if browser storage is unavailable.
+    }
+  };
+
+  const changeFontStep = (nextStep: number) => {
+    if (nextStep < 0 || nextStep > 4 || nextStep === fontStep) return;
+    document.documentElement.dataset.fontStep = String(nextStep);
+    document.documentElement.style.fontSize = `${fontScalePercentages[nextStep]}%`;
+    setFontStep(nextStep);
+    try {
+      window.localStorage.setItem('heraz-font-step', String(nextStep));
+    } catch {
+      // The current page still updates if browser storage is unavailable.
+    }
+  };
+
+  const isDark = theme === 'dark';
+  return (
+    <div className="utility-bar" data-testid="utility-bar">
+      <div className="utility-bar-inner page-wrap">
+        <div className="utility-tools" role="group">
+          <div className="utility-theme-tool">
+            <button
+              type="button"
+              className="utility-button"
+              onClick={changeTheme}
+              aria-label={isDark ? 'التبديل إلى الوضع النهاري' : 'التبديل إلى الوضع الليلي'}
+              data-testid="button-theme-toggle"
+            >
+              {isDark ? <Sun size={17} aria-hidden="true" /> : <Moon size={17} aria-hidden="true" />}
+            </button>
+            <span className="utility-theme-label" aria-hidden="true">{isDark ? 'الوضع الليلي' : 'الوضع النهاري'}</span>
+          </div>
+          <button
+            type="button"
+            className="utility-button utility-letter"
+            onClick={() => changeFontStep(fontStep - 1)}
+            aria-label="تصغير الخط"
+            aria-disabled={fontStep === 0}
+            data-testid="button-font-decrease"
+          >A-</button>
+          <button
+            type="button"
+            className="utility-button utility-letter"
+            onClick={() => changeFontStep(2)}
+            aria-label="حجم الخط الافتراضي"
+            data-testid="button-font-reset"
+          >A</button>
+          <button
+            type="button"
+            className="utility-button utility-letter"
+            onClick={() => changeFontStep(fontStep + 1)}
+            aria-label="تكبير الخط"
+            aria-disabled={fontStep === 4}
+            data-testid="button-font-increase"
+          >A+</button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function Navbar() {
   const [location] = useLocation();
@@ -117,7 +198,7 @@ export function Footer({ pages, aboutLink }: { pages: PageLink[]; aboutLink?: Pa
             </Link>
           )}
         </nav>
-        <div className="min-w-[280px] text-[17px] leading-[1.8] text-white/85 md:col-span-2 lg:col-span-1">
+        <div className="min-w-[280px] text-[1.0625rem] leading-[1.8] text-white/85 md:col-span-2 lg:col-span-1">
           <p data-testid="text-project-university">مشروع تخرج - جامعة الأميرة نورة بنت عبدالرحمن</p>
           <p data-testid="text-project-college">كلية العلوم الإنسانية والاجتماعية - قسم الصحافة والإعلام</p>
           <p data-testid="text-project-advisor">إشراف: د. نوال المنيف</p>
@@ -151,7 +232,7 @@ export function PageHeader({
         <span aria-current="page" data-testid="breadcrumb-current">{title}</span>
       </nav>
       <h1 className={`section-title mb-4 ${kids ? 'kids-accent' : ''}`} data-testid="heading-page-title">{title}</h1>
-      <p className="max-w-[65ch] text-[17px] leading-8 text-[var(--navy)]/80 sm:text-lg" data-testid="text-page-description">{description}</p>
+      <p className="max-w-[65ch] text-[1.0625rem] leading-8 text-[var(--navy)]/80 sm:text-lg" data-testid="text-page-description">{description}</p>
     </div>
   );
 }

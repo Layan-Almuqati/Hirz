@@ -35,7 +35,7 @@
   align-items: center;
   gap: 9px;
   color: rgba(255, 255, 255, 0.94);
-  font-size: 14px;
+  font-size: .875rem;
   font-weight: 500;
   cursor: pointer;
 }
@@ -140,7 +140,7 @@
   min-height: 26px;
   margin: 0;
   color: var(--reader-turquoise);
-  font-size: 15px;
+  font-size: .9375rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.04em;
@@ -166,7 +166,7 @@
   background: var(--reader-turquoise);
   color: var(--reader-navy);
   font: inherit;
-  font-size: 14px;
+  font-size: .875rem;
   font-weight: 700;
   line-height: 1.5;
   cursor: pointer;
@@ -182,7 +182,7 @@
 .magazine-nav-button:disabled {
   border-color: rgba(81, 237, 200, 0.3);
   background: transparent;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.78);
   cursor: not-allowed;
 }
 
@@ -222,7 +222,7 @@
   min-height: 26px;
   margin: 0;
   color: rgba(255, 255, 255, 0.76);
-  font-size: 12px;
+  font-size: .75rem;
   line-height: 1.8;
   text-align: center;
 }
@@ -241,7 +241,7 @@
 
   .magazine-toggle {
     gap: 7px;
-    font-size: 12px;
+    font-size: .75rem;
   }
 
   .magazine-stage {

@@ -55,7 +55,7 @@ function HomePage() {
       <section className="hero-section relative isolate overflow-hidden text-white" aria-labelledby="hero-title" data-testid="section-hero">
         <img src="/assets/brand-svg/heraz-mark-turquoise.svg" alt="رمز درع حِرز" className="hero-mark" />
         <div className="page-wrap relative z-10 flex min-h-[440px] flex-col justify-center py-10 md:min-h-[520px] md:py-16">
-          <h1 id="hero-title" className="hero-title display-font max-w-[780px] text-[clamp(32px,5vw,56px)] leading-[1.35] text-white" data-testid="heading-hero">
+          <h1 id="hero-title" className="hero-title display-font max-w-[780px] text-[clamp(2rem,5vw,3.5rem)] leading-[1.35] text-white" data-testid="heading-hero">
             صورة طفلك...<br className="hidden sm:block" /> هويته الرقمية
           </h1>
           <p className="mt-5 max-w-[690px] text-lg font-normal leading-[1.9] text-white/85 md:text-xl" data-testid="text-hero-description">
@@ -84,7 +84,7 @@ function HomePage() {
 
       <section className="intro-section page-wrap flex flex-col items-start gap-3 py-14 md:py-[72px]" aria-labelledby="what-title" data-testid="section-understanding-intro">
         <h2 id="what-title" className="section-title mb-0" data-testid="heading-what-is-cloning">ما هو الاستنساخ الرقمي؟</h2>
-        <p className="max-w-[65ch] text-[20px] leading-[1.9]" data-testid="text-what-is-cloning">
+        <p className="max-w-[65ch] text-[1.25rem] leading-[1.9]" data-testid="text-what-is-cloning">
           الاستنساخ الرقمي هو استخدام تقنيات الذكاء الاصطناعي لتوليد صورة أو صوت أو مقطع يشبه شخصًا حقيقيًا. وعندما تُنشر صور الأطفال وبياناتهم، قد تُستخدم لهذا الغرض دون علم الأهل.
         </p>
         <Link href="/understand" data-testid="link-understand-details" className="inline-flex min-h-11 items-center gap-3 font-bold underline decoration-[var(--teal)] decoration-2 underline-offset-4 hover:decoration-[var(--turquoise)]">
@@ -102,8 +102,8 @@ function HomePage() {
                   <IdentityIcon icon={card.icon} label={card.title} />
                   <span className="journey-number" aria-label={`الخطوة ${card.n}`} data-testid={`text-journey-number-${card.n}`}>{card.n.padStart(2, '0')}</span>
                 </div>
-                <h3 className="heading-font mb-1 text-[22px] leading-[1.5]">{card.title}</h3>
-                <p className="mb-4 text-[17px] leading-[1.9]">{card.description}</p>
+                <h3 className="heading-font mb-1 text-[1.375rem] leading-[1.5]">{card.title}</h3>
+                <p className="mb-4 text-[1.0625rem] leading-[1.9]">{card.description}</p>
                 <span className="mt-auto flex items-center justify-end" aria-hidden="true">
                   <ArrowLeft size={18} />
                 </span>
@@ -118,8 +118,8 @@ function HomePage() {
           <div className="absolute inset-y-0 right-0 w-1 rounded-full bg-[var(--teal)]" aria-hidden="true" />
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div className="pr-3">
-              <h2 id="before-post-title" className="heading-font text-2xl leading-relaxed sm:text-[30px]" data-testid="heading-before-post">قبل أن تنشر صورة طفلك، اسأل نفسك</h2>
-              <p className="mt-1 text-[17px] text-[var(--navy)]/80" data-testid="text-before-post">أسئلة سريعة تساعدك تقرر بوعي.</p>
+              <h2 id="before-post-title" className="heading-font text-2xl leading-relaxed sm:text-[1.875rem]" data-testid="heading-before-post">قبل أن تنشر صورة طفلك، اسأل نفسك</h2>
+              <p className="mt-1 text-[1.0625rem] text-[var(--navy)]/80" data-testid="text-before-post">أسئلة سريعة تساعدك تقرر بوعي.</p>
             </div>
             <Link href="/before-you-post" data-testid="button-open-checklist" className="primary-button shrink-0">
               افتح القائمة <ArrowLeft size={18} aria-hidden="true" />
@@ -135,8 +135,8 @@ function HomePage() {
               <img src="/assets/icons/family-navy.png" alt="أيقونة عائلة" data-testid="img-kids-family-icon" />
             </span>
             <div>
-              <h2 id="kids-title" className="heading-font text-[28px] leading-relaxed kids-accent" data-testid="heading-kids-world">عالم حرز</h2>
-              <p className="max-w-[52ch] text-[17px] leading-7" data-testid="text-kids-description">مجلة حرز التفاعلية للأطفال من 8 إلى 11 سنة</p>
+              <h2 id="kids-title" className="heading-font text-[1.75rem] leading-relaxed kids-accent" data-testid="heading-kids-world">عالم حرز</h2>
+              <p className="max-w-[52ch] text-[1.0625rem] leading-7" data-testid="text-kids-description">مجلة حرز التفاعلية للأطفال من 8 إلى 11 سنة</p>
             </div>
           </div>
           <Link href="/kids" data-testid="button-enter-kids-world" className="primary-button kids-button shrink-0">

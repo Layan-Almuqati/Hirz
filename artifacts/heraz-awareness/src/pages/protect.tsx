@@ -15,7 +15,7 @@ export default function ProtectPage() {
               <h2 id="protect-entry-title" className="mb-3 text-2xl font-bold" data-testid="heading-protect-entry">
                 {protectContent.entry.title}
               </h2>
-              <p className="text-[17px] leading-8 text-[var(--navy)]/80" data-testid="text-protect-entry">
+              <p className="text-[1.0625rem] leading-8 text-[var(--navy)]/80" data-testid="text-protect-entry">
                 {protectContent.entry.text}
               </p>
             </div>
@@ -30,10 +30,10 @@ export default function ProtectPage() {
           <h2 id="protect-family-password-title" className="mb-4 text-xl font-bold" data-testid="heading-protect-family-password">
             {protectContent.familyPassword.title}
           </h2>
-          <p className="mb-5 text-[17px] leading-8 text-[var(--navy)]/80" data-testid="text-protect-family-password">
+          <p className="mb-5 text-[1.0625rem] leading-8 text-[var(--navy)]/80" data-testid="text-protect-family-password">
             {protectContent.familyPassword.text}
           </p>
-          <p className="mb-4 rounded-xl bg-[var(--turquoise-10)] p-4 text-[17px] font-semibold leading-8" data-testid="text-protect-family-password-action">
+          <p className="mb-4 rounded-xl bg-[var(--turquoise-10)] p-4 text-[1.0625rem] font-semibold leading-8" data-testid="text-protect-family-password-action">
             {protectContent.familyPassword.action}
           </p>
           <p className="mb-4 text-sm text-[var(--navy)]/75" data-testid="text-protect-family-password-note">

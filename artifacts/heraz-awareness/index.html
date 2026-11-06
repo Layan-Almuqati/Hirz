@@ -15,6 +15,27 @@
     <link rel="icon" type="image/svg+xml" href="/assets/brand-svg/heraz-mark-navy.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script>
+      (() => {
+        const fontSteps = [87.5, 100, 112.5, 125, 137.5];
+        let theme = 'light';
+        let fontStep = 2;
+        try {
+          const savedTheme = localStorage.getItem('heraz-theme');
+          if (savedTheme === 'dark' || savedTheme === 'light') theme = savedTheme;
+          const savedFontStep = localStorage.getItem('heraz-font-step');
+          if (savedFontStep !== null && /^[0-4]$/.test(savedFontStep)) {
+            const parsedFontStep = Number(savedFontStep);
+            fontStep = parsedFontStep;
+          }
+        } catch {
+          // Defaults are used when browser storage is unavailable.
+        }
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.dataset.fontStep = String(fontStep);
+        document.documentElement.style.fontSize = `${fontSteps[fontStep]}%`;
+      })();
+    </script>
   </head>
   <body>
       <div id="root"></div>

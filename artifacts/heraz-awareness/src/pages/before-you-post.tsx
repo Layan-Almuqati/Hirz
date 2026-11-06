@@ -36,7 +36,7 @@ export default function BeforeYouPostPage() {
               {group.questions.map((item) => (
                 <li key={item.id}>
                   <div role="group" aria-labelledby={`checklist-question-${item.id}`} className="page-card p-5 sm:p-6" data-testid={`question-${item.id}`}>
-                    <p id={`checklist-question-${item.id}`} className="text-[17px] font-semibold leading-8" data-testid={`text-question-${item.id}`}>
+                    <p id={`checklist-question-${item.id}`} className="text-[1.0625rem] font-semibold leading-8" data-testid={`text-question-${item.id}`}>
                       {item.question}
                     </p>
                     <div className="mt-4 flex flex-wrap gap-3">
@@ -61,7 +61,7 @@ export default function BeforeYouPostPage() {
                     </div>
                     {answers[item.id] === 'no' && (
                       <div className="mt-4 rounded-xl bg-[var(--turquoise-10)] p-4" data-testid={`advice-${item.id}`}>
-                        <p className="text-[16px] leading-7">{item.advice}</p>
+                        <p className="text-[1rem] leading-7">{item.advice}</p>
                         <a
                           href={item.sourceUrl}
                           target="_blank"
@@ -84,11 +84,11 @@ export default function BeforeYouPostPage() {
 
       <section className="mt-8 flex flex-col items-start gap-4 border-t border-[var(--navy-10)] pt-6" aria-live="polite" data-testid="checklist-summary">
         {!answeredAllQuestions ? (
-          <p className="text-[17px] font-semibold" data-testid="text-checklist-summary">
+          <p className="text-[1.0625rem] font-semibold" data-testid="text-checklist-summary">
             {postChecklistCopy.summaryPending(answeredCount)}
           </p>
         ) : needsReview.length === 0 ? (
-          <p className="text-[17px] font-semibold" data-testid="text-checklist-result-all-yes">
+          <p className="text-[1.0625rem] font-semibold" data-testid="text-checklist-result-all-yes">
             {postChecklistCopy.resultAllYes}
           </p>
         ) : (
@@ -99,7 +99,7 @@ export default function BeforeYouPostPage() {
             <ul className="grid gap-4" data-testid="list-checklist-result">
               {needsReview.map((item) => (
                 <li key={item.id} className="page-card p-5 sm:p-6" data-testid={`result-item-${item.id}`}>
-                  <p className="text-[16px] leading-7" data-testid={`result-advice-${item.id}`}>
+                  <p className="text-[1rem] leading-7" data-testid={`result-advice-${item.id}`}>
                     {item.advice}
                   </p>
                   <a
@@ -115,7 +115,7 @@ export default function BeforeYouPostPage() {
                 </li>
               ))}
             </ul>
-            <p className="mt-4 text-[16px] leading-7" data-testid="text-checklist-after-editing">
+            <p className="mt-4 text-[1rem] leading-7" data-testid="text-checklist-after-editing">
               {postChecklistCopy.afterEditing}
             </p>
           </div>

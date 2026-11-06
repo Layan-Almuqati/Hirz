@@ -20,13 +20,13 @@
   margin: 0 0 20px;
   color: #1d2254;
   font-family: var(--font-headline);
-  font-size: clamp(24px, 3vw, 32px);
+  font-size: clamp(1.5rem, 3vw, 2rem);
   line-height: 1.5;
 }
 
 .understand-card p {
   margin: 0 0 18px;
-  font-size: 17px;
+  font-size: 1.0625rem;
   line-height: 2;
   overflow-wrap: anywhere;
 }
@@ -39,7 +39,7 @@
   border-radius: 14px;
   background: #1d2254;
   color: #fff;
-  font-size: clamp(18px, 2vw, 21px);
+  font-size: clamp(1.125rem, 2vw, 1.3125rem);
   font-weight: 600;
   line-height: 1.9;
 }
@@ -69,7 +69,7 @@
   border-radius: 999px;
   background: #fff;
   color: #1d2254;
-  font-size: 13px;
+  font-size: .8125rem;
   font-weight: 600;
   line-height: 1.5;
   text-decoration: none;
@@ -112,7 +112,7 @@
   border-radius: 50%;
   background: #51edc8;
   color: #1d2254;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1;
 }
@@ -121,7 +121,7 @@
 .understand-example h3 {
   margin: 0;
   color: #1d2254;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.65;
 }
@@ -163,7 +163,7 @@
   padding: 15px 30px 15px 16px;
   border-radius: 12px;
   background: #eeeeef;
-  font-size: 17px;
+  font-size: 1.0625rem;
   line-height: 1.95;
   overflow-wrap: anywhere;
 }
@@ -195,7 +195,7 @@
   gap: 12px;
   padding: 8px 0;
   border-bottom: 1px solid rgba(29, 34, 84, .08);
-  font-size: 15px;
+  font-size: .9375rem;
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
@@ -211,6 +211,58 @@
   .understand-step,
   .understand-example { padding: 19px; }
   .understand-card p,
-  .understand-bullets li { font-size: 16px; }
+  .understand-bullets li { font-size: 1rem; }
   .understand-source-entry { align-items: flex-start; }
+}
+
+html[data-theme="dark"] .understand-content {
+  color: var(--text-primary);
+}
+
+html[data-theme="dark"] .understand-card,
+html[data-theme="dark"] .understand-sources {
+  border-color: var(--surface-border);
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+html[data-theme="dark"] .understand-card h2,
+html[data-theme="dark"] .understand-sources h2,
+html[data-theme="dark"] .understand-card p,
+html[data-theme="dark"] .understand-step h3,
+html[data-theme="dark"] .understand-example h3 {
+  color: var(--text-primary);
+}
+
+html[data-theme="dark"] .understand-callout {
+  background: #1d2254;
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .understand-note,
+html[data-theme="dark"] .understand-step,
+html[data-theme="dark"] .understand-example,
+html[data-theme="dark"] .understand-bullets li {
+  border-color: var(--surface-border);
+  background: rgba(255,255,255,.08);
+  color: var(--text-primary);
+}
+
+html[data-theme="dark"] .understand-source-link {
+  border-color: var(--turquoise);
+  background: var(--surface);
+  color: var(--turquoise);
+}
+
+html[data-theme="dark"] .understand-source-link:hover {
+  background: rgba(255,255,255,.12);
+}
+
+html[data-theme="dark"] .understand-bullets li::before {
+  background: var(--turquoise);
+}
+
+html[data-theme="dark"] .understand-closing,
+html[data-theme="dark"] .understand-source-entry {
+  border-color: var(--surface-border);
 }

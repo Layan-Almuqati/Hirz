@@ -53,7 +53,7 @@ function RiskCard({
         </span>
         <h3 className="heading-font pt-1 text-xl leading-[1.6]">{title}</h3>
       </div>
-      <p className="text-[17px] leading-[1.9]">{children}</p>
+      <p className="text-[1.0625rem] leading-[1.9]">{children}</p>
       <SourceLine>{source}</SourceLine>
     </article>
   );
@@ -85,7 +85,7 @@ function RisksPage() {
           لماذا يكبر الخطر؟
         </h2>
         <div className="page-card">
-          <p className="max-w-[70ch] text-[17px] leading-[1.9]">
+          <p className="max-w-[70ch] text-[1.0625rem] leading-[1.9]">
             لم تعد صناعة محتوى مزيّف تحتاج خبرة عالية. تذكر دراسة سدايا أن أدواته سهلة الوصول ولا تتطلب خبرة تقنية عالية أو موارد مالية كبيرة. وتشير الدراسة إلى أن التقدم التقني السريع لم يواكبه تطور تنظيمي كافٍ، مما أتاح بيئة غير محوكمة قد تزيد من مخاطر هذه التقنية. ومن استخداماتها الضارة انتحال الهوية والاحتيال والابتزاز. ولا يزال اكتشافها تحديًا لأنها تتطور باستمرار.
           </p>
         </div>
@@ -102,14 +102,14 @@ function RisksPage() {
         </h2>
         <div className="space-y-5">
           <article className="page-card">
-            <p className="max-w-[70ch] text-[17px] leading-[1.9]">
+            <p className="max-w-[70ch] text-[1.0625rem] leading-[1.9]">
               تذكر دراسة سدايا أن المخاوف تتزايد من إساءة استخدام التزييف العميق خصوصًا في المحتوى الموجه للأطفال، وأنه يمكن أن يُستخدم في التنمر الإلكتروني بما يسبب أضرارًا نفسية بالغة للقاصرين.
             </p>
           </article>
           <article className="page-card">
             <div className="grid gap-3 md:grid-cols-[auto_1fr] md:items-start md:gap-6">
               <p className="heading-font text-3xl font-bold leading-tight text-[var(--navy)]">1.2 مليون</p>
-              <p className="max-w-[70ch] text-[17px] leading-[1.9]">
+              <p className="max-w-[70ch] text-[1.0625rem] leading-[1.9]">
                 وفي دراسة ميدانية لليونيسف (فبراير 2026)، أفاد ما لا يقل عن 1.2 مليون طفل أن صورهم عُدّلت إلى صور مزيّفة ذات طابع جنسي صريح خلال العام الماضي، في 11 دولة شملتها الدراسة. وفي بعض هذه الدول يعادل ذلك طفلًا من كل 25 طفلًا. شملت الدراسة أطفالًا من 12 إلى 17 سنة يستخدمون الإنترنت.
               </p>
             </div>
@@ -118,7 +118,7 @@ function RisksPage() {
             </p>
           </article>
           <article className="page-card">
-            <p className="max-w-[70ch] text-[17px] leading-[1.9]">
+            <p className="max-w-[70ch] text-[1.0625rem] leading-[1.9]">
               وفي استطلاع أجرته منظمة Thorn على 1,200 من الشباب بين 13 و20 سنة (مارس 2025)، قال واحد من كل 17 منهم إن شخصًا آخر صنع له صورًا عارية مزيّفة. وقال 62% إنهم سيخبرون أحد والديهم لو حدث لهم ذلك، لكن 34% فقط من الضحايا أخبروهم فعلًا.
             </p>
             <p className="mt-3 text-sm leading-7 text-[var(--navy)]/70">
@@ -141,7 +141,7 @@ function RisksPage() {
         <h2 id="long-term-heading" className="section-title heading-font mb-3 text-2xl">
           ماذا عن الأثر بعيد المدى؟
         </h2>
-        <p className="mb-5 text-[17px] leading-[1.9] text-[var(--navy)]/80">
+        <p className="mb-5 text-[1.0625rem] leading-[1.9] text-[var(--navy)]/80">
           ما يلي مما تذكره المصادر الموثقة فقط.
         </p>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
@@ -211,7 +211,7 @@ function RisksPage() {
         aria-label="خطوات تالية"
         className="rounded-2xl bg-[var(--navy)] p-6 text-white sm:p-8"
       >
-        <p className="mb-5 max-w-[70ch] text-[17px] leading-[1.9]">
+              <p className="mb-5 max-w-[70ch] text-[1.0625rem] leading-[1.9]">
           ليس الهدف أن تخاف، بل أن تعرف ماذا تفعل. راجع قائمة «قبل أن تنشر» قبل أي صورة، وإذا حدث موقف فصفحة «احمِ» ترتّب لك الخطوات.
         </p>
         <div className="flex flex-col gap-3 sm:flex-row">

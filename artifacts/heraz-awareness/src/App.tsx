@@ -9,7 +9,7 @@ import PlaceholderPage from '@/pages/placeholder';
 import RisksPage from '@/pages/risks';
 import ProtectPage from '@/pages/protect';
 import QuizPage from '@/pages/quiz';
-import { Footer, Navbar } from '@/components/heraz/layout';
+import { Footer, Navbar, UtilityBar } from '@/components/heraz/layout';
 import AboutPage from '@/pages/about';
 import { aboutContent } from '@/data/aboutContent';
 
@@ -28,6 +28,7 @@ function Shell({ children }: { children: ReactNode }) {
   return (
     <div dir="rtl" className="min-h-[100dvh]">
       <a className="skip-link" href="#main-content" data-testid="link-skip-content">انتقل إلى المحتوى</a>
+      <UtilityBar />
       <Navbar />
       {children}
       <Footer pages={pages} aboutLink={{ path: '/about', label: aboutContent.title }} />
