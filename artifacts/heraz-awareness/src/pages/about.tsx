@@ -103,6 +103,7 @@ function AboutPage() {
               </article>
               <article className="about-font-card about-glass-card">
                 <p className="about-font-sample about-thmanyah">{sections.thmanyah.sample}</p>
+                <p className="about-font-sentence about-thmanyah">{sections.alexandria.sentence}</p>
                 <p className="about-font-label" dir="ltr">{sections.thmanyah.label}</p>
               </article>
             </div>
