@@ -11,6 +11,8 @@ import ProtectPage from '@/pages/protect';
 import QuizPage from '@/pages/quiz';
 import { Footer, Navbar, UtilityBar } from '@/components/heraz/layout';
 import AboutPage from '@/pages/about';
+import PrivacyPage from '@/pages/privacy';
+import BackToTopButton from '@/components/heraz/back-to-top';
 import { aboutContent } from '@/data/aboutContent';
 
 const pages = [
@@ -32,6 +34,7 @@ function Shell({ children }: { children: ReactNode }) {
       <Navbar />
       {children}
       <Footer pages={pages} aboutLink={{ path: '/about', label: aboutContent.title }} />
+      <BackToTopButton />
     </div>
   );
 }
@@ -44,6 +47,7 @@ function Router() {
         <Switch>
           <Route path="/" component={HomePage} />
           <Route path="/about" component={AboutPage} />
+          <Route path="/privacy" component={PrivacyPage} />
           <Route path="/understand"><PlaceholderPage pageKey="understand" /></Route>
           <Route path="/risks" component={RisksPage} />
           <Route path="/before-you-post" component={BeforeYouPostPage} />

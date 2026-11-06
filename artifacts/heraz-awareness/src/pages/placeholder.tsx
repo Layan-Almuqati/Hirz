@@ -190,6 +190,31 @@ function UnderstandSourceLink({ href, testId }: { href: string; testId: string }
 
 function UnderstandContent() {
   const { definition, process, examples, children } = understandContent;
+
+  useEffect(() => {
+    if (window.location.hash !== '#understand-sources-title') return;
+    let firstFrame = 0;
+    let secondFrame = 0;
+
+    firstFrame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(() => {
+        const target = document.getElementById('understand-sources-title');
+        if (!target) return;
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const root = document.documentElement;
+        const previousScrollBehavior = root.style.scrollBehavior;
+        if (reducedMotion) root.style.scrollBehavior = 'auto';
+        target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+        if (reducedMotion) root.style.scrollBehavior = previousScrollBehavior;
+      });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(firstFrame);
+      window.cancelAnimationFrame(secondFrame);
+    };
+  }, []);
+
   return (
     <section className="understand-content" aria-label="محتوى الاستنساخ الرقمي" data-testid="understand-content">
       <article className="understand-card" aria-labelledby="understand-definition-title" data-testid="card-understand-definition">

@@ -266,3 +266,7 @@ html[data-theme="dark"] .understand-closing,
 html[data-theme="dark"] .understand-source-entry {
   border-color: var(--surface-border);
 }
+
+#understand-sources-title {
+  scroll-margin-top: 110px;
+}

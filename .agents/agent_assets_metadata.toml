@@ -42,3 +42,59 @@ mtime_ms = 1793993544272
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/e43bc25e-b8b3-4ebf-bfa8-994dbfb1f2e3/b0c180ad-268a-4334-9b2b-ce9094890c1d"
 storage_version_token = "1793993588864511"
 content_type = "image/png"
+
+[[outputs]]
+id = "DdUp0mO0jzmweMwtmOzBu"
+uri = "file://generated-artifacts/heraz-footer-light.png"
+type = "image"
+title = "Footer — Light Theme"
+description = "Footer at the bottom of the page, desktop viewport 1366×768."
+logical_id = "a64359cc-9fdc-4fb0-a303-6a41c37e1dae"
+content_hash = "sha256:2432538985f02951dffb12efee6ac05c0d2ea1734186fe91a9ad205654167b6d"
+size = 75327
+mtime_ms = 1793994847288
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/a64359cc-9fdc-4fb0-a303-6a41c37e1dae/d0f1e30b-43dc-41ae-94a9-e399a35386ee"
+storage_version_token = "1793995083186048"
+content_type = "image/png"
+
+[[outputs]]
+id = "B3rK-hzWJrfHdRgTaSvEM"
+uri = "file://generated-artifacts/heraz-footer-dark.png"
+type = "image"
+title = "Footer — Dark Theme"
+description = "Footer at the bottom of the page, desktop viewport 1366×768."
+logical_id = "454a64ab-b8fb-475b-9ed8-00952eacdfc8"
+content_hash = "sha256:8de033ac24f518a87dbda811e9a96d6acdbb7eee42cfc030426027a76750c3ea"
+size = 75401
+mtime_ms = 1793994850536
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/454a64ab-b8fb-475b-9ed8-00952eacdfc8/5295b3a4-e798-430e-8edf-a2b62a394368"
+storage_version_token = "1793995084476544"
+content_type = "image/png"
+
+[[outputs]]
+id = "Jh9TClX-zVd3UWtgVi95A"
+uri = "file://generated-artifacts/heraz-about-light.png"
+type = "image"
+title = "About Page — Light Theme"
+description = "Full-page screenshot, desktop width 1366px."
+logical_id = "85b8c31e-998f-449d-9533-b9da6b9b6d23"
+content_hash = "sha256:f2e36771803688ae0f1113328ae7308f5cdee6483fba6080fb2705f128d1f8a8"
+size = 392793
+mtime_ms = 1793994846912
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/85b8c31e-998f-449d-9533-b9da6b9b6d23/6c1c2f9a-2195-40fc-8fdb-f25c6fd62bb1"
+storage_version_token = "1793995085765988"
+content_type = "image/png"
+
+[[outputs]]
+id = "LWqypmfSnL-hBevXZfWfi"
+uri = "file://generated-artifacts/heraz-about-dark.png"
+type = "image"
+title = "About Page — Dark Theme"
+description = "Full-page screenshot, desktop width 1366px."
+logical_id = "810394d8-c1d1-44c7-9952-fc9e83dd7d7e"
+content_hash = "sha256:cd3923ea3c4ec9698f7ba426c4796dce69f874e39daf152d158ab6172cbea9f4"
+size = 392512
+mtime_ms = 1793994850172
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/810394d8-c1d1-44c7-9952-fc9e83dd7d7e/b65089b6-a5f8-4d4a-968c-e6865a907183"
+storage_version_token = "1793995087047909"
+content_type = "image/png"

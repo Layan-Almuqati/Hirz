@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { ArrowLeft, Menu, Moon, ShieldCheck, Sun, X } from 'lucide-react';
-import { helpFlowCopy, helpFlowLinks } from '@/data/helpFlow';
 
 type PageLink = { path: string; label: string };
 type Theme = 'light' | 'dark';
@@ -170,42 +169,62 @@ export function Navbar() {
 }
 
 export function Footer({ pages, aboutLink }: { pages: PageLink[]; aboutLink?: PageLink }) {
+  const usefulLinks = pages.filter((page) => page.path !== '/');
+  const sourcesHref = `${import.meta.env.BASE_URL}understand#understand-sources-title`;
+
   return (
-    <footer className="site-footer bg-[var(--navy)] text-white" data-testid="site-footer">
-      <div className="page-wrap grid gap-8 py-10 md:grid-cols-2 md:gap-10 md:py-12 lg:grid-cols-[minmax(170px,.75fr)_minmax(220px,.85fr)_minmax(280px,1.3fr)]">
-        <div>
-          <Link href="/" aria-label="حِرز - الرئيسية" data-testid="footer-brand-home" className="inline-flex rounded-sm p-2">
-            <img src="/assets/logo/heraz-logo-horizontal-white-turquoise.png" alt="شعار حِرز" className="h-[96px] w-auto" />
-          </Link>
-          <p className="privacy-badge mt-5" data-testid="text-data-privacy">
-            <ShieldCheck size={20} strokeWidth={1.75} className="shrink-0 text-[var(--turquoise)]" aria-hidden="true" />
-            <span>لا نجمع أي بيانات من زوارنا.</span>
+    <footer className="site-footer" data-testid="site-footer">
+      <div className="site-footer-inner page-wrap">
+        <div className="site-footer-top">
+          <div className="site-footer-brand">
+            <Link href="/" aria-label="حِرز - الرئيسية" data-testid="footer-brand-home" className="site-footer-logo-link">
+              <img src="/assets/logo/heraz-logo-horizontal-white-turquoise.png" alt="شعار حِرز" className="site-footer-logo" />
+            </Link>
+            <p className="privacy-badge" data-testid="text-data-privacy">
+              <ShieldCheck size={20} strokeWidth={1.75} className="shrink-0 text-[var(--turquoise)]" aria-hidden="true" />
+              <span>لا نجمع أي بيانات من زوارنا.</span>
+            </p>
+          </div>
+          <p className="site-footer-description" data-testid="text-footer-description">
+            منصة توعوية عربية تساعد أولياء الأمور على فهم مخاطر الاستنساخ الرقمي لصور الأطفال بالذكاء الاصطناعي، وتبنّي ممارسات وقائية.
           </p>
         </div>
-        <nav aria-label="روابط سريعة" className="grid grid-cols-2 content-start gap-x-5 gap-y-2">
-          <h2 className="col-span-2 mb-1 font-bold text-[var(--turquoise)]">روابط سريعة</h2>
-          {pages.map((page) => (
-            <Link key={page.path} href={page.path} data-testid={`footer-${page.path === '/' ? 'home' : page.path.slice(1)}`} className="min-h-11 py-0 text-sm text-white/85 underline-offset-4 hover:text-white hover:underline">
-              {page.label}
-            </Link>
-          ))}
-          <Link href={helpFlowLinks.helpPage.href} data-testid="footer-protect-help" className="min-h-11 py-0 text-sm text-white/85 underline-offset-4 hover:text-white hover:underline">
-            {helpFlowCopy.entryTitle}
-          </Link>
-          {aboutLink && (
-            <Link href={aboutLink.path} data-testid="footer-about" className="min-h-11 py-0 text-sm text-white/85 underline-offset-4 hover:text-white hover:underline">
-              {aboutLink.label}
-            </Link>
-          )}
-        </nav>
-        <div className="min-w-[280px] text-[1.0625rem] leading-[1.8] text-white/85 md:col-span-2 lg:col-span-1">
-          <p data-testid="text-project-university">مشروع تخرج - جامعة الأميرة نورة بنت عبدالرحمن</p>
-          <p data-testid="text-project-college">كلية العلوم الإنسانية والاجتماعية - قسم الصحافة والإعلام</p>
-          <p data-testid="text-project-advisor">إشراف: د. نوال المنيف</p>
-          <p data-testid="text-project-team">فريق العمل: ليان المقاطي، أفنان الشميمري، آية الغامدي، دانا رحالي، ريما عباس، ريناد الألمعي، غادة العنقودي، جواهر المنهالي</p>
+
+        <div className="site-footer-link-columns">
+          <nav aria-label="روابط تهمك" className="site-footer-column" data-testid="footer-useful-links">
+            <h2 className="site-footer-heading">روابط تهمك</h2>
+            <span className="site-footer-heading-rule" aria-hidden="true" />
+            <div className="site-footer-link-list">
+              {usefulLinks.map((page) => (
+                <Link key={page.path} href={page.path} data-testid={`footer-${page.path.slice(1)}`} className="site-footer-link">
+                  {page.label}
+                </Link>
+              ))}
+            </div>
+          </nav>
+
+          <nav aria-label="نظرة عامة" className="site-footer-column" data-testid="footer-overview-links">
+            <h2 className="site-footer-heading">نظرة عامة</h2>
+            <span className="site-footer-heading-rule" aria-hidden="true" />
+            <div className="site-footer-link-list">
+              {aboutLink && (
+                <Link href={aboutLink.path} data-testid="footer-about" className="site-footer-link">
+                  {aboutLink.label}
+                </Link>
+              )}
+              <Link href="/privacy" data-testid="footer-privacy" className="site-footer-link">
+                سياسة الخصوصية
+              </Link>
+              <a href={sourcesHref} data-testid="footer-sources" className="site-footer-link">
+                المصادر
+              </a>
+            </div>
+          </nav>
         </div>
       </div>
-      <div className="bg-[var(--teal)] px-5 py-2 text-center text-sm font-semibold text-[var(--navy)]" data-testid="text-hijri-year">1448 هـ / 2027 م</div>
+      <div className="site-footer-bottom">
+        <p data-testid="text-footer-copyright">© 2026 منصة حِرز. مشروع تخرج في جامعة الأميرة نورة.</p>
+      </div>
     </footer>
   );
 }

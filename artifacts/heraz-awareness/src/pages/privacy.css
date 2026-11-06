@@ -1,0 +1,41 @@
+.privacy-page [data-testid="text-page-description"] {
+  display: none;
+}
+
+.privacy-sections {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.privacy-card {
+  min-width: 0;
+  padding: 24px;
+}
+
+.privacy-card h2 {
+  margin: 0 0 8px;
+  color: #ffffff;
+  font-family: 'Alexandria', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.privacy-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, .88);
+  font-size: 1rem;
+  line-height: 1.9;
+}
+
+@media (max-width: 767px) {
+  .privacy-sections {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .privacy-card {
+    padding: 20px;
+  }
+}

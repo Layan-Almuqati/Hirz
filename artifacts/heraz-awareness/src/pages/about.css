@@ -120,6 +120,11 @@
   line-height: 1.95;
 }
 
+.about-vision-card:first-child .about-card-copy p {
+  font-size: 1.625rem;
+  line-height: 1.65;
+}
+
 .about-values-grid {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -199,20 +204,20 @@
 
 .about-swatches {
   display: grid;
-  width: max-content;
-  grid-template-columns: repeat(3, 130px);
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px 22px;
 }
 
 .about-swatch-item {
-  width: 130px;
+  width: 100%;
   text-align: center;
 }
 
 .about-swatch {
   width: 100%;
   aspect-ratio: 1;
-  border: 0;
+  border: 1px solid rgba(255,255,255,.35);
   border-radius: 0;
   background-image: none !important;
   box-shadow: none;
@@ -290,6 +295,89 @@
   min-width: 190px;
 }
 
+.about-brand-guide-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px;
+}
+
+.about-brand-guide-copy {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.about-brand-guide-tag {
+  display: inline-flex;
+  min-width: 52px;
+  min-height: 32px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(81,237,200,.4);
+  border-radius: 999px;
+  padding: 4px 12px;
+  background: rgba(81,237,200,.12);
+  color: #51EDC8;
+  font-size: .875rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.about-brand-guide-card h3 {
+  margin: 0 0 8px;
+  color: #ffffff;
+  font-family: 'Alexandria', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.about-brand-guide-card p {
+  margin: 0;
+  color: rgba(255,255,255,.88);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.about-download-button {
+  display: inline-flex;
+  min-width: 104px;
+  min-height: 44px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #51EDC8;
+  border-radius: 999px;
+  padding: 8px 18px;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.about-download-button:hover:not(:disabled) {
+  background: #51EDC8;
+  color: #1D2254;
+}
+
+.about-download-button:focus-visible {
+  outline: 2px solid #51EDC8;
+  outline-offset: 3px;
+}
+
+.about-download-button:disabled {
+  opacity: 1;
+  cursor: not-allowed;
+}
+
 .about-page :focus-visible {
   outline: 2px solid #51EDC8;
   outline-offset: 3px;
@@ -334,6 +422,12 @@
   }
   .about-swatch-item { width: 100%; }
   .about-font-card { min-height: 0; }
+  .about-brand-guide-card {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .about-download-button { width: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

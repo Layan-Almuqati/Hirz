@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { BadgeCheck, Eye, Lock, MousePointerClick, Scale, ShieldCheck, Target } from 'lucide-react';
 import { Link } from 'wouter';
 import { PageHeader } from '@/components/heraz/layout';
@@ -6,11 +7,31 @@ import './about.css';
 
 const whiteLogo = '/assets/logo/heraz-logo-horizontal-white-turquoise.png';
 const navyLogo = '/assets/logo/heraz-logo-horizontal-color.png';
+const brandGuideUrl = `${import.meta.env.BASE_URL}brand/heraz-brand-guide.pdf`;
 const valueIcons = [Lock, Scale, BadgeCheck, ShieldCheck, MousePointerClick] as const;
 
 function AboutPage() {
   const content = aboutContent;
   const { sections } = content;
+  const [brandGuideAvailable, setBrandGuideAvailable] = useState(false);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch(brandGuideUrl, {
+      method: 'HEAD',
+      cache: 'no-store',
+      signal: controller.signal,
+    })
+      .then((response) => {
+        const contentType = response.headers.get('content-type')?.toLowerCase() ?? '';
+        setBrandGuideAvailable(
+          response.ok && (contentType.includes('application/pdf') || contentType.includes('application/octet-stream')),
+        );
+      })
+      .catch(() => setBrandGuideAvailable(false));
+
+    return () => controller.abort();
+  }, []);
 
   return (
     <main id="main-content" tabIndex={-1} className="about-page" data-testid="page-about">
@@ -108,6 +129,41 @@ function AboutPage() {
               </article>
             </div>
           </div>
+        </section>
+
+        <section className="about-section about-brand-files" aria-labelledby="about-brand-files-title">
+          <h2 id="about-brand-files-title" className="about-section-title">
+            <span>ملفات </span><span className="about-title-accent">الهوية</span>
+          </h2>
+          <article className="about-brand-guide-card about-glass-card" data-testid="card-brand-guide">
+            <div className="about-brand-guide-copy">
+              <span className="about-brand-guide-tag">{sections.brandGuideTag}</span>
+              <div>
+                <h3>{sections.brandGuideTitle}</h3>
+                <p>{sections.brandGuideDescription}</p>
+              </div>
+            </div>
+            {brandGuideAvailable ? (
+              <a
+                href={brandGuideUrl}
+                download
+                className="about-download-button"
+                data-testid="link-brand-guide-download"
+              >
+                {sections.brandGuideDownload}
+              </a>
+            ) : (
+              <button
+                type="button"
+                className="about-download-button"
+                disabled
+                aria-disabled="true"
+                data-testid="button-brand-guide-coming-soon"
+              >
+                {sections.brandGuideUnavailable}
+              </button>
+            )}
+          </article>
         </section>
 
         <div className="about-action-wrap">
