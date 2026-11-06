@@ -10,6 +10,8 @@ import RisksPage from '@/pages/risks';
 import ProtectPage from '@/pages/protect';
 import QuizPage from '@/pages/quiz';
 import { Footer, Navbar } from '@/components/heraz/layout';
+import AboutPage from '@/pages/about';
+import { aboutContent } from '@/data/aboutContent';
 
 const pages = [
   { path: '/', label: 'الرئيسية' },
@@ -28,7 +30,7 @@ function Shell({ children }: { children: ReactNode }) {
       <a className="skip-link" href="#main-content" data-testid="link-skip-content">انتقل إلى المحتوى</a>
       <Navbar />
       {children}
-      <Footer pages={pages} />
+      <Footer pages={pages} aboutLink={{ path: '/about', label: aboutContent.title }} />
     </div>
   );
 }
@@ -40,6 +42,7 @@ function Router() {
       <Shell>
         <Switch>
           <Route path="/" component={HomePage} />
+          <Route path="/about" component={AboutPage} />
           <Route path="/understand"><PlaceholderPage pageKey="understand" /></Route>
           <Route path="/risks" component={RisksPage} />
           <Route path="/before-you-post" component={BeforeYouPostPage} />

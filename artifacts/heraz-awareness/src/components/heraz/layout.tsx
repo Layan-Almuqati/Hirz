@@ -88,7 +88,7 @@ export function Navbar() {
   );
 }
 
-export function Footer({ pages }: { pages: PageLink[] }) {
+export function Footer({ pages, aboutLink }: { pages: PageLink[]; aboutLink?: PageLink }) {
   return (
     <footer className="site-footer bg-[var(--navy)] text-white" data-testid="site-footer">
       <div className="page-wrap grid gap-8 py-10 md:grid-cols-2 md:gap-10 md:py-12 lg:grid-cols-[minmax(170px,.75fr)_minmax(220px,.85fr)_minmax(280px,1.3fr)]">
@@ -111,6 +111,11 @@ export function Footer({ pages }: { pages: PageLink[] }) {
           <Link href={helpFlowLinks.helpPage.href} data-testid="footer-protect-help" className="min-h-11 py-0 text-sm text-white/85 underline-offset-4 hover:text-white hover:underline">
             {helpFlowCopy.entryTitle}
           </Link>
+          {aboutLink && (
+            <Link href={aboutLink.path} data-testid="footer-about" className="min-h-11 py-0 text-sm text-white/85 underline-offset-4 hover:text-white hover:underline">
+              {aboutLink.label}
+            </Link>
+          )}
         </nav>
         <div className="min-w-[280px] text-[17px] leading-[1.8] text-white/85 md:col-span-2 lg:col-span-1">
           <p data-testid="text-project-university">مشروع تخرج - جامعة الأميرة نورة بنت عبدالرحمن</p>
@@ -124,13 +129,25 @@ export function Footer({ pages }: { pages: PageLink[] }) {
   );
 }
 
-type HeaderProps = { title: string; description: string; kids?: boolean };
-export function PageHeader({ title, description, kids = false }: HeaderProps) {
+type HeaderProps = {
+  title: string;
+  description: string;
+  kids?: boolean;
+  breadcrumbHome?: string;
+  breadcrumbSeparator?: string;
+};
+export function PageHeader({
+  title,
+  description,
+  kids = false,
+  breadcrumbHome = 'الرئيسية',
+  breadcrumbSeparator = '‹',
+}: HeaderProps) {
   return (
     <div className="mb-9" data-testid="page-header">
       <nav aria-label="مسار الصفحة" className="mb-4 flex items-center gap-2 text-sm text-[var(--navy)]/75">
-        <Link href="/" data-testid="breadcrumb-home" className="underline-offset-4 hover:underline">الرئيسية</Link>
-        <span aria-hidden="true">‹</span>
+        <Link href="/" data-testid="breadcrumb-home" className="underline-offset-4 hover:underline">{breadcrumbHome}</Link>
+        <span aria-hidden="true">{breadcrumbSeparator}</span>
         <span aria-current="page" data-testid="breadcrumb-current">{title}</span>
       </nav>
       <h1 className={`section-title mb-4 ${kids ? 'kids-accent' : ''}`} data-testid="heading-page-title">{title}</h1>
