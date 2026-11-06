@@ -377,7 +377,7 @@ img { max-width: 100%; }
 .journey-card .icon-tile img { width: 40px; height: 40px; }
 .journey-card h3 { color: var(--navy); }
 .journey-card p { color: rgba(29,34,84,.86); }
-.journey-number { color: var(--teal); font-weight: 700; }
+.journey-number { color: var(--navy); font-weight: 700; }
 .magazine-teaser {
   min-height: 210px;
   border: 1px solid rgba(81,237,200,.28) !important;

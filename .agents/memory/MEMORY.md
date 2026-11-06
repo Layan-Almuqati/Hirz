@@ -1,0 +1,1 @@
+- [Reveal thresholds at large text sizes](reveal-thresholds.md) — use small visibility thresholds so large content cards cannot remain hidden at maximum text size.

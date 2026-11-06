@@ -68,7 +68,7 @@ function LawsPage() {
           }
         });
       },
-      { threshold: 0.12, rootMargin: '0px 0px -32px 0px' },
+      { threshold: 0.01, rootMargin: '0px 0px -32px 0px' },
     );
     cards.forEach((card) => observer.observe(card));
     return () => observer.disconnect();
