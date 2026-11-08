@@ -98,3 +98,45 @@ mtime_ms = 1793994850172
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/810394d8-c1d1-44c7-9952-fc9e83dd7d7e/b65089b6-a5f8-4d4a-968c-e6865a907183"
 storage_version_token = "1793995087047909"
 content_type = "image/png"
+
+[[outputs]]
+id = "YyuduCsIgvQkbjaoFExdb"
+uri = "file://generated-artifacts/heraz-about-1366x768.jpg"
+type = "image"
+title = "About Page — 1366×768"
+description = "Full-page screenshot at a 1366×768 desktop viewport."
+logical_id = "6f834652-37e8-4329-9da3-1d2ba199a584"
+content_hash = "sha256:6b1961b39625bca40b2369e09a420fac5944cf24cd889a38f9dc506073f12e61"
+size = 162368
+mtime_ms = 1794108104103
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/6f834652-37e8-4329-9da3-1d2ba199a584/091120c0-8c4c-4f06-8084-7dba24c0e204"
+storage_version_token = "1794108177338622"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "gluPVnMmpk3vvcv3KQ6DB"
+uri = "file://generated-artifacts/heraz-about-390x844.jpg"
+type = "image"
+title = "About Page — 390×844"
+description = "Full-page screenshot at a 390×844 mobile viewport."
+logical_id = "ccfb1540-2b28-49ad-9c09-eaba0bb94b75"
+content_hash = "sha256:4b524359126318297ddef114a7c4cf33842b2cb8f8fcd3c2a01de358359aed9b"
+size = 128396
+mtime_ms = 1794108105679
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/ccfb1540-2b28-49ad-9c09-eaba0bb94b75/06cc9f54-9264-4eea-a3e1-4eed4c5ca202"
+storage_version_token = "1794108178617233"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "gWFXZ4rXsPmhuufKCxHjB"
+uri = "file://exports/heraz-fonts.zip"
+type = "unspecified"
+title = "Heraz Alexandria Font Files"
+description = "Four Alexandria TrueType fonts: weights 400, 500, 600, and 700."
+logical_id = "f7e54995-78df-4b6e-b712-b5d75f6ad5aa"
+content_hash = "sha256:f734001e586ab5904ced680ef8cf3b85c761ba2f2e9ca8517514caecbfe9e47a"
+size = 205195
+mtime_ms = 1794107903243
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/f7e54995-78df-4b6e-b712-b5d75f6ad5aa/0aa10831-74e6-4b73-b06d-beeac9304d36"
+storage_version_token = "1794108179922115"
+content_type = "application/octet-stream"

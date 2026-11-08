@@ -1,4 +1,5 @@
 import path from 'path';
+import { statSync } from 'node:fs';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
@@ -27,8 +28,25 @@ if (!basePath) {
   );
 }
 
+const brandGuidePath = path.resolve(import.meta.dirname, 'public', 'brand', 'heraz-brand-guide.pdf');
+let brandGuideMetadata: { sizeBytes: number; lastModifiedAt: string } | null = null;
+try {
+  const brandGuideStats = statSync(brandGuidePath);
+  if (brandGuideStats.isFile()) {
+    brandGuideMetadata = {
+      sizeBytes: brandGuideStats.size,
+      lastModifiedAt: brandGuideStats.mtime.toISOString(),
+    };
+  }
+} catch {
+  brandGuideMetadata = null;
+}
+
 export default defineConfig({
   base: basePath,
+  define: {
+    __BRAND_GUIDE_METADATA__: JSON.stringify(brandGuideMetadata),
+  },
   plugins: [
     react(),
     tailwindcss(),

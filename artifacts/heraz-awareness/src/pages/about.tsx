@@ -5,10 +5,19 @@ import { PageHeader } from '@/components/heraz/layout';
 import { aboutContent } from '@/data/aboutContent';
 import './about.css';
 
-const whiteLogo = '/assets/logo/heraz-logo-horizontal-white-turquoise.png';
-const navyLogo = '/assets/logo/heraz-logo-horizontal-color.png';
+declare const __BRAND_GUIDE_METADATA__: {
+  sizeBytes: number;
+  lastModifiedAt: string;
+} | null;
+
 const brandGuideUrl = `${import.meta.env.BASE_URL}brand/heraz-brand-guide.pdf`;
 const valueIcons = [Lock, Scale, BadgeCheck, ShieldCheck, MousePointerClick] as const;
+const brandGuideMetaLine = __BRAND_GUIDE_METADATA__
+  ? `PDF · ${(__BRAND_GUIDE_METADATA__.sizeBytes / 1_000_000).toFixed(1)} MB · آخر تحديث: ${new Intl.DateTimeFormat(
+      'ar-SA-u-ca-gregory-nu-latn',
+      { day: 'numeric', month: 'long', year: 'numeric' },
+    ).format(new Date(__BRAND_GUIDE_METADATA__.lastModifiedAt))}`
+  : null;
 
 function AboutPage() {
   const content = aboutContent;
@@ -83,54 +92,6 @@ function AboutPage() {
           </div>
         </section>
 
-        <section className="about-section about-identity" aria-labelledby="about-identity-title">
-          <h2 id="about-identity-title" className="about-section-title">
-            <span>هويتنا </span><span className="about-title-accent">البصرية</span>
-          </h2>
-          <p className="about-identity-intro">{sections.identityIntro}</p>
-
-          <div className="about-identity-block">
-            <h3 className="about-block-caption">{sections.logoCaption}</h3>
-            <div className="about-logo-grid">
-              <div className="about-logo-card about-logo-card-navy about-glass-card">
-                <img src={whiteLogo} alt={sections.logoAlt} />
-              </div>
-              <div className="about-logo-card about-logo-card-white about-glass-card">
-                <img src={navyLogo} alt={sections.logoAlt} />
-              </div>
-            </div>
-          </div>
-
-          <div className="about-identity-block">
-            <h3 className="about-block-caption">{sections.colorsCaption}</h3>
-            <div className="about-swatches">
-              {sections.colors.map((color, index) => (
-                <div className="about-swatch-item" key={color.hex} data-testid={`swatch-about-${index + 1}`}>
-                  <div className="about-swatch" style={{ backgroundColor: color.hex }} aria-hidden="true" />
-                  <p>{color.name}</p>
-                  <bdi dir="ltr" className="about-hex">{color.hex}</bdi>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="about-identity-block">
-            <h3 className="about-block-caption">{sections.fontsCaption}</h3>
-            <div className="about-font-grid">
-              <article className="about-font-card about-glass-card">
-                <p className="about-font-sample about-alexandria">{sections.alexandria.sample}</p>
-                <p className="about-font-sentence about-alexandria">{sections.alexandria.sentence}</p>
-                <p className="about-font-label" dir="ltr">{sections.alexandria.label}</p>
-              </article>
-              <article className="about-font-card about-glass-card">
-                <p className="about-font-sample about-thmanyah">{sections.thmanyah.sample}</p>
-                <p className="about-font-sentence about-thmanyah">{sections.alexandria.sentence}</p>
-                <p className="about-font-label" dir="ltr">{sections.thmanyah.label}</p>
-              </article>
-            </div>
-          </div>
-        </section>
-
         <section className="about-section about-brand-files" aria-labelledby="about-brand-files-title">
           <h2 id="about-brand-files-title" className="about-section-title">
             <span>ملفات </span><span className="about-title-accent">الهوية</span>
@@ -141,6 +102,11 @@ function AboutPage() {
               <div>
                 <h3>{sections.brandGuideTitle}</h3>
                 <p>{sections.brandGuideDescription}</p>
+                {brandGuideAvailable && brandGuideMetaLine ? (
+                  <p className="about-brand-guide-meta" data-testid="brand-guide-meta">
+                    {brandGuideMetaLine}
+                  </p>
+                ) : null}
               </div>
             </div>
             {brandGuideAvailable ? (
