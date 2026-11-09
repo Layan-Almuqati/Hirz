@@ -93,6 +93,7 @@
 }
 
 .magazine-stage {
+  position: relative;
   display: flex;
   width: 100%;
   min-height: 240px;
@@ -102,20 +103,54 @@
   user-select: none;
 }
 
+.magazine-page-frame {
+  position: relative;
+  display: grid;
+  width: fit-content;
+  max-width: min(100%, calc(68dvh * 0.7074));
+  place-items: center;
+}
+
 .magazine-page {
   display: block;
   width: auto;
   max-width: min(100%, calc(68dvh * 0.7074));
   height: auto;
   max-height: min(68dvh, 820px);
-  aspect-ratio: 1076 / 1521;
+  aspect-ratio: 579 / 819;
   border-radius: 16px;
   background: var(--reader-navy);
   box-shadow: 0 12px 30px rgba(29, 34, 84, 0.27);
   object-fit: contain;
+  transition: box-shadow 260ms ease;
   animation-duration: 250ms;
   animation-timing-function: ease-out;
   animation-fill-mode: both;
+}
+
+.magazine-page-audio-playing {
+  outline: 3px solid var(--reader-turquoise);
+  outline-offset: -3px;
+  box-shadow: 0 0 0 3px var(--reader-turquoise), 0 0 18px rgba(81, 237, 200, 0.52), 0 12px 30px rgba(29, 34, 84, 0.27);
+}
+
+.magazine-story-tap-area {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+
+.magazine-story-tap-area:focus-visible {
+  outline: 3px solid var(--reader-turquoise);
+  outline-offset: 4px;
 }
 
 .magazine-page-next {
@@ -154,8 +189,7 @@
   gap: 12px;
 }
 
-.magazine-nav-button,
-.magazine-listen-button {
+.magazine-nav-button {
   display: inline-flex;
   min-height: 48px;
   align-items: center;
@@ -173,8 +207,7 @@
   transition: transform 160ms ease, opacity 160ms ease;
 }
 
-.magazine-nav-button:hover:not(:disabled),
-.magazine-listen-button:hover:not(:disabled) {
+.magazine-nav-button:hover:not(:disabled) {
   transform: translateY(-2px);
   background: #fff;
 }
@@ -187,43 +220,142 @@
 }
 
 .magazine-nav-button:focus-visible,
-.magazine-listen-button:focus-visible {
+.magazine-audio-play-button:focus-visible {
   outline: 3px solid var(--reader-turquoise);
   outline-offset: 4px;
   box-shadow: 0 0 0 7px var(--reader-navy);
 }
 
-.magazine-listen-row {
-  display: flex;
-  min-height: 48px;
-  justify-content: center;
-  padding-top: 1px;
+.magazine-audio-hint {
+  min-height: 27px;
+  margin: 2px 0 -3px;
+  border: 1px solid rgba(81, 237, 200, 0.42);
+  border-radius: 999px;
+  padding: 3px 13px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: .75rem;
+  line-height: 1.7;
+  opacity: 0;
+  text-align: center;
+  transition: opacity 260ms ease;
+  pointer-events: none;
 }
 
-.magazine-listen-button {
-  min-width: 150px;
-  border-color: rgba(255, 255, 255, 0.7);
-  background: transparent;
+.magazine-audio-hint.is-visible {
+  opacity: 1;
+}
+
+.magazine-audio-player {
+  display: grid;
+  width: 100%;
+  min-height: 72px;
+  grid-template-areas: "play status progress time";
+  grid-template-columns: 56px minmax(110px, max-content) minmax(100px, 1fr) max-content;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(81, 237, 200, 0.2);
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: var(--reader-navy);
+  box-shadow: 0 8px 22px rgba(10, 14, 54, 0.24);
   color: #fff;
 }
 
-.magazine-listen-button:hover:not(:disabled) {
-  border-color: var(--reader-turquoise);
-  background: rgba(81, 237, 200, 0.12);
-  color: var(--reader-turquoise);
+.magazine-audio-play-button {
+  display: inline-grid;
+  width: 56px;
+  height: 56px;
+  grid-area: play;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--reader-turquoise);
+  color: var(--reader-navy);
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
-.magazine-listen-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.magazine-audio-play-button:focus-visible {
+  outline-offset: 3px;
 }
 
-.magazine-voice-unavailable {
-  min-height: 26px;
+.magazine-audio-status {
+  grid-area: status;
+  color: #fff;
+  font-size: .875rem;
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+.magazine-audio-progress {
+  width: 100%;
+  min-width: 0;
+  height: 48px;
+  grid-area: progress;
   margin: 0;
-  color: rgba(255, 255, 255, 0.76);
-  font-size: .75rem;
-  line-height: 1.8;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  touch-action: pan-x;
+}
+
+.magazine-audio-progress::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to left,
+    var(--reader-turquoise) 0,
+    var(--reader-turquoise) var(--progress, 0%),
+    rgba(255, 255, 255, .34) var(--progress, 0%),
+    rgba(255, 255, 255, .34) 100%
+  );
+}
+
+.magazine-audio-progress::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  margin-top: -7px;
+  appearance: none;
+  border: 2px solid var(--reader-navy);
+  border-radius: 50%;
+  background: var(--reader-turquoise);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .8);
+}
+
+.magazine-audio-progress::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .34);
+}
+
+.magazine-audio-progress::-moz-range-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--reader-turquoise);
+}
+
+.magazine-audio-progress::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--reader-navy);
+  border-radius: 50%;
+  background: var(--reader-turquoise);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .8);
+}
+
+.magazine-audio-progress:disabled {
+  cursor: default;
+  opacity: .72;
+}
+
+.magazine-audio-time {
+  min-width: 42px;
+  grid-area: time;
+  color: rgba(255, 255, 255, .94);
+  font-size: .8125rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
   text-align: center;
 }
 
@@ -253,13 +385,47 @@
     max-height: 63dvh;
   }
 
+  .magazine-page-frame {
+    max-width: min(100%, calc(63dvh * 0.7074));
+  }
+
   .magazine-nav-button {
     padding-inline: 10px;
   }
 }
 
+@media (max-width: 560px) {
+  .magazine-audio-player {
+    min-height: 80px;
+    grid-template-areas:
+      "play status status"
+      "play progress time";
+    grid-template-columns: 56px minmax(0, 1fr) max-content;
+    gap: 3px 10px;
+    border-radius: 24px;
+    padding: 10px;
+  }
+
+  .magazine-audio-status {
+    align-self: end;
+    font-size: .75rem;
+  }
+
+  .magazine-audio-progress {
+    align-self: start;
+    height: 42px;
+  }
+
+  .magazine-audio-time {
+    align-self: start;
+    font-size: .75rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .magazine-page {
+  .magazine-page,
+  .magazine-audio-hint {
     animation: none;
+    transition: none;
   }
 }

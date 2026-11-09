@@ -1,13 +1,17 @@
-import { useCallback, useEffect, useRef, useState, type TouchEvent } from 'react';
-import magazineNarration from '@/data/magazineNarration';
+import { useCallback, useEffect, useRef, useState, type ChangeEvent, type CSSProperties, type PointerEvent } from 'react';
+import { Pause, Play, RotateCcw } from 'lucide-react';
 import './magazine-reader.css';
 
 const totalPages = 16;
-const soundStorageKey = 'heraz-magazine-page-sound';
-const autoReadStorageKey = 'heraz-magazine-auto-read';
+type AudioStatus = 'idle' | 'playing' | 'paused' | 'finished';
 
 function getPageImageSrc(index: number) {
   return `${import.meta.env.BASE_URL}kids-magazine/page-${String(index + 1).padStart(2, '0')}.webp`;
+}
+
+function getStoryAudioSrc(index: number) {
+  const fileName = index === 6 ? 'story-1.mp3' : index === 8 ? 'story-2.mp3' : null;
+  return fileName ? `${import.meta.env.BASE_URL}assets/audio/${fileName}` : null;
 }
 
 function readToggle(key: string, fallback: boolean) {
@@ -27,53 +31,34 @@ function writeToggle(key: string, value: boolean) {
   }
 }
 
+function formatTime(seconds: number) {
+  if (!Number.isFinite(seconds) || seconds < 0) return '00:00';
+  const totalSeconds = Math.floor(seconds);
+  return `${String(Math.floor(totalSeconds / 60)).padStart(2, '0')}:${String(totalSeconds % 60).padStart(2, '0')}`;
+}
+
 function MagazineReader() {
   const [pageIndex, setPageIndex] = useState(0);
-  const [soundEnabled, setSoundEnabled] = useState(() => readToggle(soundStorageKey, true));
-  const [autoRead, setAutoRead] = useState(() => readToggle(autoReadStorageKey, false));
-  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
-  const [voicesReady, setVoicesReady] = useState(false);
-  const [speaking, setSpeaking] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(() => readToggle('heraz-magazine-page-sound', true));
+  const [audioStatus, setAudioStatus] = useState<AudioStatus>('idle');
+  const [audioCurrentTime, setAudioCurrentTime] = useState(0);
+  const [audioDurations, setAudioDurations] = useState<Record<number, number>>({});
+  const [failedAudioPages, setFailedAudioPages] = useState<Set<number>>(() => new Set());
+  const [dismissedHintPages, setDismissedHintPages] = useState<Set<number>>(() => new Set());
+  const [hintVisible, setHintVisible] = useState(false);
   const [transitionDirection, setTransitionDirection] = useState<'next' | 'previous'>('next');
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const loadedAudioPage = useRef<number | null>(null);
   const audioContext = useRef<AudioContext | null>(null);
   const audioUnlocked = useRef(false);
-  const touchStartX = useRef<number | null>(null);
-  const pendingAutoReadPage = useRef<number | null>(null);
-  const speechGeneration = useRef(0);
+  const pointerStart = useRef<{ x: number; y: number } | null>(null);
 
-  const arabicVoice = voices.find((voice) => voice.lang.toLowerCase().startsWith('ar-sa'))
-    ?? voices.find((voice) => voice.lang.toLowerCase().startsWith('ar'));
-  const narration = magazineNarration[pageIndex];
-
-  const cancelSpeech = useCallback(() => {
-    speechGeneration.current += 1;
-    if (typeof window !== 'undefined' && typeof window.speechSynthesis !== 'undefined') {
-      window.speechSynthesis.cancel();
-    }
-    setSpeaking(false);
-  }, []);
-
-  const speakCurrentPage = useCallback(() => {
-    if (!arabicVoice || typeof window.speechSynthesis === 'undefined') return;
-    const generation = speechGeneration.current + 1;
-    speechGeneration.current = generation;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(narration);
-    utterance.lang = 'ar-SA';
-    utterance.voice = arabicVoice;
-    utterance.rate = 0.85;
-    utterance.pitch = 1;
-    utterance.onstart = () => {
-      if (speechGeneration.current === generation) setSpeaking(true);
-    };
-    utterance.onend = () => {
-      if (speechGeneration.current === generation) setSpeaking(false);
-    };
-    utterance.onerror = () => {
-      if (speechGeneration.current === generation) setSpeaking(false);
-    };
-    window.speechSynthesis.speak(utterance);
-  }, [arabicVoice, narration]);
+  const storyAudioSrc = getStoryAudioSrc(pageIndex);
+  const isStoryPage = storyAudioSrc !== null;
+  const audioFailed = failedAudioPages.has(pageIndex);
+  const canReadStory = isStoryPage && !audioFailed;
+  const duration = audioDurations[pageIndex] ?? 0;
+  const remainingTime = Math.max(0, duration - audioCurrentTime);
 
   const unlockAudio = useCallback(() => {
     if (audioUnlocked.current) return;
@@ -112,40 +97,70 @@ function MagazineReader() {
     source.stop(context.currentTime + 0.12);
   }, [soundEnabled]);
 
+  const resetStoryAudio = useCallback(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.pause();
+      try {
+        audio.currentTime = 0;
+      } catch {
+        // The media may not have loaded metadata yet.
+      }
+    }
+    setAudioCurrentTime(0);
+    setAudioStatus('idle');
+  }, []);
+
+  const playStoryAudio = useCallback(() => {
+    const audio = audioRef.current;
+    const source = getStoryAudioSrc(pageIndex);
+    if (!audio || !source || failedAudioPages.has(pageIndex)) return;
+
+    if (audio.src !== new URL(source, window.location.href).href) {
+      audio.pause();
+      audio.preload = 'metadata';
+      audio.src = source;
+      loadedAudioPage.current = pageIndex;
+      audio.load();
+    }
+
+    if (audio.ended || audioStatus === 'finished') {
+      audio.currentTime = 0;
+      setAudioCurrentTime(0);
+    }
+
+    void audio.play().then(() => {
+      setDismissedHintPages((current) => new Set(current).add(pageIndex));
+      setHintVisible(false);
+    }).catch((error: unknown) => {
+      console.error('Story audio playback failed.', error);
+    });
+  }, [audioStatus, failedAudioPages, pageIndex]);
+
+  const toggleStoryAudio = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio || !getStoryAudioSrc(pageIndex) || failedAudioPages.has(pageIndex)) return;
+    if (!audio.paused && !audio.ended) {
+      audio.pause();
+      return;
+    }
+    playStoryAudio();
+  }, [failedAudioPages, pageIndex, playStoryAudio]);
+
   const turnPage = useCallback((direction: 'next' | 'previous') => {
     const nextIndex = pageIndex + (direction === 'next' ? 1 : -1);
     if (nextIndex < 0 || nextIndex >= totalPages) return;
-    pendingAutoReadPage.current = autoRead ? nextIndex : null;
-    cancelSpeech();
+    resetStoryAudio();
     playFlipSound();
     setTransitionDirection(direction);
     setPageIndex(nextIndex);
-  }, [autoRead, cancelSpeech, pageIndex, playFlipSound]);
-
-  useEffect(() => {
-    const updateVoices = () => {
-      const availableVoices = window.speechSynthesis.getVoices();
-      setVoices(availableVoices);
-      if (availableVoices.length > 0) setVoicesReady(true);
-    };
-    if (typeof window.speechSynthesis === 'undefined') {
-      setVoicesReady(true);
-      return;
-    }
-    updateVoices();
-    window.speechSynthesis.addEventListener('voiceschanged', updateVoices);
-    const fallbackTimer = window.setTimeout(() => setVoicesReady(true), 600);
-    return () => {
-      window.clearTimeout(fallbackTimer);
-      window.speechSynthesis.removeEventListener('voiceschanged', updateVoices);
-    };
-  }, []);
+  }, [pageIndex, playFlipSound, resetStoryAudio]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
       const target = event.target as HTMLElement | null;
-      if (target?.closest('input, textarea, select, [contenteditable="true"]')) return;
+      if (target?.closest('input, textarea, select, button, [contenteditable="true"]')) return;
       event.preventDefault();
       turnPage(event.key === 'ArrowLeft' ? 'next' : 'previous');
     };
@@ -162,41 +177,102 @@ function MagazineReader() {
   }, [pageIndex]);
 
   useEffect(() => {
-    if (!autoRead) {
-      pendingAutoReadPage.current = null;
+    if (!isStoryPage || audioFailed || dismissedHintPages.has(pageIndex)) {
+      setHintVisible(false);
       return;
     }
-    if (pendingAutoReadPage.current !== pageIndex || !voicesReady) return;
-    if (arabicVoice) speakCurrentPage();
-    pendingAutoReadPage.current = null;
-  }, [autoRead, arabicVoice, pageIndex, speakCurrentPage, voicesReady]);
+    setHintVisible(true);
+    const hintTimer = window.setTimeout(() => {
+      setHintVisible(false);
+      setDismissedHintPages((current) => new Set(current).add(pageIndex));
+    }, 6000);
+    return () => window.clearTimeout(hintTimer);
+  }, [audioFailed, dismissedHintPages, isStoryPage, pageIndex]);
 
-  useEffect(() => () => {
-    speechGeneration.current += 1;
-    if (typeof window.speechSynthesis !== 'undefined') window.speechSynthesis.cancel();
-    void audioContext.current?.close();
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') resetStoryAudio();
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [resetStoryAudio]);
+
+  useEffect(() => {
+    const mountedAudio = audioRef.current;
+    return () => {
+      if (mountedAudio) {
+        mountedAudio.pause();
+        try {
+          mountedAudio.currentTime = 0;
+        } catch {
+          // The media may not have loaded metadata yet.
+        }
+      }
+      void audioContext.current?.close();
+    };
   }, []);
 
-  const startTouch = (event: TouchEvent<HTMLDivElement>) => {
+  const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
     unlockAudio();
-    touchStartX.current = event.changedTouches[0]?.clientX ?? null;
+    pointerStart.current = { x: event.clientX, y: event.clientY };
   };
 
-  const endTouch = (event: TouchEvent<HTMLDivElement>) => {
-    if (touchStartX.current === null) return;
-    const delta = event.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(delta) > 42) turnPage(delta < 0 ? 'next' : 'previous');
-    touchStartX.current = null;
+  const handlePointerUp = (event: PointerEvent<HTMLDivElement>) => {
+    const start = pointerStart.current;
+    pointerStart.current = null;
+    if (!start) return;
+    const deltaX = event.clientX - start.x;
+    const deltaY = event.clientY - start.y;
+    if (Math.abs(deltaX) > 42 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      turnPage(deltaX < 0 ? 'next' : 'previous');
+    }
   };
 
-  const voiceUnavailable = voicesReady && !arabicVoice;
+  const handleAudioTimeUpdate = () => {
+    const audio = audioRef.current;
+    if (audio) setAudioCurrentTime(audio.currentTime);
+  };
+
+  const handleAudioMetadata = () => {
+    const audio = audioRef.current;
+    const page = loadedAudioPage.current;
+    if (!audio || page === null || !Number.isFinite(audio.duration)) return;
+    setAudioDurations((current) => ({ ...current, [page]: audio.duration }));
+  };
+
+  const handleAudioError = () => {
+    const audio = audioRef.current;
+    const page = loadedAudioPage.current;
+    if (!audio || page === null) return;
+    console.error('Story audio failed to load.', audio.currentSrc, audio.error);
+    setFailedAudioPages((current) => new Set(current).add(page));
+    audio.pause();
+    setAudioCurrentTime(0);
+    setAudioStatus('idle');
+  };
+
+  const handleProgressChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const audio = audioRef.current;
+    const nextTime = Number(event.currentTarget.value);
+    if (!audio || !Number.isFinite(nextTime)) return;
+    audio.currentTime = nextTime;
+    setAudioCurrentTime(nextTime);
+  };
+
+  const buttonLabel = audioStatus === 'playing' ? 'إيقاف الحكاية مؤقتًا' : 'تشغيل الحكاية';
+  const playerLabel = audioStatus === 'playing'
+    ? 'جاري القراءة...'
+    : audioStatus === 'paused'
+      ? 'تم إيقاف القراءة مؤقتًا'
+      : audioStatus === 'finished'
+        ? 'أعد الاستماع'
+        : 'اضغط على القصة لتسمعها';
 
   return (
     <section
       className="magazine-reader"
       aria-label="مجلة درع المستقبل"
       onPointerDownCapture={unlockAudio}
-      onClickCapture={unlockAudio}
       data-testid="magazine-reader"
     >
       <div className="magazine-reader-toolbar" dir="rtl">
@@ -206,50 +282,119 @@ function MagazineReader() {
             checked={soundEnabled}
             onChange={(event) => {
               setSoundEnabled(event.target.checked);
-              writeToggle(soundStorageKey, event.target.checked);
+              writeToggle('heraz-magazine-page-sound', event.target.checked);
             }}
             data-testid="toggle-page-sound"
           />
           <span className="magazine-switch" aria-hidden="true" />
           <span>الصوت</span>
         </label>
-        {voicesReady && arabicVoice && (
-          <label className="magazine-toggle">
-            <input
-              type="checkbox"
-              checked={autoRead}
-              onChange={(event) => {
-                setAutoRead(event.target.checked);
-                writeToggle(autoReadStorageKey, event.target.checked);
-                if (!event.target.checked) cancelSpeech();
-              }}
-              data-testid="toggle-auto-read"
-            />
-            <span className="magazine-switch" aria-hidden="true" />
-            <span>قراءة تلقائية</span>
-          </label>
-        )}
       </div>
 
       <div
         className="magazine-stage"
-        onTouchStart={startTouch}
-        onTouchEnd={endTouch}
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={() => { pointerStart.current = null; }}
         data-testid="magazine-page-stage"
       >
-        <img
-          key={pageIndex}
-          className={`magazine-page magazine-page-${transitionDirection}`}
-          src={getPageImageSrc(pageIndex)}
-          alt={narration}
-          width="1076"
-          height="1521"
-          loading="eager"
-          decoding="async"
-          draggable={false}
-          data-testid={`magazine-page-image-${pageIndex + 1}`}
-        />
+        <div className="magazine-page-frame">
+          <img
+            key={pageIndex}
+            className={`magazine-page magazine-page-${transitionDirection}${audioStatus === 'playing' && canReadStory ? ' magazine-page-audio-playing' : ''}`}
+            src={getPageImageSrc(pageIndex)}
+            alt={`صفحة ${pageIndex + 1} من ${totalPages}`}
+            width="579"
+            height="819"
+            loading="eager"
+            decoding="async"
+            draggable={false}
+            data-testid={`magazine-page-image-${pageIndex + 1}`}
+          />
+          {canReadStory ? (
+            <button
+              type="button"
+              className="magazine-story-tap-area"
+              onClick={toggleStoryAudio}
+              aria-label={buttonLabel}
+              aria-pressed={audioStatus === 'playing'}
+              data-testid={`button-story-tap-page-${pageIndex + 1}`}
+            />
+          ) : null}
+        </div>
       </div>
+
+      {canReadStory ? (
+        <>
+          <p
+            className={`magazine-audio-hint${hintVisible && !dismissedHintPages.has(pageIndex) ? ' is-visible' : ''}`}
+            aria-hidden="true"
+            data-testid={`hint-story-page-${pageIndex + 1}`}
+          >اضغط على القصة لتسمعها</p>
+          <div className="magazine-audio-player" dir="rtl" data-testid={`player-story-page-${pageIndex + 1}`}>
+            <button
+              type="button"
+              className="magazine-audio-play-button"
+              onClick={toggleStoryAudio}
+              aria-label={buttonLabel}
+              aria-pressed={audioStatus === 'playing'}
+              data-testid="button-story-audio"
+            >
+              {audioStatus === 'finished' ? (
+                <RotateCcw size={25} strokeWidth={2.3} aria-hidden="true" />
+              ) : audioStatus === 'playing' ? (
+                <Pause size={27} fill="currentColor" strokeWidth={2} aria-hidden="true" />
+              ) : (
+                <Play size={27} fill="currentColor" strokeWidth={2} aria-hidden="true" />
+              )}
+            </button>
+            <span className="magazine-audio-status" aria-live="polite" data-testid="status-story-audio">
+              {playerLabel}
+            </span>
+            <input
+              type="range"
+              className="magazine-audio-progress"
+              min={0}
+              max={Math.max(duration, 1)}
+              step={0.1}
+              value={Math.min(audioCurrentTime, Math.max(duration, 1))}
+              onChange={handleProgressChange}
+              disabled={!duration || audioFailed}
+              style={{ '--progress': `${duration > 0 ? Math.min(100, (audioCurrentTime / duration) * 100) : 0}%` } as CSSProperties}
+              aria-label="تقدم قراءة الحكاية"
+              aria-valuemin={0}
+              aria-valuemax={Math.floor(duration)}
+              aria-valuenow={Math.floor(audioCurrentTime)}
+              aria-valuetext={formatTime(audioCurrentTime)}
+              role="slider"
+              data-testid="slider-story-audio-progress"
+            />
+            <span className="magazine-audio-time" dir="ltr" aria-label="الوقت المتبقي">
+              {formatTime(remainingTime)}
+            </span>
+          </div>
+        </>
+      ) : null}
+
+      <audio
+        ref={audioRef}
+        preload="none"
+        onTimeUpdate={handleAudioTimeUpdate}
+        onLoadedMetadata={handleAudioMetadata}
+        onPlay={() => setAudioStatus('playing')}
+        onPause={() => {
+          const audio = audioRef.current;
+          if (audio?.ended) return;
+          setAudioStatus(audio && audio.currentTime > 0 ? 'paused' : 'idle');
+        }}
+        onEnded={() => {
+          const audio = audioRef.current;
+          if (audio) setAudioCurrentTime(audio.duration);
+          setAudioStatus('finished');
+        }}
+        onError={handleAudioError}
+        aria-hidden="true"
+      />
 
       <p className="magazine-page-counter" dir="ltr" aria-live="polite" data-testid="magazine-page-counter">
         {pageIndex + 1} / {totalPages}
@@ -271,19 +416,6 @@ function MagazineReader() {
           data-testid="button-magazine-next"
         >التالية</button>
       </div>
-
-      {voiceUnavailable ? (
-        <p className="magazine-voice-unavailable" data-testid="status-voice-unavailable">القراءة الصوتية غير متاحة على هذا الجهاز.</p>
-      ) : voicesReady && arabicVoice ? (
-        <div className="magazine-listen-row">
-          <button
-            type="button"
-            className="magazine-listen-button"
-            onClick={speaking ? cancelSpeech : speakCurrentPage}
-            data-testid="button-magazine-listen"
-          >{speaking ? '⏹ إيقاف' : '🔊 اسمعني'}</button>
-        </div>
-      ) : null}
     </section>
   );
 }
