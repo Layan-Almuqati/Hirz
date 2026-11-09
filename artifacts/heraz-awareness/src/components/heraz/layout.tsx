@@ -223,7 +223,7 @@ export function Footer({ pages, aboutLink }: { pages: PageLink[]; aboutLink?: Pa
         </div>
       </div>
       <div className="site-footer-bottom">
-        <p data-testid="text-footer-copyright">© 2026 منصة حِرز. مشروع تخرج في جامعة الأميرة نورة.</p>
+        <p data-testid="text-footer-copyright">© 2026 منصة حِرز</p>
       </div>
     </footer>
   );

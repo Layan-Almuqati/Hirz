@@ -112,7 +112,6 @@ export function Footer({ pages }: { pages: PageLink[] }) {
           </Link>
         </nav>
         <div className="min-w-[280px] text-[17px] leading-[1.8] text-white/85 md:col-span-2 lg:col-span-1">
-          <p data-testid="text-project-university">مشروع تخرج - جامعة الأميرة نورة بنت عبدالرحمن</p>
           <p data-testid="text-project-college">كلية العلوم الإنسانية والاجتماعية - قسم الصحافة والإعلام</p>
           <p data-testid="text-project-advisor">إشراف: د. نوال المنيف</p>
           <p data-testid="text-project-team">فريق العمل: ليان المقاطي، أفنان الشميمري، آية الغامدي، دانا رحالي، ريما عباس، ريناد الألمعي، غادة العنقودي، جواهر المنهالي</p>

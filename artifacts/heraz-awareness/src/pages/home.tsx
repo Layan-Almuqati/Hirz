@@ -59,7 +59,7 @@ function HomePage() {
             صورة طفلك...<br className="hidden sm:block" /> هويته الرقمية
           </h1>
           <p className="mt-5 max-w-[690px] text-lg font-normal leading-[1.9] text-white/85 md:text-xl" data-testid="text-hero-description">
-            حِرز منصة توعوية تساعدك تفهم الاستنساخ الرقمي بالذكاء الاصطناعي وتحمي هوية طفلك قبل ما تنشر.
+            حِرز منصة توعوية تمكّنك من إدراك مخاطر التزييف والنسخ البصري بالذكاء الاصطناعي، وتحمي هوية طفلك قبل أن تنشر
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link href="/understand" data-testid="button-hero-understand" className="primary-button">
@@ -83,7 +83,7 @@ function HomePage() {
       </section>
 
       <section className="intro-section page-wrap flex flex-col items-start gap-3 py-14 md:py-[72px]" aria-labelledby="what-title" data-testid="section-understanding-intro">
-        <h2 id="what-title" className="section-title mb-0" data-testid="heading-what-is-cloning">ما هو الاستنساخ الرقمي؟</h2>
+        <h2 id="what-title" className="section-title mb-0" data-testid="heading-what-is-cloning">ما الاستنساخ الرقمي؟</h2>
         <p className="max-w-[65ch] text-[1.25rem] leading-[1.9]" data-testid="text-what-is-cloning">
           الاستنساخ الرقمي هو استخدام تقنيات الذكاء الاصطناعي لتوليد صورة أو صوت أو مقطع يشبه شخصًا حقيقيًا. وعندما تُنشر صور الأطفال وبياناتهم، قد تُستخدم لهذا الغرض دون علم الأهل.
         </p>
