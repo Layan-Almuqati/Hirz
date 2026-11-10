@@ -15,9 +15,16 @@ localPort = 23255
 run = "pnpm --filter @workspace/heraz-awareness run dev"
 
 [services.production]
-build = [ "pnpm", "--filter", "@workspace/heraz-awareness", "run", "build" ]
 serve = "static"
-publicDir = "artifacts/heraz-awareness/dist/public"
+publicDir = "artifacts/heraz-awareness/dist"
+
+[services.production.build]
+args = [ "pnpm", "--filter", "@workspace/heraz-awareness", "run", "build" ]
+
+[services.production.build.env]
+NODE_ENV = "production"
+PORT = "23255"
+BASE_PATH = "/"
 
 [[services.production.rewrites]]
 from = "/*"

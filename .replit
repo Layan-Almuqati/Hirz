@@ -2,7 +2,12 @@ modules = ["nodejs-24", "python-base-3.13"]
 
 [deployment]
 router = "application"
-deploymentTarget = "autoscale"
+deploymentTarget = "static"
+publicDir = "artifacts/heraz-awareness/dist"
+
+[[deployment.rewrites]]
+from = "/*"
+to = "/index.html"
 
 [deployment.postBuild]
 args = ["pnpm", "store", "prune"]
