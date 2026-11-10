@@ -2,3 +2,4 @@
 - [Theme defaults and retained backup](theme-and-backup.md) — approved palette is fixed, theme switching is removed, and the backup stays until user confirmation.
 - [Quiz editorial rules](quiz-editorial-rules.md) — preserve originals of two sentences or fewer verbatim; shorten only longer ones without changing citations or adding facts.
 - [Mobile-first audience](mobile-first-audience.md) — most visitors use phones/iPads; prioritize readable layouts and reachable touch controls at those sizes.
+- [Responsive verification](responsive-verification.md) — reapply viewport emulation after reconnecting to a headless browser before diagnosing layout failures.

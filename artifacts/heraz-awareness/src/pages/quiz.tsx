@@ -3,6 +3,7 @@ import { Check, X } from 'lucide-react';
 import { Link } from 'wouter';
 import { quizFooter, quizIntro, quizSections, type QuizQuestion, type QuizSection } from '@/data/quizContent';
 import { BidiText } from '@/components/heraz/BidiText';
+import { NextStep } from '@/components/heraz/layout';
 import './quiz.css';
 
 type OptionId = 'a' | 'b' | 'c';
@@ -262,6 +263,7 @@ export default function QuizPage() {
         )}
 
         {state.view !== 'result' && <p className="quiz-footer-note" data-testid="text-quiz-footer">{quizFooter}</p>}
+        {state.view === 'result' && <NextStep path="/quiz" showQuizResult />}
       </div>
     </main>
   );

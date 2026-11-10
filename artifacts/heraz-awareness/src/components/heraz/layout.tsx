@@ -286,8 +286,9 @@ export function PageHeader({
   );
 }
 
-type StepProps = { path: string };
-export function NextStep({ path }: StepProps) {
+type StepProps = { path: string; showQuizResult?: boolean };
+export function NextStep({ path, showQuizResult = false }: StepProps) {
+  if (path === '/quiz' && !showQuizResult) return null;
   const index = journey.findIndex((page) => page.path === path);
   const next = index >= 0 ? journey[index + 1] : undefined;
   if (!next) return null;

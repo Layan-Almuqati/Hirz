@@ -252,3 +252,45 @@ mtime_ms = 1794289351278
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/f6915539-3bce-409a-86ad-d813082ff3a9/d2bf1a9f-a49b-4bcc-a38f-1c91d374f317"
 storage_version_token = "1794289374785110"
 content_type = "image/jpeg"
+
+[[outputs]]
+id = "X4iaN-Irph_Dtk5fAk46F"
+uri = "file://generated-artifacts/heraz-final-fixes/screenshots.html"
+type = "html"
+title = "Final fixes — complete screenshot gallery"
+description = "All four requested pages at 390×844 and 820×1180, plus desktop hero/quiz checks, Q15, results and additional phone captures."
+logical_id = "6d177c52-1a92-4402-a8cf-6fa929c45653"
+content_hash = "sha256:49a05114ab9d79f9100d22d5b614351143e4bb4ca6737bdbec99875138a48614"
+size = 1683014
+mtime_ms = 1794290517688
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/6d177c52-1a92-4402-a8cf-6fa929c45653/37614db1-7183-4120-8b26-14e6fe9288d0"
+storage_version_token = "1794290648511524"
+content_type = "text/html"
+
+[[outputs]]
+id = "IBN4SRouMQu3Eg62Fa68O"
+uri = "file://generated-artifacts/heraz-final-fixes/quiz-q1-390x844.jpg"
+type = "image"
+title = "Quiz — phone Next button"
+description = "390×844: one fixed 56px Next button with feedback clear of it."
+logical_id = "d86a50ae-d0aa-484b-aedc-c1a78b15cf3e"
+content_hash = "sha256:44edd4d417417e88bf8c6eed8258bfcaf80a6a9dd9dd68704826f1fc9dd07c46"
+size = 37828
+mtime_ms = 1794290510148
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/d86a50ae-d0aa-484b-aedc-c1a78b15cf3e/48ed9375-af62-4440-9da6-31ed37d14c05"
+storage_version_token = "1794290650411412"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "RitWLJ1C3MsaR0wk8E8HB"
+uri = "file://generated-artifacts/heraz-final-fixes/quiz-q1-820x1180.jpg"
+type = "image"
+title = "Quiz — tablet inline Next button"
+description = "820×1180: Next is in normal flow below the feedback, not fixed or sticky."
+logical_id = "254a4e28-f25f-4e52-a8bf-cd8cc4986407"
+content_hash = "sha256:95da051e572274f26e281df52ad5be243bbaca8f68b23cc65ab62cf3200fa595"
+size = 81597
+mtime_ms = 1794290513628
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/254a4e28-f25f-4e52-a8bf-cd8cc4986407/efd0960c-a9a7-4805-b844-08745cdb16b9"
+storage_version_token = "1794290652129547"
+content_type = "image/jpeg"

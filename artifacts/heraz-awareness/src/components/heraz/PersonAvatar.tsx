@@ -1,26 +1,14 @@
 import { useId } from 'react';
 
-const tints = [
-  ['#51EDC8', '#56AAAA'],
-  ['#56AAAA', '#1D2254'],
-  ['#EEEEEF', '#51EDC8'],
-  ['#51EDC8', '#1D2254'],
-] as const;
-
-type Props = { variant?: 'member' | 'supervisor'; tint?: number };
-
-export default function PersonAvatar({ variant = 'member', tint = 0 }: Props) {
+function Avatar({ isSupervisor = false }: { isSupervisor?: boolean }) {
   const id = useId().replace(/:/g, '');
-  const [from, to] = tints[Math.abs(tint) % tints.length];
-  const isSupervisor = variant === 'supervisor';
-  const figure = to === '#1D2254' ? '#FFFFFF' : '#1D2254';
   return (
     <span className={`person-avatar${isSupervisor ? ' is-supervisor' : ''}`} aria-hidden="true">
       <svg viewBox="0 0 80 80" width="80" height="80" focusable="false">
         <defs>
           <linearGradient id={`pa-${id}`} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor={from} />
-            <stop offset="1" stopColor={to} />
+            <stop offset="0" stopColor="#51EDC8" />
+            <stop offset="1" stopColor="#EEEEEF" />
           </linearGradient>
           <clipPath id={`pc-${id}`}><circle cx="40" cy="40" r={isSupervisor ? 31 : 38} /></clipPath>
         </defs>
@@ -31,7 +19,7 @@ export default function PersonAvatar({ variant = 'member', tint = 0 }: Props) {
           </>
         )}
         <circle cx="40" cy="40" r={isSupervisor ? 31 : 38} fill={`url(#pa-${id})`} />
-        <g clipPath={`url(#pc-${id})`} fill={figure} opacity=".92">
+        <g clipPath={`url(#pc-${id})`} fill="#1D2254">
           <circle cx="40" cy="33" r="12" />
           <path d="M16 74c0-14 10.7-23 24-23s24 9 24 23v6H16Z" />
         </g>
@@ -45,4 +33,12 @@ export default function PersonAvatar({ variant = 'member', tint = 0 }: Props) {
       )}
     </span>
   );
+}
+
+export default function PersonAvatar() {
+  return <Avatar />;
+}
+
+export function SupervisorAvatar() {
+  return <Avatar isSupervisor />;
 }

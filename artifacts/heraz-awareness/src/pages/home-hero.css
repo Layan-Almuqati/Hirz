@@ -1,0 +1,31 @@
+.hero-art-block.hero-logo-art {
+  min-height: 360px;
+  place-items: center;
+  overflow: visible;
+}
+
+.hero-logo-art .hero-geometric-illustration {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: 420px;
+  max-width: none;
+  height: 360px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.hero-brand-mark {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(62vw, 240px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 22px rgba(81, 237, 200, .6));
+}
+
+@media (min-width: 768px) {
+  .hero-brand-mark { width: min(100%, 300px); }
+}

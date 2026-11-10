@@ -3,6 +3,7 @@ import { ArrowLeft, Check, ClipboardCheck } from 'lucide-react';
 import { stats } from '@/data/stats';
 import { SourceMarker } from '@/components/heraz/SourceMarker';
 import { toArabicIndic } from '@/lib/utils';
+import './home-hero.css';
 
 const journeyCards = [
   {
@@ -84,16 +85,21 @@ function HomePage() {
                 </span>
               </div>
             </div>
-            <div className="hero-art-block">
+            <div className="hero-art-block hero-logo-art">
               <svg className="hero-geometric-illustration" viewBox="0 0 420 360" aria-hidden="true" focusable="false">
-                <circle cx="164" cy="176" r="102" fill="none" stroke="var(--turquoise)" strokeWidth="2" opacity=".8" />
-                <circle cx="246" cy="132" r="74" fill="none" stroke="var(--teal)" strokeWidth="2" opacity=".9" />
-                <circle cx="244" cy="231" r="58" fill="none" stroke="var(--turquoise)" strokeWidth="2" opacity=".7" />
-                <path d="M210 68 290 99v61c0 56-33 99-80 125-47-26-80-69-80-125V99l80-31Z" fill="rgba(81,237,200,.08)" stroke="var(--turquoise)" strokeWidth="3" />
-                <path d="m178 160 22 22 43-47" fill="none" stroke="var(--turquoise)" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+                <defs>
+                  <radialGradient id="hero-mark-halo">
+                    <stop offset="0" stopColor="var(--turquoise)" stopOpacity=".5" />
+                    <stop offset="1" stopColor="var(--turquoise)" stopOpacity="0" />
+                  </radialGradient>
+                </defs>
+                <circle cx="210" cy="180" r="165" fill="url(#hero-mark-halo)" />
+                <ellipse cx="210" cy="180" rx="185" ry="120" fill="none" stroke="var(--turquoise)" opacity=".16" />
+                <ellipse cx="210" cy="180" rx="150" ry="98" fill="none" stroke="var(--teal)" opacity=".3" strokeDasharray="6 8" />
                 <circle cx="88" cy="76" r="8" fill="var(--teal)" />
                 <circle cx="332" cy="274" r="7" fill="var(--turquoise)" />
               </svg>
+              <img className="hero-brand-mark" src="/assets/logo/heraz-mark-turquoise.png" alt="" aria-hidden="true" />
             </div>
           </div>
         </div>
