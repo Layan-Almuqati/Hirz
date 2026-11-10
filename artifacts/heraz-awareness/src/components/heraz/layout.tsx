@@ -35,7 +35,7 @@ export function UtilityBar() {
 
   return (
     <div className="utility-bar" data-testid="utility-bar">
-      <div className="utility-bar-inner page-wrap">
+      <div className="utility-bar-inner">
         <div className="utility-tools" role="group" aria-label="إعدادات العرض">
           <button
             type="button"
@@ -172,6 +172,8 @@ export function Navbar({ onMenuOpenChange }: { onMenuOpenChange?: (open: boolean
           ))}
           <Link href="/kids" aria-current={location === '/kids' ? 'page' : undefined} data-testid="nav-kids" className="nav-link">عالم حرز</Link>
         </nav>
+        <div className="header-actions header-tools">
+        <UtilityBar />
         <button
           ref={menuButtonRef}
           type="button"
@@ -185,6 +187,7 @@ export function Navbar({ onMenuOpenChange }: { onMenuOpenChange?: (open: boolean
         >
           {open ? <X size={22} strokeWidth={1.75} aria-hidden="true" /> : <Menu size={22} strokeWidth={1.75} aria-hidden="true" />}
         </button>
+        </div>
       </div>
       {open && (
         <nav ref={menuRef} id="mobile-navigation" aria-label="التنقل الرئيسي" className="mobile-menu" data-testid="mobile-navigation">
@@ -233,7 +236,7 @@ export function Footer() {
         </nav>
       </div>
       <div className="site-footer-bottom">
-        <p data-testid="text-footer-copyright"><bdi dir="ltr">© 2026</bdi> منصة حِرز.</p>
+        <p data-testid="text-footer-copyright"><bdi dir="rtl">© 2026 منصة حِرز.</bdi></p>
       </div>
     </footer>
   );

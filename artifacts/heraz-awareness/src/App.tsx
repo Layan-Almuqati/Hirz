@@ -9,7 +9,7 @@ import PlaceholderPage from '@/pages/placeholder';
 import RisksPage from '@/pages/risks';
 import ProtectPage from '@/pages/protect';
 import QuizPage from '@/pages/quiz';
-import { EmergencyButton, Footer, Navbar, NextStep, UtilityBar } from '@/components/heraz/layout';
+import { EmergencyButton, Footer, Navbar, NextStep } from '@/components/heraz/layout';
 import AboutPage from '@/pages/about';
 import PrivacyPage from '@/pages/privacy';
 import BackToTopButton from '@/components/heraz/back-to-top';
@@ -26,7 +26,6 @@ function Shell({ children }: { children: ReactNode }) {
     <div dir="rtl" className="site-shell min-h-[100dvh]">
       <a className="skip-link" href="#main-content" data-testid="link-skip-content">تخطَّ إلى المحتوى</a>
       <div className="page-scroll" data-testid="page-scroll-container">
-        <UtilityBar />
         <Navbar onMenuOpenChange={updateMenuOpen} />
         <div className="shell-content">
           {children}

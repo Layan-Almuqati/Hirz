@@ -3,6 +3,7 @@ import { Download } from 'lucide-react';
 import { BidiText } from '@/components/heraz/BidiText';
 import { downloads as initialDownloads, type HerazDownload } from '@/data/downloads';
 import { studentNames, supervisorName } from '@/data/team';
+import PersonAvatar from '@/components/heraz/PersonAvatar';
 import './about.css';
 
 const aboutAnchors = [
@@ -143,15 +144,13 @@ export default function AboutPage() {
           <div className="about-team-grid">
             {studentNames.map((name, index) => (
               <article className="about-team-card" key={name} data-testid={`about-team-member-${index + 1}`}>
-                <span className="about-avatar" aria-hidden="true">{Array.from(name)[0]}</span>
+                <PersonAvatar tint={index} />
                 <p className="about-team-name"><BidiText text={name} /></p>
               </article>
             ))}
           </div>
           <article className="about-team-card about-supervisor-card" data-testid="about-supervisor">
-            <span className="about-avatar about-supervisor-avatar">
-              <img src="/assets/brand-svg/heraz-mark-turquoise.svg" alt="" aria-hidden="true" width="28" height="28" />
-            </span>
+            <PersonAvatar variant="supervisor" tint={0} />
             <p className="about-team-name"><BidiText text={supervisorName} /></p>
           </article>
         </section>

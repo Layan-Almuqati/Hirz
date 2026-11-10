@@ -168,3 +168,45 @@ mtime_ms = 1794287655621
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/96388ec8-f2f5-4f77-9d32-9e738265fc88/3bf0cd37-871b-434c-9d01-f1e5d9b6808c"
 storage_version_token = "1794287679800998"
 content_type = "image/jpeg"
+
+[[outputs]]
+id = "vvb8S7dkD6Drxl9FlXPgx"
+uri = "file://generated-artifacts/heraz-mobile-polish/screenshots.html"
+type = "html"
+title = "Responsive screenshot gallery — all 28 captures"
+description = "Home, About team, Quiz feedback and Kids magazine at all seven requested viewport sizes."
+logical_id = "ac1456ff-39e5-4d58-8047-b18877ef36c2"
+content_hash = "sha256:117c509cc0d7b68d0b0aa2327e579a00c70f8850a2ce60830417b45ca9c91a0d"
+size = 2080428
+mtime_ms = 1794288664197
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/ac1456ff-39e5-4d58-8047-b18877ef36c2/23989fd1-820d-49b6-8095-a72fbf147f63"
+storage_version_token = "1794288688414974"
+content_type = "text/html"
+
+[[outputs]]
+id = "ve5F8yZKkRBE8DQ-KviKp"
+uri = "file://generated-artifacts/heraz-mobile-polish/home-360x800.jpg"
+type = "image"
+title = "Home — 360×800"
+description = "Single-bar header, stacked full-width buttons and illustration below the text."
+logical_id = "ab20ed03-041b-4a66-8d78-1bbd770a8873"
+content_hash = "sha256:f6bc5991d59d02320be39e9908e61323f6cef83afe836e78537ef1b970a9bb80"
+size = 34391
+mtime_ms = 1794288648325
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/ab20ed03-041b-4a66-8d78-1bbd770a8873/13c48644-9b93-482d-8c01-c70c5caa4d22"
+storage_version_token = "1794288689786813"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "fFwFhR1ny-lYMPlwx1Miu"
+uri = "file://generated-artifacts/heraz-mobile-polish/about-820x1180.jpg"
+type = "image"
+title = "About team — 820×1180"
+description = "Three-column iPad layout with palette-tinted person avatars and the supervisor badge."
+logical_id = "07651984-325f-4952-8973-b2ad07dafbc1"
+content_hash = "sha256:9a817d4e139a1fe14c7978939ef440a7601701bc8679bc148af37875be9afcb0"
+size = 66108
+mtime_ms = 1794288658169
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/07651984-325f-4952-8973-b2ad07dafbc1/880624e6-d0f5-4bdf-8461-93d5c1cb38b8"
+storage_version_token = "1794288691161201"
+content_type = "image/jpeg"
