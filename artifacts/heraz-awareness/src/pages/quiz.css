@@ -176,3 +176,30 @@ html[data-theme="dark"] .quiz-result-mark {
 html[data-theme="dark"] .quiz-back-link {
   color: var(--turquoise);
 }
+
+html[data-theme="dark"] .quiz-progress {
+  background: rgba(255,255,255,.2);
+}
+
+html[data-theme="dark"] .quiz-progress-fill {
+  background: var(--turquoise);
+}
+
+html[data-theme="dark"] .quiz-section-card,
+html[data-theme="dark"] .quiz-panel {
+  border-color: rgba(255,255,255,.18);
+  border-radius: 16px;
+  background: var(--surface);
+  color: #eeeeef;
+}
+
+html[data-theme="dark"] .quiz-choice {
+  border-color: rgba(255,255,255,.18);
+  background: var(--surface);
+  color: #eeeeef;
+}
+
+html[data-theme="dark"] .quiz-action:not(.quiz-action-primary) {
+  border: 1.5px solid rgba(255,255,255,.7);
+  color: #ffffff;
+}

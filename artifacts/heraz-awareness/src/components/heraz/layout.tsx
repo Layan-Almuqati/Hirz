@@ -25,14 +25,7 @@ const journey = [
 ];
 
 export function UtilityBar() {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof document !== 'undefined' && document.documentElement.dataset.theme) {
-      return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
-    }
-    return typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
-  });
+  const [theme, setTheme] = useState<Theme>('dark');
   const [fontStep, setFontStep] = useState(2);
   const fontScalePercentages = [87.5, 100, 112.5, 125, 137.5] as const;
 
@@ -122,7 +115,10 @@ export function Navbar({ onMenuOpenChange }: { onMenuOpenChange?: (open: boolean
     }
     wasOpen.current = true;
     const previousOverflow = document.body.style.overflow;
+    const pageScroll = document.querySelector<HTMLElement>('[data-testid="page-scroll-container"]');
+    const previousPageOverflow = pageScroll?.style.overflow;
     document.body.style.overflow = 'hidden';
+    if (pageScroll) pageScroll.style.overflow = 'hidden';
     const firstLink = menuRef.current?.querySelector<HTMLElement>('a');
     firstLink?.focus();
     const onKeyDown = (event: KeyboardEvent) => {
@@ -158,6 +154,7 @@ export function Navbar({ onMenuOpenChange }: { onMenuOpenChange?: (open: boolean
     window.addEventListener('resize', onResize);
     return () => {
       document.body.style.overflow = previousOverflow;
+      if (pageScroll) pageScroll.style.overflow = previousPageOverflow ?? '';
       document.removeEventListener('keydown', onKeyDown);
       document.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('resize', onResize);

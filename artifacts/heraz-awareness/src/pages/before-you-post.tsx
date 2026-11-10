@@ -41,7 +41,7 @@ export default function BeforeYouPostPage() {
                 <li key={item.id}>
                   <div role="group" aria-labelledby={`checklist-question-${item.id}`} className="page-card p-5 sm:p-6" data-testid={`question-${item.id}`}>
                     <p id={`checklist-question-${item.id}`} className="text-[1.0625rem] font-semibold leading-8" data-testid={`text-question-${item.id}`}>
-                      {item.question}
+                      <BidiText text={item.question} />
                     </p>
                     <div className="mt-4 flex flex-wrap gap-3">
                       <button
@@ -130,7 +130,7 @@ export default function BeforeYouPostPage() {
       </section>
 
       <p className="mt-5 text-sm text-[var(--navy)]/75" data-testid="text-checklist-sources">
-        {postChecklistCopy.sources}
+        <BidiText text={postChecklistCopy.sources} />
       </p>
     </main>
   );

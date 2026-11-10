@@ -94,7 +94,7 @@ function QuizPage() {
               <div className="quiz-progress-fill" style={{ width: `${((state.questionIndex + 1) / 3) * 100}%` }} />
             </div>
             <h2 className="quiz-question" id="quiz-question-title" data-testid={`text-question-${section.id}-${state.questionIndex + 1}`}>
-              {activeQuestion.prompt}
+              <BidiText text={activeQuestion.prompt} />
             </h2>
             <div className="quiz-options" role="group" aria-label="اختر إجابة">
               {activeQuestion.options.map((option) => {
@@ -116,7 +116,7 @@ function QuizPage() {
                     data-testid={`button-answer-${section.id}-${state.questionIndex + 1}-${option.id}`}
                   >
                     <span className="quiz-choice-letter" aria-hidden="true">{option.id}</span>
-                    <span>{option.text}</span>
+                    <span><BidiText text={option.text} /></span>
                   </button>
                 );
               })}
@@ -124,7 +124,7 @@ function QuizPage() {
             {state.selected !== null && (
               <div className="quiz-feedback" aria-live="polite" role="status" data-testid="quiz-answer-feedback">
                 <p className="quiz-feedback-title">الجواب الصحيح</p>
-                <p className="quiz-correction" data-testid="text-answer-correction">{activeQuestion.correction}</p>
+                <p className="quiz-correction" data-testid="text-answer-correction"><BidiText text={activeQuestion.correction} /></p>
                 <div className="quiz-feedback-actions">
                   <a
                     className="quiz-action quiz-source"

@@ -1,1 +1,2 @@
 - [Reveal thresholds at large text sizes](reveal-thresholds.md) — use small visibility thresholds so large content cards cannot remain hidden at maximum text size.
+- [Theme defaults and retained backup](theme-and-backup.md) — blue is default, light is temporary, and the pre-restyle backup stays until user confirmation.

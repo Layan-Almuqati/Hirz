@@ -4,12 +4,12 @@
   margin: 0;
   padding-block: 40px 76px;
   overflow: hidden;
-  background: linear-gradient(180deg, #1D2254 0%, #1D2254 100%);
+  background: linear-gradient(180deg, #1D2254 0%, #141844 100%);
   color: #FFFFFF;
 }
 
 .about-page + .site-footer {
-  background: #1D2254;
+  background: #141844;
 }
 
 .about-content {
@@ -64,8 +64,8 @@
 }
 
 .about-glass-card {
-  border: 1px solid rgba(255, 255, 255, .14);
-  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 16px;
   background: rgba(255, 255, 255, .08);
   box-shadow: 0 16px 36px rgba(29, 34, 84, .14);
   -webkit-backdrop-filter: blur(8px);
@@ -284,6 +284,38 @@
     gap: 20px;
   }
   .about-download-button { width: 100%; }
+}
+
+html[data-theme="light"] .about-page {
+  background: #ffffff;
+  color: #1d2254;
+}
+
+html[data-theme="light"] .about-page [data-testid="page-header"] nav,
+html[data-theme="light"] .about-page [data-testid="page-header"] nav a,
+html[data-theme="light"] .about-page [data-testid="page-header"] p,
+html[data-theme="light"] .about-card-copy p {
+  color: rgba(29, 34, 84, .82);
+}
+
+html[data-theme="light"] .about-page [data-testid="page-header"] .section-title,
+html[data-theme="light"] .about-section-title,
+html[data-theme="light"] .about-card-copy h3,
+html[data-theme="light"] .about-title-accent {
+  color: #1d2254;
+}
+
+html[data-theme="light"] .about-glass-card {
+  border-color: #eeeeef;
+  background: #ffffff;
+  box-shadow: 0 2px 12px rgba(29, 34, 84, .06);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+html[data-theme="light"] .about-download-button {
+  border-color: #1d2254;
+  color: #1d2254;
 }
 
 @media (prefers-reduced-motion: reduce) {

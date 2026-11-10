@@ -21,17 +21,21 @@ function Shell({ children }: { children: ReactNode }) {
   const updateMenuOpen = useCallback((value: boolean) => setMenuOpen(value), []);
   const onHelpRoute = routePath === '/protect/help' || routePath.startsWith('/protect/help/');
   return (
-    <div dir="rtl" className="min-h-[100dvh]">
+    <div dir="rtl" className="site-shell min-h-[100dvh]">
       <a className="skip-link" href="#main-content" data-testid="link-skip-content">تخطَّ إلى المحتوى</a>
-      <UtilityBar />
-      <Navbar onMenuOpenChange={updateMenuOpen} />
-      <div className="shell-content">
-        {children}
-        <NextStep path={routePath} />
+      <div className="page-scroll" data-testid="page-scroll-container">
+        <UtilityBar />
+        <Navbar onMenuOpenChange={updateMenuOpen} />
+        <div className="shell-content">
+          {children}
+          <NextStep path={routePath} />
+          <Footer />
+        </div>
       </div>
-      <Footer />
-      <BackToTopButton />
-      <EmergencyButton hidden={onHelpRoute || menuOpen} />
+      <div className="emergency-dock">
+        <BackToTopButton />
+        <EmergencyButton hidden={onHelpRoute || menuOpen} />
+      </div>
     </div>
   );
 }
@@ -71,7 +75,11 @@ function RouteMetadataAndScroll() {
     const isBackNavigation = isPopState.current;
     isPopState.current = false;
     if (!isBackNavigation && !location.includes('#')) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      document.querySelector<HTMLElement>('[data-testid="page-scroll-container"]')?.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'auto',
+      });
     }
   }, [location]);
 

@@ -13,10 +13,16 @@ export default function BackToTopButton() {
       return;
     }
 
-    const updateVisibility = () => setVisible(window.scrollY > 400);
+    const scrollContainer = document.querySelector<HTMLElement>('[data-testid="page-scroll-container"]');
+    if (!scrollContainer) {
+      setVisible(false);
+      return;
+    }
+
+    const updateVisibility = () => setVisible(scrollContainer.scrollTop > 400);
     updateVisibility();
-    window.addEventListener('scroll', updateVisibility, { passive: true });
-    return () => window.removeEventListener('scroll', updateVisibility);
+    scrollContainer.addEventListener('scroll', updateVisibility, { passive: true });
+    return () => scrollContainer.removeEventListener('scroll', updateVisibility);
   }, [isKidsPage, location]);
 
   if (isKidsPage || !visible) return null;
@@ -27,7 +33,10 @@ export default function BackToTopButton() {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (reducedMotion) root.style.scrollBehavior = 'auto';
-    window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+    document.querySelector<HTMLElement>('[data-testid="page-scroll-container"]')?.scrollTo({
+      top: 0,
+      behavior: reducedMotion ? 'auto' : 'smooth',
+    });
     if (reducedMotion) root.style.scrollBehavior = previousScrollBehavior;
   };
 
