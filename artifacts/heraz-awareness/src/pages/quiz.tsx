@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'wouter';
 import { quizFooter, quizIntro, quizSections, type QuizSection } from '@/data/quizContent';
+import { BidiText } from '@/components/heraz/BidiText';
 import './quiz.css';
 
 type ResultMap = Record<string, number>;
@@ -9,42 +10,9 @@ type QuizState =
   | { view: 'question'; sectionId: QuizSection['id']; questionIndex: number; selected: 'a' | 'b' | 'c' | null; score: number }
   | { view: 'result'; sectionId: QuizSection['id']; score: number };
 
-const RESULTS_KEY = 'heraz-quiz-section-results';
-
-function readResults(): ResultMap {
-  try {
-    const stored = sessionStorage.getItem(RESULTS_KEY);
-    const parsed: unknown = stored ? JSON.parse(stored) : {};
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
-    return parsed as ResultMap;
-  } catch {
-    return {};
-  }
-}
-
-function clearResultsOnHardReload() {
-  try {
-    const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
-    if (navigation?.type === 'reload') sessionStorage.removeItem(RESULTS_KEY);
-  } catch {
-    // Storage may be unavailable; the quiz remains usable without persistence.
-  }
-}
-
 function QuizPage() {
-  const [results, setResults] = useState<ResultMap>(() => {
-    clearResultsOnHardReload();
-    return readResults();
-  });
+  const [results, setResults] = useState<ResultMap>({});
   const [state, setState] = useState<QuizState>({ view: 'hub' });
-
-  useEffect(() => {
-    try {
-      sessionStorage.setItem(RESULTS_KEY, JSON.stringify(results));
-    } catch {
-      // Results remain in memory if browser storage is unavailable.
-    }
-  }, [results]);
 
   const currentSection = state.view === 'hub' ? undefined : quizSections.find((section) => section.id === state.sectionId);
 
@@ -84,6 +52,7 @@ function QuizPage() {
     <main id="main-content" tabIndex={-1} className="quiz-page" data-testid="page-quiz">
       <div className="quiz-shell">
         <header className="quiz-heading">
+          <p className="page-eyebrow" data-testid="text-page-eyebrow">اختبر وعيك</p>
           <h1 className="quiz-title" data-testid="heading-quiz">اختبر وعيك</h1>
           <p className="quiz-intro" data-testid="text-quiz-intro">{quizIntro}</p>
         </header>
@@ -164,7 +133,7 @@ function QuizPage() {
                     rel="noopener noreferrer"
                     data-testid={`link-source-${section.id}-${state.questionIndex + 1}`}
                   >
-                    {activeQuestion.sourceLabel}
+                    <BidiText text={activeQuestion.sourceLabel} />
                   </a>
                   <Link href={section.route} className="quiz-action" data-testid={`link-return-${section.id}-${state.questionIndex + 1}`}>
                     ارجع إلى الصفحة

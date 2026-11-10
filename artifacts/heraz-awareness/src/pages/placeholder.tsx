@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { PageHeader, NextStep } from '@/components/heraz/layout';
+import { PageHeader } from '@/components/heraz/layout';
+import { BidiText } from '@/components/heraz/BidiText';
 import { Link } from 'wouter';
 import { ExternalLink, Heart, Scale, Shield } from 'lucide-react';
 import './laws.css';
@@ -219,11 +220,11 @@ function UnderstandContent() {
     <section className="understand-content" aria-label="محتوى الاستنساخ الرقمي" data-testid="understand-content">
       <article className="understand-card" aria-labelledby="understand-definition-title" data-testid="card-understand-definition">
         <h2 id="understand-definition-title">{definition.title}</h2>
-        <div className="understand-callout">{definition.callout}</div>
+        <div className="understand-callout"><BidiText text={definition.callout} /></div>
         {definition.paragraphs.map((paragraph, index) => (
-          <p key={paragraph} data-testid={`text-understand-definition-${index + 1}`}>{paragraph}</p>
+          <p key={paragraph} data-testid={`text-understand-definition-${index + 1}`}><BidiText text={paragraph} /></p>
         ))}
-        <p className="understand-note" data-testid="text-understand-definition-note">{definition.note}</p>
+        <p className="understand-note" data-testid="text-understand-definition-note"><BidiText text={definition.note} /></p>
         <div className="understand-sources-row">
           {definition.sources.map((source) => (
             <UnderstandSourceLink key={source.id} href={source.href} testId={`link-source-definition-${source.id}`} />
@@ -233,19 +234,19 @@ function UnderstandContent() {
 
       <article className="understand-card" aria-labelledby="understand-process-title" data-testid="card-understand-process">
         <h2 id="understand-process-title">{process.title}</h2>
-        <p data-testid="text-understand-process-intro">{process.intro}</p>
+        <p data-testid="text-understand-process-intro"><BidiText text={process.intro} /></p>
         <div className="understand-steps">
           {process.steps.map((step, index) => (
             <section className="understand-step" key={step.title} data-testid={`step-understand-${index + 1}`}>
               <div className="understand-step-head">
                 <span className="understand-step-number" aria-hidden="true">{index + 1}</span>
-                <h3>{step.title}</h3>
+                <h3><BidiText text={step.title} /></h3>
               </div>
-              <p>{step.text}</p>
+              <p><BidiText text={step.text} /></p>
             </section>
           ))}
         </div>
-        <p data-testid="text-understand-process-detail">{process.paragraph}</p>
+        <p data-testid="text-understand-process-detail"><BidiText text={process.paragraph} /></p>
         <div className="understand-sources-row">
           {process.sources.map((source) => (
             <UnderstandSourceLink key={source.id} href={source.href} testId={`link-source-process-${source.id}`} />
@@ -255,12 +256,12 @@ function UnderstandContent() {
 
       <article className="understand-card" aria-labelledby="understand-examples-title" data-testid="card-understand-examples">
         <h2 id="understand-examples-title">{examples.title}</h2>
-        <p data-testid="text-understand-examples-intro">{examples.intro}</p>
+        <p data-testid="text-understand-examples-intro"><BidiText text={examples.intro} /></p>
         <div className="understand-examples">
           {examples.items.map((example, index) => (
             <section className="understand-example" key={example.title} data-testid={`card-understand-example-${index + 1}`}>
-              <h3>{example.title}</h3>
-              <p>{example.text}</p>
+              <h3><BidiText text={example.title} /></h3>
+              <p><BidiText text={example.text} /></p>
               <UnderstandSourceLink href={example.source.href} testId={`link-source-example-${index + 1}`} />
             </section>
           ))}
@@ -269,13 +270,13 @@ function UnderstandContent() {
 
       <article className="understand-card" aria-labelledby="understand-children-title" data-testid="card-understand-children">
         <h2 id="understand-children-title">{children.title}</h2>
-        <p data-testid="text-understand-children-intro">{children.intro}</p>
+        <p data-testid="text-understand-children-intro"><BidiText text={children.intro} /></p>
         <ul className="understand-bullets">
           {children.bullets.map((bullet, index) => (
-            <li key={bullet} data-testid={`text-understand-children-point-${index + 1}`}>{bullet}</li>
+            <li key={bullet} data-testid={`text-understand-children-point-${index + 1}`}><BidiText text={bullet} /></li>
           ))}
         </ul>
-        <p className="understand-closing" data-testid="text-understand-children-closing">{children.closing}</p>
+        <p className="understand-closing" data-testid="text-understand-children-closing"><BidiText text={children.closing} /></p>
         <div className="understand-sources-row">
           {children.sources.map((source) => (
             <UnderstandSourceLink key={source.id} href={source.href} testId={`link-source-children-${source.id}`} />
@@ -288,7 +289,7 @@ function UnderstandContent() {
         <div className="understand-source-list">
           {understandSourceList.map((source) => (
             <div className="understand-source-entry" key={source.id} data-testid={`entry-understand-source-${source.id}`}>
-              <span>{source.name}</span>
+              <span><BidiText text={source.name} /></span>
               <UnderstandSourceLink href={source.href} testId={`link-understand-source-list-${source.id}`} />
             </div>
           ))}
@@ -313,7 +314,6 @@ function PlaceholderPage({ pageKey }: { pageKey: PageKey }) {
           <p className="text-center text-lg font-semibold" data-testid="status-content-pending">المحتوى قيد الإعداد</p>
         </section>
       )}
-      <NextStep path={page.path} />
     </main>
   );
 }

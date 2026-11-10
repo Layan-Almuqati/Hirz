@@ -44,7 +44,7 @@ function IdentityIcon({ icon, label }: { icon: string; label: string }) {
   }
   return (
     <span className="icon-tile">
-      <img src={`/assets/icons/${icon}-navy.png`} alt={label} />
+      <img src={`/assets/icons/${icon}-navy.png`} alt={label} width="40" height="40" loading="lazy" decoding="async" />
     </span>
   );
 }
@@ -53,7 +53,7 @@ function HomePage() {
   return (
     <main id="main-content" tabIndex={-1}>
       <section className="hero-section relative isolate overflow-hidden text-white" aria-labelledby="hero-title" data-testid="section-hero">
-        <img src="/assets/brand-svg/heraz-mark-turquoise.svg" alt="رمز درع حِرز" className="hero-mark" />
+        <img src="/assets/brand-svg/heraz-mark-turquoise.svg" alt="" aria-hidden="true" width="640" height="640" className="hero-mark" />
         <div className="page-wrap relative z-10 flex min-h-[440px] flex-col justify-center py-10 md:min-h-[520px] md:py-16">
           <h1 id="hero-title" className="hero-title display-font max-w-[780px] text-[clamp(2rem,5vw,3.5rem)] leading-[1.35] text-white" data-testid="heading-hero">
             صورة طفلك...<br className="hidden sm:block" /> هويته الرقمية
@@ -132,7 +132,7 @@ function HomePage() {
         <div className="kids-banner magazine-teaser relative flex flex-col gap-6 overflow-hidden rounded-2xl border border-[var(--kids)]/20 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-9">
           <div className="flex items-center gap-5">
             <span className="icon-tile shrink-0">
-              <img src="/assets/icons/family-navy.png" alt="أيقونة عائلة" data-testid="img-kids-family-icon" />
+              <img src="/assets/icons/family-navy.png" alt="أيقونة عائلة" width="58" height="58" loading="lazy" decoding="async" data-testid="img-kids-family-icon" />
             </span>
             <div>
               <h2 id="kids-title" className="heading-font text-[1.75rem] leading-relaxed kids-accent" data-testid="heading-kids-world">عالم حرز</h2>

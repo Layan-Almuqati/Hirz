@@ -6,6 +6,7 @@
     <title>حِرز | التوعية بالهوية الرقمية للأطفال</title>
     <meta name="description" content="منصة توعوية عربية تساعد أولياء الأمور على فهم الاستنساخ الرقمي بالذكاء الاصطناعي وحماية هوية أطفالهم." />
     <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#1D2254" />
     <meta property="og:title" content="حِرز | التوعية بالهوية الرقمية للأطفال" />
     <meta property="og:description" content="منصة توعوية عربية تساعد أولياء الأمور على فهم الاستنساخ الرقمي بالذكاء الاصطناعي وحماية هوية أطفالهم." />
     <meta property="og:type" content="website" />
@@ -16,29 +17,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script>
-      (() => {
-        const fontSteps = [87.5, 100, 112.5, 125, 137.5];
-        let theme = 'light';
-        let fontStep = 2;
-        try {
-          const savedTheme = localStorage.getItem('heraz-theme');
-          if (savedTheme === 'dark' || savedTheme === 'light') theme = savedTheme;
-          const savedFontStep = localStorage.getItem('heraz-font-step');
-          if (savedFontStep !== null && /^[0-4]$/.test(savedFontStep)) {
-            const parsedFontStep = Number(savedFontStep);
-            fontStep = parsedFontStep;
-          }
-        } catch {
-          // Defaults are used when browser storage is unavailable.
-        }
-        document.documentElement.dataset.theme = theme;
-        document.documentElement.dataset.fontStep = String(fontStep);
-        document.documentElement.style.fontSize = `${fontSteps[fontStep]}%`;
-      })();
+      document.documentElement.dataset.theme =
+        window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     </script>
   </head>
   <body>
       <div id="root"></div>
+    <noscript>يتطلب هذا الموقع تفعيل JavaScript.</noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

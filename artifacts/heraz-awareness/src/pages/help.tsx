@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { useLocation } from 'wouter';
+import { BidiText } from '@/components/heraz/BidiText';
 import {
   getKollonaAmnPrimaryHref,
   helpCases,
@@ -11,126 +12,15 @@ import {
 
 type StepStatus = 'pending' | 'done' | 'skipped';
 type Progress = { caseNumber: number; stepNumber: number; statuses: StepStatus[] };
-type InitialState = { progress: Progress | null; resumeProgress: Progress | null };
-
-const CASE_STORAGE_KEY = 'heraz-help-case';
-const STEP_STORAGE_KEY = 'heraz-help-step';
-const STATUS_STORAGE_KEY = 'heraz-help-status';
-const HISTORY_PROGRESS_KEY = 'herazHelpProgress';
-const HISTORY_LIST_KEY = 'herazHelpCaseList';
 
 function getCase(caseNumber: number | undefined): HelpCase | undefined {
   return helpCases.find((item) => item.number === caseNumber);
 }
 
-function normalizeProgress(value: unknown): Progress | null {
-  if (!value || typeof value !== 'object') return null;
-  const record = value as Partial<Progress>;
-  const selectedCase = getCase(record.caseNumber);
-  if (!selectedCase || !Number.isInteger(record.stepNumber)) return null;
-  const stepNumber = record.stepNumber as number;
-  if (stepNumber < 1 || stepNumber > selectedCase.steps.length + 1) return null;
-  const storedStatuses = Array.isArray(record.statuses) ? record.statuses : [];
-  const statuses = selectedCase.steps.map((_, index): StepStatus => {
-    const status = storedStatuses[index];
-    return status === 'done' || status === 'skipped' ? status : 'pending';
-  });
-  return { caseNumber: selectedCase.number, stepNumber, statuses };
-}
-
-function readProgressFromHistory(state: unknown): Progress | null {
-  if (!state || typeof state !== 'object') return null;
-  return normalizeProgress((state as Record<string, unknown>)[HISTORY_PROGRESS_KEY]);
-}
-
-function readStoredProgress(): Progress | null {
-  try {
-    const caseValue = sessionStorage.getItem(CASE_STORAGE_KEY);
-    const stepValue = sessionStorage.getItem(STEP_STORAGE_KEY);
-    if (!caseValue || !stepValue) return null;
-    const selectedCase = getCase(Number(caseValue));
-    if (!selectedCase) return null;
-
-    let statuses: unknown = [];
-    const storedStatuses = sessionStorage.getItem(STATUS_STORAGE_KEY);
-    if (storedStatuses) {
-      try {
-        statuses = JSON.parse(storedStatuses);
-      } catch {
-        statuses = [];
-      }
-    }
-    return normalizeProgress({
-      caseNumber: selectedCase.number,
-      stepNumber: Number(stepValue),
-      statuses,
-    });
-  } catch {
-    return null;
-  }
-}
-
-function getInitialState(): InitialState {
-  const saved = readStoredProgress() ?? readProgressFromHistory(window.history.state);
-  const openedFromProtect = new URLSearchParams(window.location.search).get('from') === 'protect';
-  const hasUnfinishedStep = Boolean(saved?.statuses.some((status) => status !== 'done'));
-  if (openedFromProtect && saved && hasUnfinishedStep) {
-    return { progress: null, resumeProgress: saved };
-  }
-  return { progress: saved, resumeProgress: null };
-}
-
-function saveProgress(progress: Progress) {
-  try {
-    sessionStorage.setItem(CASE_STORAGE_KEY, String(progress.caseNumber));
-    sessionStorage.setItem(STEP_STORAGE_KEY, String(progress.stepNumber));
-    sessionStorage.setItem(STATUS_STORAGE_KEY, JSON.stringify(progress.statuses));
-  } catch {
-    // The flow continues in memory when session storage is unavailable.
-  }
-}
-
-function clearProgress() {
-  try {
-    sessionStorage.removeItem(CASE_STORAGE_KEY);
-    sessionStorage.removeItem(STEP_STORAGE_KEY);
-    sessionStorage.removeItem(STATUS_STORAGE_KEY);
-  } catch {
-    // The flow can still restart in memory when session storage is unavailable.
-  }
-}
-
-function getHistoryState(): Record<string, unknown> {
-  return window.history.state && typeof window.history.state === 'object'
-    ? { ...window.history.state }
-    : {};
-}
-
-function setCaseListHistoryEntry() {
-  const state = getHistoryState();
-  delete state[HISTORY_PROGRESS_KEY];
-  state[HISTORY_LIST_KEY] = true;
-  window.history.replaceState(state, '', window.location.pathname);
-}
-
-function pushProgressHistoryEntry(progress: Progress) {
-  const state = getHistoryState();
-  delete state[HISTORY_LIST_KEY];
-  state[HISTORY_PROGRESS_KEY] = progress;
-  window.history.pushState(state, '', window.location.pathname);
-}
-
-function seedProgressHistory(progress: Progress) {
-  for (let stepNumber = 1; stepNumber <= progress.stepNumber; stepNumber += 1) {
-    pushProgressHistoryEntry({ ...progress, stepNumber });
-  }
-}
-
 export default function HelpPage() {
-  const [initialState] = useState(getInitialState);
   const [, setLocation] = useLocation();
-  const [progress, setProgress] = useState<Progress | null>(initialState.progress);
-  const [resumeProgress, setResumeProgress] = useState<Progress | null>(initialState.resumeProgress);
+  const [progress, setProgress] = useState<Progress | null>(null);
+  const [resumeProgress, setResumeProgress] = useState<Progress | null>(null);
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const [unableToComplete, setUnableToComplete] = useState(false);
   const awaitingExternalReturn = useRef(false);
@@ -138,7 +28,7 @@ export default function HelpPage() {
   const triggeringExternalLink = useRef<HTMLAnchorElement | null>(null);
   const dialogRef = useRef<HTMLElement>(null);
   const screenHeadingRef = useRef<HTMLHeadingElement>(null);
-  const previousProgress = useRef<Progress | null>(initialState.progress);
+  const previousProgress = useRef<Progress | null>(null);
 
   const selectedCase = getCase(progress?.caseNumber);
   const isEndScreen = Boolean(progress && selectedCase && progress.stepNumber > selectedCase.steps.length);
@@ -158,29 +48,6 @@ export default function HelpPage() {
       window.history.replaceState(window.history.state, '', cleanUrl);
     }
 
-    if (openedFromProtect || !readProgressFromHistory(window.history.state)) {
-      setCaseListHistoryEntry();
-      if (progress) seedProgressHistory(progress);
-    }
-  }, []);
-
-  useEffect(() => {
-    const handlePopState = (event: PopStateEvent) => {
-      if (window.location.pathname !== helpFlowLinks.helpPage.href) return;
-      const restored = readProgressFromHistory(event.state);
-      setConfirmationOpen(false);
-      setUnableToComplete(false);
-      setResumeProgress(null);
-      if (restored) {
-        saveProgress(restored);
-        setProgress(restored);
-      } else {
-        clearProgress();
-        setProgress(null);
-      }
-    };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   useEffect(() => {
@@ -245,8 +112,6 @@ export default function HelpPage() {
   }, [progress]);
 
   const updateProgress = (nextProgress: Progress) => {
-    saveProgress(nextProgress);
-    pushProgressHistoryEntry(nextProgress);
     setResumeProgress(null);
     setUnableToComplete(false);
     setProgress(nextProgress);
@@ -265,7 +130,9 @@ export default function HelpPage() {
   const goBack = () => {
     setConfirmationOpen(false);
     if (progress) {
-      window.history.back();
+      setProgress(progress.stepNumber > 1
+        ? { ...progress, stepNumber: progress.stepNumber - 1 }
+        : null);
       return;
     }
     setLocation(helpFlowLinks.protectPage.href);
@@ -290,8 +157,6 @@ export default function HelpPage() {
   };
 
   const restart = () => {
-    clearProgress();
-    setCaseListHistoryEntry();
     setProgress(null);
     setResumeProgress(null);
     setConfirmationOpen(false);
@@ -300,15 +165,12 @@ export default function HelpPage() {
 
   const continueSavedProgress = () => {
     if (!resumeProgress) return;
-    saveProgress(resumeProgress);
-    seedProgressHistory(resumeProgress);
     setResumeProgress(null);
     setUnableToComplete(false);
     setProgress(resumeProgress);
   };
 
   const startFromPrompt = () => {
-    clearProgress();
     setProgress(null);
     setResumeProgress(null);
   };
@@ -358,12 +220,12 @@ export default function HelpPage() {
       <div className="flex flex-wrap gap-3">
         {helpFlowLinks.kollonaAmnGooglePlay.href !== kollonaPrimaryHref && (
           <a href={helpFlowLinks.kollonaAmnGooglePlay.href} {...externalLinkProps(helpFlowCopy.googlePlay)} className="secondary-button min-h-11" data-testid="link-kollona-google-play">
-            {helpFlowCopy.googlePlay}
+            <BidiText text={helpFlowCopy.googlePlay} />
           </a>
         )}
         {helpFlowLinks.kollonaAmnAppStore.href !== kollonaPrimaryHref && (
           <a href={helpFlowLinks.kollonaAmnAppStore.href} {...externalLinkProps(helpFlowCopy.appStore)} className="secondary-button min-h-11" data-testid="link-kollona-app-store">
-            {helpFlowCopy.appStore}
+            <BidiText text={helpFlowCopy.appStore} />
           </a>
         )}
       </div>
@@ -382,7 +244,7 @@ export default function HelpPage() {
       return (
         <div className="mt-5">
           <a href={helpFlowLinks.emergency911.href} className="primary-button min-h-11" data-testid="link-emergency-911">
-            اتصل {helpFlowLinks.emergency911.phoneNumber}
+            اتصل <bdi dir="ltr">{helpFlowLinks.emergency911.phoneNumber}</bdi>
           </a>
           <div className="mt-4 flex flex-wrap gap-3">
             <button type="button" onClick={() => advanceStep('done')} className="secondary-button min-h-11" data-testid="button-emergency-next">
@@ -424,14 +286,15 @@ export default function HelpPage() {
 
         {!progress && (
           <section aria-labelledby="help-title" className="max-w-4xl">
+            <p className="page-eyebrow" data-testid="text-page-eyebrow">احمِ</p>
             <h1 ref={screenHeadingRef} tabIndex={-1} id="help-title" className="section-title" data-testid="heading-help-title">{helpFlowCopy.pageTitle}</h1>
             <p className="mb-5 mt-2 text-[1.0625rem] text-[var(--navy)]/80 sm:text-lg" data-testid="text-help-subtitle">{helpFlowCopy.subtitle}</p>
             <p className="mb-6 text-[1.0625rem] font-semibold leading-8" data-testid="text-help-emergency-notice">
-              {emergencyNoticeParts[0]}
+              <BidiText text={emergencyNoticeParts[0]} />
               <a href={helpFlowLinks.emergency911.href} className="underline underline-offset-4" data-testid="link-help-emergency-notice">
-                {helpFlowLinks.emergency911.phoneNumber}
+                <bdi dir="ltr">{helpFlowLinks.emergency911.phoneNumber}</bdi>
               </a>
-              {emergencyNoticeParts[1]}
+              <BidiText text={emergencyNoticeParts[1]} />
             </p>
             {resumeProgress && (
               <section className="page-card mb-6 flex flex-wrap items-center justify-between gap-4 border-[var(--teal)] bg-[var(--turquoise-10)] p-5" data-testid="prompt-resume-help">
@@ -461,6 +324,7 @@ export default function HelpPage() {
 
         {progress && selectedCase && !isEndScreen && currentStep && (
           <section aria-labelledby="help-case-title" className="max-w-4xl" data-testid={`screen-case-${selectedCase.number}`}>
+            <p className="page-eyebrow" data-testid="text-page-eyebrow">احمِ</p>
             <h1 ref={screenHeadingRef} tabIndex={-1} id="help-case-title" className="section-title" data-testid="heading-help-case">{selectedCase.title}</h1>
             <div className="mb-7 mt-5 max-w-xl">
               <p className="mb-2 text-sm font-semibold" aria-live="polite" data-testid="text-help-progress">
@@ -505,6 +369,7 @@ export default function HelpPage() {
 
         {progress && selectedCase && isEndScreen && (
           <section aria-labelledby="help-end-title" className="page-card max-w-4xl p-5 sm:p-8" data-testid={`screen-end-case-${selectedCase.number}`}>
+            <p className="page-eyebrow" data-testid="text-page-eyebrow">احمِ</p>
             <h1 ref={screenHeadingRef} tabIndex={-1} id="help-end-title" className="section-title" data-testid="heading-help-end">
               {allStepsDone ? helpFlowCopy.endTitle : helpFlowCopy.incompleteEndTitle}
             </h1>

@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 import { Link } from 'wouter';
 import { PageHeader } from '@/components/heraz/layout';
+import { BidiText } from '@/components/heraz/BidiText';
 
 const sources = {
   sdaia: 'https://sdaia.gov.sa/ar/MediaCenter/KnowledgeCenter/ResearchLibrary/DeepfakeStudy.pdf',
@@ -14,6 +14,7 @@ const sources = {
 } as const;
 
 function ExternalSourceLink({ href, children }: { href: string; children: React.ReactNode }) {
+  const content = typeof children === 'string' ? <BidiText text={children} /> : children;
   return (
     <a
       href={href}
@@ -21,7 +22,7 @@ function ExternalSourceLink({ href, children }: { href: string; children: React.
       rel="noopener noreferrer"
       className="inline-flex min-h-11 items-center rounded-sm text-[var(--navy)] underline decoration-[var(--teal)] underline-offset-4 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-[var(--navy)]"
     >
-      {children}
+      {content}
       <span className="sr-only"> (يفتح في نافذة جديدة)</span>
     </a>
   );
@@ -53,21 +54,15 @@ function RiskCard({
         </span>
         <h3 className="heading-font pt-1 text-xl leading-[1.6]">{title}</h3>
       </div>
-      <p className="text-[1.0625rem] leading-[1.9]">{children}</p>
+      <p className="text-[1.0625rem] leading-[1.9]">
+        {typeof children === 'string' ? <BidiText text={children} /> : children}
+      </p>
       <SourceLine>{source}</SourceLine>
     </article>
   );
 }
 
 function RisksPage() {
-  useEffect(() => {
-    const previousTitle = document.title;
-    document.title = 'المخاطر';
-    return () => {
-      document.title = previousTitle;
-    };
-  }, []);
-
   return (
     <main
       id="main-content"
@@ -166,7 +161,7 @@ function RisksPage() {
             source={
               <>
                 <ExternalSourceLink href={sources.ic3}>مركز IC3</ExternalSourceLink>
-                {' (FBI)، تنبيه I-060523-PSA، 5 يونيو 2023.'}
+                <BidiText text=" (FBI)، تنبيه I-060523-PSA، 5 يونيو 2023." />
               </>
             }
           >
@@ -189,7 +184,7 @@ function RisksPage() {
             title="صور الاعتداء على الأطفال المولّدة بالذكاء الاصطناعي تزداد فيما ترصده الجهات المختصة."
             source={
               <>
-                مؤسسة IWF،{' '}
+                <BidiText text="مؤسسة IWF،" />{' '}
                 <ExternalSourceLink href={sources.iwfStatement}>بيان 5 أكتوبر 2026</ExternalSourceLink>
                 {'، و'}
                 <ExternalSourceLink href={sources.iwfReport}>تقريرها السنوي 2025</ExternalSourceLink>

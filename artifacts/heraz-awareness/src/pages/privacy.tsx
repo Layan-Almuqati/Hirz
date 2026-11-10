@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { PageHeader } from '@/components/heraz/layout';
 import './about.css';
 import './privacy.css';
@@ -10,7 +9,7 @@ const privacySections = [
   },
   {
     title: 'ما الذي يُحفظ على جهازك؟',
-    text: 'يحفظ المتصفح على جهازك فقط اختيارك للوضع الليلي أو النهاري وحجم الخط، وحالة اختبار «اختبر وعيك» أثناء الجلسة. لا تُرسل هذه المعلومات إلى أي جهة، ويمكنك مسحها من إعدادات المتصفح.',
+    text: 'يُطبّق اختيار الوضع وحجم الخط في الذاكرة حتى إعادة تحميل الموقع أو إغلاقه، ولا يُحفظان على جهازك. يحفظ المتصفح تفضيل صوت تقليب صفحات المجلة أثناء الجلسة فقط. لا تُرسل هذه المعلومات إلى أي جهة.',
   },
   {
     title: 'الروابط الخارجية',
@@ -27,14 +26,6 @@ const privacySections = [
 ] as const;
 
 export default function PrivacyPage() {
-  useEffect(() => {
-    const previousTitle = document.title;
-    document.title = 'سياسة الخصوصية — حِرز';
-    return () => {
-      document.title = previousTitle;
-    };
-  }, []);
-
   return (
     <main id="main-content" tabIndex={-1} className="about-page privacy-page" data-testid="page-privacy">
       <div className="about-content page-wrap">

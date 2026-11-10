@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BadgeCheck, Eye, Lock, MousePointerClick, Scale, ShieldCheck, Target } from 'lucide-react';
 import { Link } from 'wouter';
 import { PageHeader } from '@/components/heraz/layout';
+import { BidiText } from '@/components/heraz/BidiText';
 import { aboutContent } from '@/data/aboutContent';
 import './about.css';
 
@@ -104,7 +105,7 @@ function AboutPage() {
                 <p>{sections.brandGuideDescription}</p>
                 {brandGuideAvailable && brandGuideMetaLine ? (
                   <p className="about-brand-guide-meta" data-testid="brand-guide-meta">
-                    {brandGuideMetaLine}
+                    <BidiText text={brandGuideMetaLine} />
                   </p>
                 ) : null}
               </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { helpFlowCopy } from '@/data/helpFlow';
 import { postChecklistCopy, postChecklistGroups } from '@/data/postChecklist';
+import { BidiText } from '@/components/heraz/BidiText';
 
 type Answer = 'yes' | 'no';
 type ChecklistQuestion = (typeof postChecklistGroups)[number]['questions'][number];
@@ -24,7 +25,10 @@ export default function BeforeYouPostPage() {
 
   return (
     <main id="main-content" tabIndex={-1} className="page-wrap min-h-[56vh] py-10 sm:py-16" data-testid="page-before-you-post">
-      <h1 className="section-title mb-8" data-testid="heading-before-you-post">{postChecklistCopy.pageTitle}</h1>
+      <header className="page-heading-band mb-9">
+        <p className="page-eyebrow" data-testid="text-page-eyebrow">{postChecklistCopy.pageTitle}</p>
+        <h1 className="section-title mb-8" data-testid="heading-before-you-post">{postChecklistCopy.pageTitle}</h1>
+      </header>
 
       <div className="grid gap-8">
         {postChecklistGroups.map((group, groupIndex) => (
@@ -61,7 +65,7 @@ export default function BeforeYouPostPage() {
                     </div>
                     {answers[item.id] === 'no' && (
                       <div className="mt-4 rounded-xl bg-[var(--turquoise-10)] p-4" data-testid={`advice-${item.id}`}>
-                        <p className="text-[1rem] leading-7">{item.advice}</p>
+                        <p className="text-[1rem] leading-7"><BidiText text={item.advice} /></p>
                         <a
                           href={item.sourceUrl}
                           target="_blank"
@@ -70,7 +74,7 @@ export default function BeforeYouPostPage() {
                           className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold underline underline-offset-4"
                           data-testid={`source-${item.id}`}
                         >
-                          {item.sourceLabel}
+                          <BidiText text={item.sourceLabel} />
                         </a>
                       </div>
                     )}
@@ -100,7 +104,7 @@ export default function BeforeYouPostPage() {
               {needsReview.map((item) => (
                 <li key={item.id} className="page-card p-5 sm:p-6" data-testid={`result-item-${item.id}`}>
                   <p className="text-[1rem] leading-7" data-testid={`result-advice-${item.id}`}>
-                    {item.advice}
+                    <BidiText text={item.advice} />
                   </p>
                   <a
                     href={item.sourceUrl}
@@ -110,7 +114,7 @@ export default function BeforeYouPostPage() {
                     className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold underline underline-offset-4"
                     data-testid={`result-source-${item.id}`}
                   >
-                    {item.sourceLabel}
+                    <BidiText text={item.sourceLabel} />
                   </a>
                 </li>
               ))}
