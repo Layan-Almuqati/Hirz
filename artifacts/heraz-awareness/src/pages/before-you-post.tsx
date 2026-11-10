@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Check, X } from 'lucide-react';
 import { helpFlowCopy } from '@/data/helpFlow';
 import { postChecklistCopy, postChecklistGroups } from '@/data/postChecklist';
 import { BidiText } from '@/components/heraz/BidiText';
@@ -30,6 +31,29 @@ export default function BeforeYouPostPage() {
         <h1 className="section-title mb-8" data-testid="heading-before-you-post">{postChecklistCopy.pageTitle}</h1>
       </header>
 
+      <button
+        type="button"
+        onClick={() => window.print()}
+        className="secondary-button mb-5 min-h-11"
+        data-testid="button-print-checklist"
+      >
+        تنزيل القائمة PDF
+      </button>
+
+      <div className="checklist-progress-sticky" data-testid="checklist-progress-sticky">
+        <div
+          className="checklist-progress-track"
+          role="progressbar"
+          aria-label="تقدم القائمة"
+          aria-valuemin={0}
+          aria-valuemax={questionCount}
+          aria-valuenow={answeredCount}
+          data-testid="progress-checklist"
+        >
+          <div className="checklist-progress-fill" style={{ width: `${(answeredCount / questionCount) * 100}%` }} />
+        </div>
+      </div>
+
       <div className="grid gap-8">
         {postChecklistGroups.map((group, groupIndex) => (
           <section key={group.heading} aria-labelledby={`checklist-group-${groupIndex}`} data-testid={`checklist-group-${groupIndex + 1}`}>
@@ -43,41 +67,35 @@ export default function BeforeYouPostPage() {
                     <p id={`checklist-question-${item.id}`} className="text-[1.0625rem] font-semibold leading-8" data-testid={`text-question-${item.id}`}>
                       <BidiText text={item.question} />
                     </p>
-                    <div className="mt-4 flex flex-wrap gap-3">
+                    <div className="checklist-answer-group mt-4 flex flex-wrap gap-3" role="radiogroup" aria-labelledby={`checklist-question-${item.id}`}>
                       <button
                         type="button"
-                        aria-pressed={answers[item.id] === 'yes'}
+                        role="radio"
+                        aria-checked={answers[item.id] === 'yes'}
                         onClick={() => setAnswer(item.id, 'yes')}
-                        className={`min-h-11 min-w-20 rounded-full border px-5 text-sm font-bold transition-colors ${answers[item.id] === 'yes' ? 'border-[var(--teal)] bg-[var(--teal)] text-[var(--navy)]' : 'border-[var(--navy-30)] bg-white hover:bg-[var(--turquoise-10)]'}`}
+                        className={`checklist-choice ${answers[item.id] === 'yes' ? 'is-yes' : ''}`}
                         data-testid={`answer-yes-${item.id}`}
                       >
                         {postChecklistCopy.yes}
+                        <span className={`checklist-answer-icon ${answers[item.id] === 'yes' ? 'is-visible' : ''}`} aria-hidden="true">
+                          <Check size={17} strokeWidth={2.5} />
+                        </span>
                       </button>
                       <button
                         type="button"
-                        aria-pressed={answers[item.id] === 'no'}
+                        role="radio"
+                        aria-checked={answers[item.id] === 'no'}
                         onClick={() => setAnswer(item.id, 'no')}
-                        className={`min-h-11 min-w-20 rounded-full border px-5 text-sm font-bold transition-colors ${answers[item.id] === 'no' ? 'border-[var(--teal)] bg-[var(--teal)] text-[var(--navy)]' : 'border-[var(--navy-30)] bg-white hover:bg-[var(--turquoise-10)]'}`}
+                        className={`checklist-choice ${answers[item.id] === 'no' ? 'is-no' : ''}`}
                         data-testid={`answer-no-${item.id}`}
                       >
                         {postChecklistCopy.no}
+                        <span className={`checklist-answer-icon ${answers[item.id] === 'no' ? 'is-visible' : ''}`} aria-hidden="true">
+                          <X size={17} strokeWidth={2.5} />
+                        </span>
                       </button>
                     </div>
-                    {answers[item.id] === 'no' && (
-                      <div className="mt-4 rounded-xl bg-[var(--turquoise-10)] p-4" data-testid={`advice-${item.id}`}>
-                        <p className="text-[1rem] leading-7"><BidiText text={item.advice} /></p>
-                        <a
-                          href={item.sourceUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`${item.sourceLabel}، ${helpFlowCopy.externalNewTab}`}
-                          className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold underline underline-offset-4"
-                          data-testid={`source-${item.id}`}
-                        >
-                          <BidiText text={item.sourceLabel} />
-                        </a>
-                      </div>
-                    )}
+                    <span className="checklist-print-answer-box" aria-hidden="true" />
                   </div>
                 </li>
               ))}
@@ -87,15 +105,11 @@ export default function BeforeYouPostPage() {
       </div>
 
       <section className="mt-8 flex flex-col items-start gap-4 border-t border-[var(--navy-10)] pt-6" aria-live="polite" data-testid="checklist-summary">
-        {!answeredAllQuestions ? (
-          <p className="text-[1.0625rem] font-semibold" data-testid="text-checklist-summary">
-            {postChecklistCopy.summaryPending(answeredCount)}
-          </p>
-        ) : needsReview.length === 0 ? (
+        {answeredAllQuestions && needsReview.length === 0 ? (
           <p className="text-[1.0625rem] font-semibold" data-testid="text-checklist-result-all-yes">
             {postChecklistCopy.resultAllYes}
           </p>
-        ) : (
+        ) : answeredAllQuestions ? (
           <div className="w-full" data-testid="checklist-result-needs-edits">
             <h2 className="mb-4 text-lg font-bold" data-testid="heading-checklist-result">
               {postChecklistCopy.resultNeedsEdits}

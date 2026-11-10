@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'wouter';
-import { ArrowLeft, Menu, Moon, ShieldCheck, Sun, X } from 'lucide-react';
+import { ArrowLeft, Menu, ShieldCheck, X } from 'lucide-react';
 
 type PageLink = { path: string; label: string };
-type Theme = 'light' | 'dark';
 const navItems: PageLink[] = [
   { path: '/', label: 'الرئيسية' },
   { path: '/understand', label: 'افهم' },
@@ -25,15 +24,8 @@ const journey = [
 ];
 
 export function UtilityBar() {
-  const [theme, setTheme] = useState<Theme>('dark');
   const [fontStep, setFontStep] = useState(2);
   const fontScalePercentages = [87.5, 100, 112.5, 125, 137.5] as const;
-
-  const changeTheme = () => {
-    const nextTheme: Theme = theme === 'dark' ? 'light' : 'dark';
-    document.documentElement.dataset.theme = nextTheme;
-    setTheme(nextTheme);
-  };
 
   const changeFontStep = (nextStep: number) => {
     if (nextStep < 0 || nextStep >= fontScalePercentages.length) return;
@@ -41,20 +33,10 @@ export function UtilityBar() {
     setFontStep(nextStep);
   };
 
-  const isDark = theme === 'dark';
   return (
     <div className="utility-bar" data-testid="utility-bar">
       <div className="utility-bar-inner page-wrap">
         <div className="utility-tools" role="group" aria-label="إعدادات العرض">
-          <button
-            type="button"
-            className="utility-button theme-toggle"
-            onClick={changeTheme}
-            aria-label={isDark ? 'التبديل إلى الوضع النهاري' : 'التبديل إلى الوضع الليلي'}
-            data-testid="button-theme-toggle"
-          >
-            {isDark ? <Sun size={18} strokeWidth={1.75} aria-hidden="true" /> : <Moon size={18} strokeWidth={1.75} aria-hidden="true" />}
-          </button>
           <button
             type="button"
             className="utility-button"

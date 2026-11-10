@@ -1,5 +1,6 @@
 import { Link } from 'wouter';
 import { ArrowLeft, Check, ClipboardCheck } from 'lucide-react';
+import { stats } from '@/data/stats';
 
 const journeyCards = [
   {
@@ -55,40 +56,64 @@ function HomePage() {
       <section className="hero-section relative isolate overflow-hidden text-white" aria-labelledby="hero-title" data-testid="section-hero">
         <img src="/assets/brand-svg/heraz-mark-turquoise.svg" alt="" aria-hidden="true" width="640" height="640" className="hero-mark" />
         <div className="page-wrap relative z-10 flex min-h-[440px] flex-col justify-center py-10 md:min-h-[520px] md:py-16">
-          <h1 id="hero-title" className="hero-title display-font max-w-[780px] text-[clamp(2rem,5vw,3.5rem)] leading-[1.35] text-white" data-testid="heading-hero">
-            صورة طفلك...<br className="hidden sm:block" /> هويته الرقمية
-          </h1>
-          <p className="mt-5 max-w-[690px] text-lg font-normal leading-[1.9] text-white/85 md:text-xl" data-testid="text-hero-description">
-            حِرز منصة توعوية تمكّنك من إدراك مخاطر التزييف والنسخ البصري بالذكاء الاصطناعي، وتحمي هوية طفلك قبل أن تنشر
-          </p>
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link href="/understand" data-testid="button-hero-understand" className="primary-button">
-              <span>ابدأ بفهم الاستنساخ</span><ArrowLeft size={19} aria-hidden="true" />
-            </Link>
-            <Link href="/quiz" data-testid="button-hero-quiz" className="secondary-button secondary-button-light">
-              <span>اختبر وعيك</span><ArrowLeft size={19} aria-hidden="true" />
-            </Link>
-          </div>
-          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/90" aria-label="معلومات الخصوصية">
-            <span className="inline-flex items-center gap-1.5">
-              <Check size={18} strokeWidth={1.75} className="text-[var(--turquoise)]" aria-hidden="true" />
-              بدون تسجيل
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Check size={18} strokeWidth={1.75} className="text-[var(--turquoise)]" aria-hidden="true" />
-              لا نجمع أي بيانات
-            </span>
+          <div className="hero-grid">
+            <div className="hero-copy">
+              <h1 id="hero-title" className="hero-title display-font max-w-[780px] text-[clamp(2rem,5vw,3.5rem)] leading-[1.35] text-white" data-testid="heading-hero">
+                صورة طفلك...<br className="hidden sm:block" /> هويته الرقمية
+              </h1>
+              <p className="mt-5 max-w-[690px] text-lg font-normal leading-[1.9] text-white/85 md:text-xl" data-testid="text-hero-description">
+                حِرز منصة توعوية تمكّنك من إدراك مخاطر التزييف والنسخ البصري بالذكاء الاصطناعي، وتحمي هوية طفلك قبل أن تنشر
+              </p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <Link href="/understand" data-testid="button-hero-understand" className="primary-button">
+                  <span>ابدأ بفهم الاستنساخ</span><ArrowLeft size={19} aria-hidden="true" />
+                </Link>
+                <Link href="/quiz" data-testid="button-hero-quiz" className="secondary-button secondary-button-light">
+                  <span>اختبر وعيك</span><ArrowLeft size={19} aria-hidden="true" />
+                </Link>
+              </div>
+              <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/90" aria-label="معلومات الخصوصية">
+                <span className="inline-flex items-center gap-1.5">
+                  <Check size={18} strokeWidth={1.75} className="text-[var(--turquoise)]" aria-hidden="true" />
+                  بدون تسجيل
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Check size={18} strokeWidth={1.75} className="text-[var(--turquoise)]" aria-hidden="true" />
+                  لا نجمع أي بيانات
+                </span>
+              </div>
+            </div>
+            <svg className="hero-geometric-illustration" viewBox="0 0 420 360" aria-hidden="true" focusable="false">
+              <circle cx="164" cy="176" r="102" fill="none" stroke="var(--turquoise)" strokeWidth="2" opacity=".8" />
+              <circle cx="246" cy="132" r="74" fill="none" stroke="var(--teal)" strokeWidth="2" opacity=".9" />
+              <circle cx="244" cy="231" r="58" fill="none" stroke="var(--turquoise)" strokeWidth="2" opacity=".7" />
+              <path d="M210 68 290 99v61c0 56-33 99-80 125-47-26-80-69-80-125V99l80-31Z" fill="rgba(81,237,200,.08)" stroke="var(--turquoise)" strokeWidth="3" />
+              <path d="m178 160 22 22 43-47" fill="none" stroke="var(--turquoise)" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+              <circle cx="88" cy="76" r="8" fill="var(--teal)" />
+              <circle cx="332" cy="274" r="7" fill="var(--turquoise)" />
+            </svg>
           </div>
         </div>
       </section>
 
-      <section className="intro-section page-wrap flex flex-col items-start gap-3 py-14 md:py-[72px]" aria-labelledby="what-title" data-testid="section-understanding-intro">
-        <h2 id="what-title" className="section-title mb-0" data-testid="heading-what-is-cloning">ما الاستنساخ الرقمي؟</h2>
-        <p className="max-w-[65ch] text-[1.25rem] leading-[1.9]" data-testid="text-what-is-cloning">
-          الاستنساخ الرقمي هو استخدام تقنيات الذكاء الاصطناعي لتوليد صورة أو صوت أو مقطع يشبه شخصًا حقيقيًا. وعندما تُنشر صور الأطفال وبياناتهم، قد تُستخدم لهذا الغرض دون علم الأهل.
-        </p>
-        <Link href="/understand" data-testid="link-understand-details" className="inline-flex min-h-11 items-center gap-3 font-bold underline decoration-[var(--teal)] decoration-2 underline-offset-4 hover:decoration-[var(--turquoise)]">
-          اقرأ التفاصيل <ArrowLeft size={18} aria-hidden="true" />
+      {stats.length > 0 && (
+        <section className="stat-strip page-wrap" aria-label="إحصاءات موثقة" data-testid="section-stat-strip">
+          {stats.slice(0, 3).map((stat) => (
+            <article className="stat-item" key={stat.sourceId}>
+              <bdi dir="ltr" className="stat-value">{stat.value}</bdi>
+              <p>{stat.label}</p>
+              <Link href={`/sources#${stat.sourceId}`} aria-label={`المصدر ${stat.sourceId}`} className="stat-source">المصدر</Link>
+            </article>
+          ))}
+        </section>
+      )}
+
+      <section className="mission-strip page-wrap" aria-labelledby="mission-strip-title" data-testid="section-mission-strip">
+        <h2 id="mission-strip-title" className="mission-strip-text">
+          تمكين أولياء الأمور بالمعارف الوقائية لحماية الهوية الرقمية للطفل
+        </h2>
+        <Link href="/about" className="secondary-button mission-strip-link" data-testid="link-mission-about">
+          تعرّف علينا <ArrowLeft size={18} aria-hidden="true" />
         </Link>
       </section>
 

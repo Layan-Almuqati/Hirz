@@ -286,38 +286,6 @@
   .about-download-button { width: 100%; }
 }
 
-html[data-theme="light"] .about-page {
-  background: #ffffff;
-  color: #1d2254;
-}
-
-html[data-theme="light"] .about-page [data-testid="page-header"] nav,
-html[data-theme="light"] .about-page [data-testid="page-header"] nav a,
-html[data-theme="light"] .about-page [data-testid="page-header"] p,
-html[data-theme="light"] .about-card-copy p {
-  color: rgba(29, 34, 84, .82);
-}
-
-html[data-theme="light"] .about-page [data-testid="page-header"] .section-title,
-html[data-theme="light"] .about-section-title,
-html[data-theme="light"] .about-card-copy h3,
-html[data-theme="light"] .about-title-accent {
-  color: #1d2254;
-}
-
-html[data-theme="light"] .about-glass-card {
-  border-color: #eeeeef;
-  background: #ffffff;
-  box-shadow: 0 2px 12px rgba(29, 34, 84, .06);
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-}
-
-html[data-theme="light"] .about-download-button {
-  border-color: #1d2254;
-  color: #1d2254;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .about-page *,
   .about-page *::before,

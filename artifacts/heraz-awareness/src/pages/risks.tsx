@@ -5,7 +5,6 @@ import { BidiText } from '@/components/heraz/BidiText';
 const sources = {
   sdaia: 'https://sdaia.gov.sa/ar/MediaCenter/KnowledgeCenter/ResearchLibrary/DeepfakeStudy.pdf',
   unicef: 'https://www.unicef.org/asia-pacific/press-releases/deepfake-abuse-abuse',
-  thorn: 'https://www.thorn.org/blog/deepfake-nudes-are-a-harmful-reality-for-youth-new-research-from-thorn/',
   hrwBrazil: 'https://www.hrw.org/news/2024/06/10/brazil-childrens-personal-photos-misused-power-ai-tools',
   hrwAustralia: 'https://hrw.org/news/2024/07/03/australia-childrens-personal-photos-misused-power-ai-tools',
   ic3: 'https://www.ic3.gov/PSA/2023/psa230605',
@@ -95,13 +94,21 @@ function RisksPage() {
         <h2 id="children-heading" className="section-title heading-font mb-5 text-2xl">
           ما علاقة ذلك بالأطفال؟
         </h2>
-        <div className="space-y-5">
-          <article className="page-card">
+        <div className="grid gap-5 md:grid-cols-2">
+          <article className="page-card h-full" data-testid="card-child-risk-1">
+            <div className="mb-4 flex items-start gap-4">
+              <span aria-hidden="true" className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[var(--navy)] font-bold text-white">١</span>
+              <h3 className="heading-font pt-1 text-xl leading-[1.6]">التنمر الإلكتروني</h3>
+            </div>
             <p className="max-w-[70ch] text-[1.0625rem] leading-[1.9]">
               تذكر دراسة سدايا أن المخاوف تتزايد من إساءة استخدام التزييف العميق خصوصًا في المحتوى الموجه للأطفال، وأنه يمكن أن يُستخدم في التنمر الإلكتروني بما يسبب أضرارًا نفسية بالغة للقاصرين.
             </p>
           </article>
-          <article className="page-card">
+          <article className="page-card h-full" data-testid="card-child-risk-2">
+            <div className="mb-4 flex items-start gap-4">
+              <span aria-hidden="true" className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[var(--navy)] font-bold text-white">٢</span>
+              <h3 className="heading-font pt-1 text-xl leading-[1.6]">ما رصدته اليونيسف</h3>
+            </div>
             <div className="grid gap-3 md:grid-cols-[auto_1fr] md:items-start md:gap-6">
               <p className="heading-font text-3xl font-bold leading-tight text-[var(--navy)]">1.2 مليون</p>
               <p className="max-w-[70ch] text-[1.0625rem] leading-[1.9]">
@@ -112,23 +119,13 @@ function RisksPage() {
               <BidiText text="النطاق: مسوح أسرية ممثلة وطنيًا نفّذتها اليونيسف وإبسوس في 11 دولة لم تسمّها النشرة، بنحو ألف طفل وألف ولي أمر في كل دولة، ضمن مشروع Disrupting Harm المرحلة الثانية. لا تتضمن النشرة تعميمًا على المملكة." />
             </p>
           </article>
-          <article className="page-card">
-            <p className="max-w-[70ch] text-[1.0625rem] leading-[1.9]">
-              <BidiText text="وفي استطلاع أجرته منظمة Thorn على 1,200 من الشباب بين 13 و20 سنة (مارس 2025)، قال واحد من كل 17 منهم إن شخصًا آخر صنع له صورًا عارية مزيّفة. وقال 62% إنهم سيخبرون أحد والديهم لو حدث لهم ذلك، لكن 34% فقط من الضحايا أخبروهم فعلًا." />
-            </p>
-            <p className="mt-3 text-sm leading-7 text-[var(--navy)]/70">
-              النطاق: صفحة المنظمة لا تذكر الدولة ولا تاريخ المسح، والعينة تشمل أعمارًا حتى 20 سنة.
-            </p>
-          </article>
         </div>
         <SourceLine>
           المصادر:{' '}
           <ExternalSourceLink href={sources.sdaia}>سدايا</ExternalSourceLink>
           {' (قسم «التأثير على القُصَّر»، صفحة 29)، '}
           <ExternalSourceLink href={sources.unicef}>اليونيسف</ExternalSourceLink>
-                <BidiText text=" «Deepfake abuse is abuse» (4 فبراير 2026)، " />
-          <ExternalSourceLink href={sources.thorn}>Thorn</ExternalSourceLink>
-          {' (3 مارس 2025).'}
+          <BidiText text=" «Deepfake abuse is abuse» (4 فبراير 2026)." />
         </SourceLine>
       </section>
 

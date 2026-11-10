@@ -5,7 +5,7 @@ import { Link } from 'wouter';
 import { ExternalLink, Heart, Scale, Shield } from 'lucide-react';
 import './laws.css';
 import './understand-content.css';
-import { understandContent, understandSourceList } from '@/data/understandContent';
+import { understandContent } from '@/data/understandContent';
 import MagazineReader from '@/components/heraz/MagazineReader';
 
 const pageContent = {
@@ -190,31 +190,7 @@ function UnderstandSourceLink({ href, testId }: { href: string; testId: string }
 }
 
 function UnderstandContent() {
-  const { definition, process, examples, children } = understandContent;
-
-  useEffect(() => {
-    if (window.location.hash !== '#understand-sources-title') return;
-    let firstFrame = 0;
-    let secondFrame = 0;
-
-    firstFrame = window.requestAnimationFrame(() => {
-      secondFrame = window.requestAnimationFrame(() => {
-        const target = document.getElementById('understand-sources-title');
-        if (!target) return;
-        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const root = document.documentElement;
-        const previousScrollBehavior = root.style.scrollBehavior;
-        if (reducedMotion) root.style.scrollBehavior = 'auto';
-        target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
-        if (reducedMotion) root.style.scrollBehavior = previousScrollBehavior;
-      });
-    });
-
-    return () => {
-      window.cancelAnimationFrame(firstFrame);
-      window.cancelAnimationFrame(secondFrame);
-    };
-  }, []);
+  const { definition, process, examples } = understandContent;
 
   return (
     <section className="understand-content" aria-label="محتوى الاستنساخ الرقمي" data-testid="understand-content">
@@ -262,39 +238,15 @@ function UnderstandContent() {
             <section className="understand-example" key={example.title} data-testid={`card-understand-example-${index + 1}`}>
               <h3><BidiText text={example.title} /></h3>
               <p><BidiText text={example.text} /></p>
-              <UnderstandSourceLink href={example.source.href} testId={`link-source-example-${index + 1}`} />
+              <div className="understand-sources-row">
+                {example.sources.map((source) => (
+                  <UnderstandSourceLink key={source.id} href={source.href} testId={`link-source-example-${index + 1}-${source.id}`} />
+                ))}
+              </div>
             </section>
           ))}
         </div>
       </article>
-
-      <article className="understand-card" aria-labelledby="understand-children-title" data-testid="card-understand-children">
-        <h2 id="understand-children-title">{children.title}</h2>
-        <p data-testid="text-understand-children-intro"><BidiText text={children.intro} /></p>
-        <ul className="understand-bullets">
-          {children.bullets.map((bullet, index) => (
-            <li key={bullet} data-testid={`text-understand-children-point-${index + 1}`}><BidiText text={bullet} /></li>
-          ))}
-        </ul>
-        <p className="understand-closing" data-testid="text-understand-children-closing"><BidiText text={children.closing} /></p>
-        <div className="understand-sources-row">
-          {children.sources.map((source) => (
-            <UnderstandSourceLink key={source.id} href={source.href} testId={`link-source-children-${source.id}`} />
-          ))}
-        </div>
-      </article>
-
-      <aside className="understand-sources" aria-labelledby="understand-sources-title" data-testid="understand-sources">
-        <h2 id="understand-sources-title">المصادر</h2>
-        <div className="understand-source-list">
-          {understandSourceList.map((source) => (
-            <div className="understand-source-entry" key={source.id} data-testid={`entry-understand-source-${source.id}`}>
-              <span><BidiText text={source.name} /></span>
-              <UnderstandSourceLink href={source.href} testId={`link-understand-source-list-${source.id}`} />
-            </div>
-          ))}
-        </div>
-      </aside>
     </section>
   );
 }

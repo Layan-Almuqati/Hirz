@@ -1,52 +1,106 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Check, X } from 'lucide-react';
 import { Link } from 'wouter';
-import { quizFooter, quizIntro, quizSections, type QuizSection } from '@/data/quizContent';
+import { quizFooter, quizIntro, quizSections, type QuizQuestion, type QuizSection } from '@/data/quizContent';
 import { BidiText } from '@/components/heraz/BidiText';
 import './quiz.css';
 
-type ResultMap = Record<string, number>;
+type OptionId = 'a' | 'b' | 'c';
+type QuestionWithSection = QuizQuestion & {
+  sectionId: QuizSection['id'];
+  sectionTitle: string;
+  sectionRoute: string;
+};
 type QuizState =
-  | { view: 'hub' }
-  | { view: 'question'; sectionId: QuizSection['id']; questionIndex: number; selected: 'a' | 'b' | 'c' | null; score: number }
-  | { view: 'result'; sectionId: QuizSection['id']; score: number };
+  | { view: 'intro' }
+  | { view: 'question'; questionIndex: number; selected: OptionId | null; answers: Record<number, OptionId> }
+  | { view: 'result'; answers: Record<number, OptionId>; score: number };
 
-function QuizPage() {
-  const [results, setResults] = useState<ResultMap>({});
-  const [state, setState] = useState<QuizState>({ view: 'hub' });
+const questions: QuestionWithSection[] = quizSections.flatMap((section) =>
+  section.questions.map((question) => ({
+    ...question,
+    sectionId: section.id,
+    sectionTitle: section.title,
+    sectionRoute: section.route,
+  })),
+);
+const totalQuestions = questions.length;
+const optionLetters: Record<OptionId, string> = { a: 'أ', b: 'ب', c: 'ج' };
+const arabicDigits = '٠١٢٣٤٥٦٧٨٩';
+const toArabicDigits = (value: number) => String(value).replace(/\d/g, (digit) => arabicDigits[Number(digit)]!);
 
-  const currentSection = state.view === 'hub' ? undefined : quizSections.find((section) => section.id === state.sectionId);
+function QuizSourceLabel({ label }: { label: string }) {
+  const separator = label.indexOf(' — ');
+  if (separator < 0) return <BidiText text={label} />;
+  const source = label.slice(0, separator);
+  const dateOrTitle = label.slice(separator + 3);
+  return (
+    <>
+      <BidiText text={source} />
+      <span className="quiz-source-date"> — {dateOrTitle}</span>
+    </>
+  );
+}
 
-  function beginSection(section: QuizSection) {
-    setState({ view: 'question', sectionId: section.id, questionIndex: 0, selected: null, score: 0 });
+export default function QuizPage() {
+  const [state, setState] = useState<QuizState>({ view: 'intro' });
+  const selectionLocked = useRef(false);
+  const questionHeadingRef = useRef<HTMLHeadingElement>(null);
+  const activeQuestion = state.view === 'question' ? questions[state.questionIndex] : undefined;
+
+  useEffect(() => {
+    if (state.view === 'question') questionHeadingRef.current?.focus();
+  }, [state.view, state.view === 'question' ? state.questionIndex : -1]);
+
+  function beginQuiz() {
+    selectionLocked.current = false;
+    setState({ view: 'question', questionIndex: 0, selected: null, answers: {} });
   }
 
-  function chooseAnswer(answer: 'a' | 'b' | 'c') {
-    if (state.view !== 'question' || state.selected !== null) return;
-    setState({ ...state, selected: answer });
+  function chooseAnswer(answer: OptionId) {
+    if (state.view !== 'question' || state.selected !== null || selectionLocked.current) return;
+    selectionLocked.current = true;
+    setState({
+      ...state,
+      selected: answer,
+      answers: { ...state.answers, [state.questionIndex]: answer },
+    });
   }
 
-  function continueSection() {
-    if (state.view !== 'question' || !currentSection || state.selected === null) return;
-    const question = currentSection.questions[state.questionIndex];
-    const nextScore = state.score + (state.selected === question.correctOption ? 1 : 0);
-    if (state.questionIndex === 2) {
-      const nextResults = { ...results, [state.sectionId]: nextScore };
-      setResults(nextResults);
-      setState({ view: 'result', sectionId: state.sectionId, score: nextScore });
+  function continueQuiz() {
+    if (state.view !== 'question' || state.selected === null) return;
+    if (state.questionIndex === totalQuestions - 1) {
+      const score = questions.reduce(
+        (currentScore, question, index) => currentScore + (state.answers[index] === question.correctOption ? 1 : 0),
+        0,
+      );
+      setState({ view: 'result', answers: state.answers, score });
       return;
     }
-    setState({ ...state, questionIndex: state.questionIndex + 1, selected: null, score: nextScore });
+
+    const nextIndex = state.questionIndex + 1;
+    const nextSelected = state.answers[nextIndex] ?? null;
+    selectionLocked.current = nextSelected !== null;
+    setState({ ...state, questionIndex: nextIndex, selected: nextSelected });
   }
 
-  function retrySection() {
-    if (state.view !== 'result') return;
-    const section = quizSections.find((item) => item.id === state.sectionId);
-    if (section) beginSection(section);
+  function goBack() {
+    if (state.view !== 'question') return;
+    if (state.questionIndex === 0) {
+      selectionLocked.current = false;
+      setState({ view: 'intro' });
+      return;
+    }
+    const previousIndex = state.questionIndex - 1;
+    const previousSelected = state.answers[previousIndex] ?? null;
+    selectionLocked.current = previousSelected !== null;
+    setState({ ...state, questionIndex: previousIndex, selected: previousSelected });
   }
 
-  const section = currentSection;
-  const activeQuestion = state.view === 'question' && section ? section.questions[state.questionIndex] : undefined;
-  const resultScore = state.view === 'result' ? state.score : undefined;
+  function restartQuiz() {
+    selectionLocked.current = false;
+    setState({ view: 'intro' });
+  }
 
   return (
     <main id="main-content" tabIndex={-1} className="quiz-page" data-testid="page-quiz">
@@ -54,55 +108,52 @@ function QuizPage() {
         <header className="quiz-heading">
           <p className="page-eyebrow" data-testid="text-page-eyebrow">اختبر وعيك</p>
           <h1 className="quiz-title" data-testid="heading-quiz">اختبر وعيك</h1>
-          <p className="quiz-intro" data-testid="text-quiz-intro">{quizIntro}</p>
+          {state.view === 'intro' && (
+            <>
+              <p className="quiz-intro" data-testid="text-quiz-intro">{quizIntro}</p>
+              <button type="button" className="quiz-action quiz-action-primary quiz-start" onClick={beginQuiz} data-testid="button-start-quiz">
+                ابدأ الاختبار
+              </button>
+            </>
+          )}
         </header>
 
-        {state.view === 'hub' && (
-          <section aria-label="أقسام الاختبار" className="quiz-hub" data-testid="quiz-section-hub">
-            {quizSections.map((item) => (
-              <button
-                type="button"
-                className="quiz-section-card"
-                key={item.id}
-                onClick={() => beginSection(item)}
-                data-testid={`button-start-section-${item.id}`}
-              >
-                {results[item.id] !== undefined && <span className="quiz-card-status">اكتمل القسم</span>}
-                <span className="quiz-card-title">{item.title}</span>
-                <span className="quiz-card-goal">{item.goal}</span>
-                {results[item.id] !== undefined && (
-                  <span className="quiz-card-result" data-testid={`text-section-result-${item.id}`}>
-                    {results[item.id]} / 3 · {results[item.id] === 3
-                      ? 'أحسنت. هذا القسم تمام.'
-                      : results[item.id] >= 1
-                        ? 'قريب. راجع صفحة هذا القسم ثم أعد المحاولة.'
-                        : 'هذا القسم يستحق قراءة هادئة. ابدأ من صفحته.'}
-                  </span>
-                )}
-              </button>
-            ))}
-          </section>
-        )}
-
-        {state.view === 'question' && section && activeQuestion && (
+        {state.view === 'question' && activeQuestion && (
           <section className="quiz-panel" aria-labelledby="quiz-question-title" data-testid="quiz-question-panel">
             <div className="quiz-step-row">
-              <span className="quiz-step-section" data-testid="text-active-section">{section.title}</span>
-              <span className="quiz-step-count" data-testid="text-question-progress">السؤال {state.questionIndex + 1} من 3</span>
+              <span className="quiz-step-section" data-testid="text-active-section">{activeQuestion.sectionTitle}</span>
+              <span className="quiz-step-count" data-testid="text-question-progress">
+                السؤال {toArabicDigits(state.questionIndex + 1)} من {toArabicDigits(totalQuestions)}
+              </span>
             </div>
-            <div className="quiz-progress" aria-hidden="true">
-              <div className="quiz-progress-fill" style={{ width: `${((state.questionIndex + 1) / 3) * 100}%` }} />
+            <div
+              className="quiz-progress"
+              role="progressbar"
+              aria-label="تقدم الاختبار"
+              aria-valuemin={1}
+              aria-valuemax={totalQuestions}
+              aria-valuenow={state.questionIndex + 1}
+              data-testid="progress-quiz"
+            >
+              <div className="quiz-progress-fill" style={{ width: `${((state.questionIndex + 1) / totalQuestions) * 100}%` }} />
             </div>
-            <h2 className="quiz-question" id="quiz-question-title" data-testid={`text-question-${section.id}-${state.questionIndex + 1}`}>
+            <h2
+              ref={questionHeadingRef}
+              tabIndex={-1}
+              className="quiz-question"
+              id="quiz-question-title"
+              data-testid={`text-question-${activeQuestion.sectionId}-${state.questionIndex + 1}`}
+            >
               <BidiText text={activeQuestion.prompt} />
             </h2>
             <div className="quiz-options" role="group" aria-label="اختر إجابة">
               {activeQuestion.options.map((option) => {
                 const selected = state.selected === option.id;
                 const isCorrect = option.id === activeQuestion.correctOption;
+                const showFeedback = state.selected !== null;
                 const className = [
                   'quiz-choice',
-                  state.selected !== null && isCorrect ? 'is-correct' : '',
+                  showFeedback && isCorrect ? 'is-correct' : '',
                   selected && !isCorrect ? 'is-chosen-wrong' : '',
                 ].filter(Boolean).join(' ');
                 return (
@@ -110,78 +161,78 @@ function QuizPage() {
                     key={option.id}
                     type="button"
                     className={className}
-                    disabled={state.selected !== null}
+                    disabled={showFeedback}
                     onClick={() => chooseAnswer(option.id)}
                     aria-pressed={selected}
-                    data-testid={`button-answer-${section.id}-${state.questionIndex + 1}-${option.id}`}
+                    data-testid={`button-answer-${activeQuestion.sectionId}-${state.questionIndex + 1}-${option.id}`}
                   >
-                    <span className="quiz-choice-letter" aria-hidden="true">{option.id}</span>
-                    <span><BidiText text={option.text} /></span>
+                    <span className="quiz-choice-letter" aria-hidden="true">{optionLetters[option.id]}</span>
+                    <span className="quiz-choice-text"><BidiText text={option.text} /></span>
+                    {showFeedback && isCorrect && <Check className="quiz-choice-feedback-icon" size={20} aria-label="إجابة صحيحة" />}
+                    {selected && !isCorrect && <X className="quiz-choice-feedback-icon" size={20} aria-label="إجابة غير صحيحة" />}
                   </button>
                 );
               })}
             </div>
             {state.selected !== null && (
               <div className="quiz-feedback" aria-live="polite" role="status" data-testid="quiz-answer-feedback">
-                <p className="quiz-feedback-title">الجواب الصحيح</p>
-                <p className="quiz-correction" data-testid="text-answer-correction"><BidiText text={activeQuestion.correction} /></p>
+                <p className={`quiz-verdict ${state.selected === activeQuestion.correctOption ? 'is-correct' : 'is-incorrect'}`}>
+                  {state.selected === activeQuestion.correctOption
+                    ? <><Check size={19} aria-hidden="true" /> إجابة صحيحة</>
+                    : <><X size={19} aria-hidden="true" /> إجابة غير صحيحة</>}
+                </p>
+                <p className="quiz-correction" data-testid="text-answer-correction">
+                  <BidiText text={activeQuestion.shortCorrection} />
+                </p>
                 <div className="quiz-feedback-actions">
                   <a
                     className="quiz-action quiz-source"
                     href={activeQuestion.sourceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    data-testid={`link-source-${section.id}-${state.questionIndex + 1}`}
+                    data-testid={`link-source-${activeQuestion.sectionId}-${state.questionIndex + 1}`}
                   >
-                    <BidiText text={activeQuestion.sourceLabel} />
+                    <QuizSourceLabel label={activeQuestion.sourceLabel} />
                   </a>
-                  <Link href={section.route} className="quiz-action" data-testid={`link-return-${section.id}-${state.questionIndex + 1}`}>
+                  <Link href={activeQuestion.sectionRoute} className="quiz-action" data-testid={`link-return-${activeQuestion.sectionId}-${state.questionIndex + 1}`}>
                     ارجع إلى الصفحة
                   </Link>
-                  <button type="button" className="quiz-action quiz-action-primary" onClick={continueSection} data-testid="button-next-question">
-                    التالي
+                  <button type="button" className="quiz-action quiz-action-primary" onClick={continueQuiz} data-testid="button-next-question">
+                    {state.questionIndex === totalQuestions - 1 ? 'عرض النتيجة' : 'التالي'}
                   </button>
                 </div>
               </div>
             )}
+            <button type="button" className="quiz-back-link" onClick={goBack} data-testid="button-quiz-back">
+              السابق
+            </button>
           </section>
         )}
 
-        {state.view === 'result' && section && resultScore !== undefined && (
-          <section className="quiz-panel quiz-result" aria-live="polite" data-testid={`quiz-result-${section.id}`}>
-            <span className="quiz-result-mark" aria-hidden="true">{resultScore}/3</span>
-            <p className="quiz-kicker">{section.title}</p>
-            <h2 className="quiz-result-title" data-testid={`text-result-copy-${section.id}`}>
-              {resultScore === 3
+        {state.view === 'result' && (
+          <section className="quiz-panel quiz-result" aria-live="polite" data-testid="quiz-result">
+            <p className="quiz-result-score" data-testid="text-quiz-score">
+              {toArabicDigits(state.score)} من {toArabicDigits(totalQuestions)}
+            </p>
+            <p className="quiz-kicker">اختبر وعيك</p>
+            <h2 className="quiz-result-title" data-testid="text-result-copy">
+              {state.score === totalQuestions
                 ? 'أحسنت. هذا القسم تمام.'
-                : resultScore >= 1
+                : state.score >= Math.ceil(totalQuestions / 2)
                   ? 'قريب. راجع صفحة هذا القسم ثم أعد المحاولة.'
                   : 'هذا القسم يستحق قراءة هادئة. ابدأ من صفحته.'}
             </h2>
             <div className="quiz-result-actions">
-              {resultScore !== 3 && (
-                <Link href={section.route} className="quiz-action" data-testid={`link-result-return-${section.id}`}>
-                  ارجع إلى الصفحة
-                </Link>
-              )}
-              {resultScore > 0 && (
-                <button type="button" className="quiz-action quiz-action-primary" onClick={retrySection} data-testid={`button-retry-${section.id}`}>
-                  أعد القسم
-                </button>
-              )}
+              <Link href="/protect" className="quiz-action" data-testid="link-result-protect">احمِ</Link>
+              <button type="button" className="quiz-action quiz-action-primary" onClick={restartQuiz} data-testid="button-restart-quiz">
+                أعد الاختبار
+              </button>
             </div>
           </section>
         )}
 
-        <p className="quiz-footer-note" data-testid="text-quiz-footer">{quizFooter}</p>
-        {state.view !== 'hub' && (
-          <button type="button" className="quiz-back-link" onClick={() => setState({ view: 'hub' })} data-testid="button-back-to-sections">
-            العودة إلى الأقسام
-          </button>
-        )}
+        {state.view !== 'result' && <p className="quiz-footer-note" data-testid="text-quiz-footer">{quizFooter}</p>}
       </div>
     </main>
   );
 }
-
-export default QuizPage;
