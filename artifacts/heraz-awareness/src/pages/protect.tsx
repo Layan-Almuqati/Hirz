@@ -2,6 +2,20 @@ import { Link } from 'wouter';
 import { PageHeader } from '@/components/heraz/layout';
 import { protectContent } from '@/data/protectContent';
 import { SourceReference } from '@/components/heraz/SourceMarker';
+import { BidiText } from '@/components/heraz/BidiText';
+
+const familyTips = [
+  { questions: [7], text: 'ابتعد عن نشر صور تظهر الزي المدرسي لطفلك.' },
+  { questions: [7], text: 'ابتعد عن نشر صور تظهر المكان أو المواعيد التي تعرّف بمكان طفلك.' },
+  { questions: [8], text: 'اسأل أهالي الأطفال الآخرين قبل نشر صورهم أو مشاركتها أو وضع علامة عليهم.' },
+  { questions: [9], text: 'اشرح لطفلك لماذا تريد نشر صورته واسأله هل يوافق.' },
+  { questions: [9], text: 'احترم قرار طفلك إن فضّل ألا تنشر صورته.' },
+  { questions: [10], text: 'لا تعتمد على الصوت وحده عند تلقي مكالمة بصوت يشبه صوت طفلك.' },
+  { questions: [10], text: 'أنه المكالمة واتصل بالشخص على رقم تعرفه.' },
+  { questions: [11], text: 'اتفقوا مسبقًا على كلمة سر عائلية لا يعرفها غيركم.' },
+  { questions: [11], text: 'اطلب كلمة السر العائلية ممن يتصل مدعيًا أنه طفلك أو يطلب مالًا بسرعة.' },
+  { questions: [12], text: 'قدّم بلاغًا عن ابتزاز طفلك بمحتوى مزيّف عبر تطبيق «كلنا أمن».' },
+] as const;
 
 export default function ProtectPage() {
   return (
@@ -44,6 +58,16 @@ export default function ProtectPage() {
           <SourceReference url={protectContent.familyPassword.sourceHref} number={1} testId="link-protect-family-password-source" />
         </section>
       </div>
+      <section id="family-tips" className="mt-16" aria-labelledby="family-tips-heading" data-testid="section-protect-family-tips">
+        <h2 id="family-tips-heading" className="section-title mb-6">نصائح حرز للأسرة</h2>
+        <ul className="m-0 grid list-none gap-4 p-0" role="list">
+          {familyTips.map((tip, index) => (
+            <li key={tip.text} className="page-card" data-testid={`family-tip-${index + 1}`}>
+              <p className="m-0"><BidiText text={tip.text} /></p>
+            </li>
+          ))}
+        </ul>
+      </section>
     </main>
   );
 }

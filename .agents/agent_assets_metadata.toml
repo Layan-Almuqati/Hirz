@@ -210,3 +210,45 @@ mtime_ms = 1794288658169
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/07651984-325f-4952-8973-b2ad07dafbc1/880624e6-d0f5-4bdf-8461-93d5c1cb38b8"
 storage_version_token = "1794288691161201"
 content_type = "image/jpeg"
+
+[[outputs]]
+id = "OAO49dCJvi5uvzCq6ycRs"
+uri = "file://generated-artifacts/heraz-content-additions/screenshots.html"
+type = "html"
+title = "About and Protect — responsive screenshots"
+description = "Both pages at 390×844 and 820×1180, plus phone screenshots of content below the fold."
+logical_id = "2e218c69-1165-45d5-a35e-1719e64d27ec"
+content_hash = "sha256:4179a522da4f4fb6d1f2879231e240ef743dc85698ed07a76ba801d2126b9a23"
+size = 498759
+mtime_ms = 1794289352294
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/2e218c69-1165-45d5-a35e-1719e64d27ec/1b91e36c-c2e2-49ba-a0c7-c56eb42f33cb"
+storage_version_token = "1794289372172244"
+content_type = "text/html"
+
+[[outputs]]
+id = "n6CgQ7IMvlmshOxPeDQL6"
+uri = "file://generated-artifacts/heraz-content-additions/about-820x1180.jpg"
+type = "image"
+title = "About — visual identity, 820×1180"
+description = "Exact supplied paragraph, existing logo, palette swatches and font samples."
+logical_id = "1e858ac7-171f-4286-a312-f1e667e6fb3b"
+content_hash = "sha256:cdc0e8bba138619c52153005ea18b683e0dfbf523a97a4b5ca3622dcb65254db"
+size = 105436
+mtime_ms = 1794289351838
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/1e858ac7-171f-4286-a312-f1e667e6fb3b/0664b0e4-3ad2-45b5-b0e9-295e5629c3d6"
+storage_version_token = "1794289373485995"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "n66itQXRIzY0OICtriPET"
+uri = "file://generated-artifacts/heraz-content-additions/protect-390x844.jpg"
+type = "image"
+title = "Protect — family tips, 390×844"
+description = "New family tips appended after the existing content."
+logical_id = "f6915539-3bce-409a-86ad-d813082ff3a9"
+content_hash = "sha256:b5d62ca21eb7b1498189c910eafc4034de142ebee21a7d8104347d6a505c2a68"
+size = 41093
+mtime_ms = 1794289351278
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/f6915539-3bce-409a-86ad-d813082ff3a9/d2bf1a9f-a49b-4bcc-a38f-1c91d374f317"
+storage_version_token = "1794289374785110"
+content_type = "image/jpeg"

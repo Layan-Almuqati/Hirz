@@ -4,15 +4,18 @@ import { BidiText } from '@/components/heraz/BidiText';
 import { downloads as initialDownloads, type HerazDownload } from '@/data/downloads';
 import { studentNames, supervisorName } from '@/data/team';
 import PersonAvatar from '@/components/heraz/PersonAvatar';
+import AboutVisualIdentity from '@/components/heraz/AboutVisualIdentity';
 import './about.css';
 
 const aboutAnchors = [
   { id: 'vision', label: 'الرؤية' },
   { id: 'mission', label: 'الرسالة' },
   { id: 'objectives', label: 'الأهداف' },
-  { id: 'values', label: 'القيم' },
-  { id: 'team', label: 'فريق العمل' },
+  { id: 'why-heraz', label: 'لماذا حرز؟' },
+  { id: 'visual-identity', label: 'الهوية البصرية' },
   { id: 'downloads', label: 'ملفات الهوية' },
+  { id: 'team', label: 'فريق العمل' },
+  { id: 'values', label: 'القيم' },
 ] as const;
 
 const objectives = [
@@ -22,6 +25,13 @@ const objectives = [
 ] as const;
 
 const values = ['الخصوصية', 'المسؤولية', 'المصداقية', 'الأمان الرقمي', 'التفاعلية'] as const;
+
+const whyHeraz = [
+  'توفير منصة رقمية تفاعلية وموارد إرشادية تسهم في حماية الأطفال والحد من المخاطر الرقمية.',
+  'تحقيق التوافق مع توجهات رؤية السعودية 2030 في بناء مجتمع حيوي وتعزيز دور الأسرة الفاعل في حماية الأبناء وإعداد مستقبلهم الرقمي الآمن.',
+  'الانسجام مع أهداف التنمية المستدامة، لا سيما الهدف الرابع (التعليم الجيد) لتقديم محتوى تثقيفي بالسلامة الرقمية، والهدف السادس عشر (السلام والعدل والمؤسسات القوية) لحماية الأطفال من الإساءة والاستغلال الرقمي.',
+  'تساعد صانعي القرار والجهات المختصة نحو سن السياسات والتشريعات اللازمة لمواجهة مخاطر التزييف العميق وانتهاك الهوية الرقمية للأطفال عبر المنصات.',
+] as const;
 
 function SectionHeading({ id, children }: { id: string; children: string }) {
   return (
@@ -120,39 +130,31 @@ export default function AboutPage() {
 
         <section id="objectives" className="about-section" aria-labelledby="objectives-heading" data-testid="section-about-objectives">
           <SectionHeading id="objectives">الأهداف</SectionHeading>
-          <div className="about-objectives-grid">
+          <ul className="about-objectives-grid m-0 list-none p-0" role="list">
             {objectives.map((objective, index) => (
-              <article className="about-objective-card" key={objective} data-testid={`about-objective-${index + 1}`}>
-                <span className="about-objective-number" aria-hidden="true">{'١٢٣'[index]}</span>
+              <li className="about-objective-card" key={objective} data-testid={`about-objective-${index + 1}`}>
+                <span className="about-objective-number" aria-hidden="true">•</span>
                 <p><BidiText text={objective} /></p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="values" className="about-section" aria-labelledby="values-heading" data-testid="section-about-values">
-          <SectionHeading id="values">القيم</SectionHeading>
-          <ul className="about-values-grid">
-            {values.map((value, index) => (
-              <li className={`about-value-card ${index === 4 ? 'is-last-value' : ''}`} key={value}>{value}</li>
+              </li>
             ))}
           </ul>
         </section>
 
-        <section id="team" className="about-section" aria-labelledby="team-heading" data-testid="section-about-team">
-          <SectionHeading id="team">فريق العمل</SectionHeading>
-          <div className="about-team-grid">
-            {studentNames.map((name, index) => (
-              <article className="about-team-card" key={name} data-testid={`about-team-member-${index + 1}`}>
-                <PersonAvatar tint={index} />
-                <p className="about-team-name"><BidiText text={name} /></p>
-              </article>
+        <section id="why-heraz" className="about-section" aria-labelledby="why-heraz-heading" data-testid="section-about-why-heraz">
+          <SectionHeading id="why-heraz">لماذا حرز؟</SectionHeading>
+          <ul className="m-0 grid list-none gap-4 p-0" role="list">
+            {whyHeraz.map((reason, index) => (
+              <li className="page-card flex items-start gap-3" key={reason} data-testid={`about-why-heraz-${index + 1}`}>
+                <span aria-hidden="true">•</span>
+                <p className="m-0"><BidiText text={reason} /></p>
+              </li>
             ))}
-          </div>
-          <article className="about-team-card about-supervisor-card" data-testid="about-supervisor">
-            <PersonAvatar variant="supervisor" tint={0} />
-            <p className="about-team-name"><BidiText text={supervisorName} /></p>
-          </article>
+          </ul>
+        </section>
+
+        <section id="visual-identity" className="about-section" aria-labelledby="visual-identity-heading" data-testid="section-about-visual-identity">
+          <SectionHeading id="visual-identity">الهوية البصرية</SectionHeading>
+          <AboutVisualIdentity />
         </section>
 
         {downloads.length > 0 && (
@@ -179,6 +181,31 @@ export default function AboutPage() {
             </div>
           </section>
         )}
+
+        <section id="team" className="about-section" aria-labelledby="team-heading" data-testid="section-about-team">
+          <SectionHeading id="team">فريق العمل</SectionHeading>
+          <div className="about-team-grid">
+            {studentNames.map((name, index) => (
+              <article className="about-team-card" key={name} data-testid={`about-team-member-${index + 1}`}>
+                <PersonAvatar tint={index} />
+                <p className="about-team-name"><BidiText text={name} /></p>
+              </article>
+            ))}
+          </div>
+          <article className="about-team-card about-supervisor-card" data-testid="about-supervisor">
+            <PersonAvatar variant="supervisor" tint={0} />
+            <p className="about-team-name"><BidiText text={supervisorName} /></p>
+          </article>
+        </section>
+
+        <section id="values" className="about-section" aria-labelledby="values-heading" data-testid="section-about-values">
+          <SectionHeading id="values">القيم</SectionHeading>
+          <ul className="about-values-grid">
+            {values.map((value, index) => (
+              <li className={`about-value-card ${index === 4 ? 'is-last-value' : ''}`} key={value}>{value}</li>
+            ))}
+          </ul>
+        </section>
       </div>
     </main>
   );
