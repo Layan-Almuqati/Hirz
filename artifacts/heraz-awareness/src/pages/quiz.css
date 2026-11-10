@@ -86,7 +86,7 @@
 .quiz-feedback-actions, .quiz-result-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 11px; margin-top: 18px; }
 .quiz-action {
   display: inline-flex;
-  min-height: 46px;
+  min-height: 48px;
   align-items: center;
   justify-content: center;
   padding: 9px 18px;
@@ -133,7 +133,33 @@
 .quiz-progress { background: var(--navy-10); }
 .quiz-progress-fill { background: var(--turquoise); }
 .quiz-panel { border-color: var(--surface-border); background: var(--surface); color: var(--text-primary); }
-.quiz-choice { border-color: var(--surface-border); background: var(--surface); color: var(--text-primary); }
+.quiz-choice { border-color: var(--teal); background: var(--surface); color: var(--text-primary); flex-wrap: wrap; }
+.quiz-choice.is-selected { border-color: var(--turquoise); background: color-mix(in srgb, var(--teal) 16%, var(--surface)); }
 .quiz-choice.is-correct { background: color-mix(in srgb, var(--turquoise) 16%, var(--surface)); color: var(--text-primary); }
-.quiz-feedback { background: color-mix(in srgb, var(--teal) 12%, var(--surface)); }
+.quiz-feedback {
+  background: #EEEEEF;
+  color: var(--navy);
+  border-inline-start: 4px solid var(--navy);
+  scroll-margin-block: 88px 180px;
+}
+.quiz-feedback.is-correct { border-inline-start-color: var(--turquoise); }
+.quiz-feedback .quiz-verdict,
+.quiz-feedback .quiz-correction { color: var(--navy); }
+.quiz-feedback .quiz-action { color: var(--navy); border-color: var(--navy); background: transparent; }
+#main-content .quiz-feedback a.quiz-action { color: var(--navy) !important; }
+.quiz-feedback:focus { outline: 2px solid var(--turquoise); outline-offset: 4px; }
+.quiz-correct-option-label { display: inline-flex; align-items: center; gap: 6px; font-size: .8125rem; font-weight: 700; }
+.quiz-confirm { width: 100%; min-height: 56px; margin-top: 20px; }
+.quiz-action:disabled { opacity: .55; cursor: not-allowed; }
+.quiz-back-link { min-height: 48px; align-items: center; }
+.quiz-next {
+  position: fixed;
+  z-index: 35;
+  inset-inline: 20px;
+  bottom: calc(var(--emergency-reserve, 72px) + 12px + env(safe-area-inset-bottom));
+  width: min(calc(100% - 40px), 920px);
+  margin-inline: auto;
+}
+.quiz-next { height: 56px; min-height: 56px; }
+body:has(.quiz-page.has-confirmed-answer) .shell-content > main { padding-block-end: 180px; }
 .quiz-footer-note { color: var(--text-secondary); }

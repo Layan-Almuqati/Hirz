@@ -140,3 +140,31 @@ mtime_ms = 1794107903243
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/f7e54995-78df-4b6e-b712-b5d75f6ad5aa/0aa10831-74e6-4b73-b06d-beeac9304d36"
 storage_version_token = "1794108179922115"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "i22haU6Nw0-n4XdxAqvQG"
+uri = "file://attached_assets/testing_screenshot/fyz2zd.jpg"
+type = "image"
+title = "Quiz — correct answer, 390×844"
+description = "Confirmed answer showing the explanation card and fixed Next button."
+logical_id = "f9e7f836-ae4f-478b-baf4-99c70b8403c4"
+content_hash = "sha256:397d0d1dfec2592bb1ce073f4a551e167e9989bbbff431cdac64b2f540010720"
+size = 41796
+mtime_ms = 1794287655621
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/f9e7f836-ae4f-478b-baf4-99c70b8403c4/ae595da9-621a-4b5a-94ca-d0ae32d1b181"
+storage_version_token = "1794287678457872"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "8SSZcjlvFtpOjVTjFJMbX"
+uri = "file://attached_assets/testing_screenshot/n8pzcy.jpg"
+type = "image"
+title = "Quiz — wrong answer, 390×844"
+description = "Confirmed wrong answer showing the explanation and final View result button."
+logical_id = "96388ec8-f2f5-4f77-9d32-9e738265fc88"
+content_hash = "sha256:9177edb12ced4d7ba938c159b4ccb8b56c5b9d7c2954d448648460a52cdb46b0"
+size = 38403
+mtime_ms = 1794287655621
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/96388ec8-f2f5-4f77-9d32-9e738265fc88/3bf0cd37-871b-434c-9d01-f1e5d9b6808c"
+storage_version_token = "1794287679800998"
+content_type = "image/jpeg"

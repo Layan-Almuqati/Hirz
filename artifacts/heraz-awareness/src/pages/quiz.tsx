@@ -46,11 +46,19 @@ export default function QuizPage() {
   const [state, setState] = useState<QuizState>({ view: 'intro' });
   const selectionLocked = useRef(false);
   const questionHeadingRef = useRef<HTMLHeadingElement>(null);
+  const feedbackRef = useRef<HTMLDivElement>(null);
   const activeQuestion = state.view === 'question' ? questions[state.questionIndex] : undefined;
+  const confirmed = state.view === 'question' && state.answers[state.questionIndex] !== undefined;
 
   useEffect(() => {
     if (state.view === 'question') questionHeadingRef.current?.focus();
   }, [state.view, state.view === 'question' ? state.questionIndex : -1]);
+
+  useEffect(() => {
+    if (!confirmed) return;
+    feedbackRef.current?.focus({ preventScroll: true });
+    feedbackRef.current?.scrollIntoView({ block: 'nearest', behavior: 'auto' });
+  }, [confirmed, state.view === 'question' ? state.questionIndex : -1]);
 
   function beginQuiz() {
     selectionLocked.current = false;
@@ -58,30 +66,35 @@ export default function QuizPage() {
   }
 
   function chooseAnswer(answer: OptionId) {
-    if (state.view !== 'question' || state.selected !== null || selectionLocked.current) return;
+    if (state.view !== 'question' || confirmed || selectionLocked.current) return;
+    setState({ ...state, selected: answer });
+  }
+
+  function confirmAnswer() {
+    if (state.view !== 'question' || state.selected === null || confirmed || selectionLocked.current) return;
     selectionLocked.current = true;
     setState({
       ...state,
-      selected: answer,
-      answers: { ...state.answers, [state.questionIndex]: answer },
+      answers: { ...state.answers, [state.questionIndex]: state.selected },
     });
   }
 
   function continueQuiz() {
-    if (state.view !== 'question' || state.selected === null) return;
-    if (state.questionIndex === totalQuestions - 1) {
+    setState((current) => {
+    if (current.view !== 'question' || current.answers[current.questionIndex] === undefined) return current;
+    if (current.questionIndex === totalQuestions - 1) {
       const score = questions.reduce(
-        (currentScore, question, index) => currentScore + (state.answers[index] === question.correctOption ? 1 : 0),
+        (currentScore, question, index) => currentScore + (current.answers[index] === question.correctOption ? 1 : 0),
         0,
       );
-      setState({ view: 'result', answers: state.answers, score });
-      return;
+      return { view: 'result', answers: current.answers, score };
     }
 
-    const nextIndex = state.questionIndex + 1;
-    const nextSelected = state.answers[nextIndex] ?? null;
+    const nextIndex = current.questionIndex + 1;
+    const nextSelected = current.answers[nextIndex] ?? null;
     selectionLocked.current = nextSelected !== null;
-    setState({ ...state, questionIndex: nextIndex, selected: nextSelected });
+    return { ...current, questionIndex: nextIndex, selected: nextSelected };
+    });
   }
 
   function goBack() {
@@ -103,7 +116,7 @@ export default function QuizPage() {
   }
 
   return (
-    <main id="main-content" tabIndex={-1} className="quiz-page" data-testid="page-quiz">
+    <main id="main-content" tabIndex={-1} className={`quiz-page${confirmed ? ' has-confirmed-answer' : ''}`} data-testid="page-quiz">
       <div className="quiz-shell">
         <header className="quiz-heading">
           <div className="page-heading-content">
@@ -152,11 +165,12 @@ export default function QuizPage() {
               {activeQuestion.options.map((option) => {
                 const selected = state.selected === option.id;
                 const isCorrect = option.id === activeQuestion.correctOption;
-                const showFeedback = state.selected !== null;
+                const showFeedback = confirmed;
                 const className = [
                   'quiz-choice',
+                  selected ? 'is-selected' : '',
                   showFeedback && isCorrect ? 'is-correct' : '',
-                  selected && !isCorrect ? 'is-chosen-wrong' : '',
+                  showFeedback && selected && !isCorrect ? 'is-chosen-wrong' : '',
                 ].filter(Boolean).join(' ');
                 return (
                   <button
@@ -170,14 +184,24 @@ export default function QuizPage() {
                   >
                     <span className="quiz-choice-letter" aria-hidden="true">{optionLetters[option.id]}</span>
                     <span className="quiz-choice-text"><BidiText text={option.text} /></span>
-                    {showFeedback && isCorrect && <Check className="quiz-choice-feedback-icon" size={20} aria-label="إجابة صحيحة" />}
-                    {selected && !isCorrect && <X className="quiz-choice-feedback-icon" size={20} aria-label="إجابة غير صحيحة" />}
+                    {showFeedback && isCorrect && (
+                      <span className="quiz-correct-option-label">
+                        <Check className="quiz-choice-feedback-icon" size={20} aria-hidden="true" />
+                        الإجابة الصحيحة
+                      </span>
+                    )}
+                    {showFeedback && selected && !isCorrect && <X className="quiz-choice-feedback-icon" size={20} aria-label="إجابة غير صحيحة" />}
                   </button>
                 );
               })}
             </div>
-            {state.selected !== null && (
-              <div className="quiz-feedback" aria-live="polite" role="status" data-testid="quiz-answer-feedback">
+            {!confirmed && (
+              <button type="button" className="quiz-action quiz-action-primary quiz-confirm" disabled={state.selected === null} onClick={confirmAnswer} data-testid="button-confirm-answer">
+                تأكيد الإجابة
+              </button>
+            )}
+            {confirmed && (
+              <div ref={feedbackRef} tabIndex={-1} className={`quiz-feedback ${state.selected === activeQuestion.correctOption ? 'is-correct' : 'is-incorrect'}`} aria-live="polite" role="status" aria-label="نتيجة الإجابة" data-testid="quiz-answer-feedback">
                 <p className={`quiz-verdict ${state.selected === activeQuestion.correctOption ? 'is-correct' : 'is-incorrect'}`}>
                   {state.selected === activeQuestion.correctOption
                     ? <><Check size={19} aria-hidden="true" /> إجابة صحيحة</>
@@ -199,10 +223,14 @@ export default function QuizPage() {
                   <Link href={activeQuestion.sectionRoute} className="quiz-action" data-testid={`link-return-${activeQuestion.sectionId}-${state.questionIndex + 1}`}>
                     ارجع إلى الصفحة
                   </Link>
-                  <button type="button" className="quiz-action quiz-action-primary" onClick={continueQuiz} data-testid="button-next-question">
-                    {state.questionIndex === totalQuestions - 1 ? 'عرض النتيجة' : 'التالي'}
-                  </button>
                 </div>
+              </div>
+            )}
+            {confirmed && (
+              <div className="quiz-next-bar">
+                <button type="button" className="quiz-action quiz-action-primary quiz-next" onClick={continueQuiz} data-testid="button-next-question">
+                  {state.questionIndex === totalQuestions - 1 ? 'عرض النتيجة' : 'التالي'}
+                </button>
               </div>
             )}
             <button type="button" className="quiz-back-link" onClick={goBack} data-testid="button-quiz-back">
@@ -219,15 +247,15 @@ export default function QuizPage() {
             <p className="quiz-kicker">اختبر وعيك</p>
             <h2 className="quiz-result-title" data-testid="text-result-copy">
               {state.score === totalQuestions
-                ? 'أحسنت. هذا القسم تمام.'
+                ? 'أحسنت. حافظ على هذه الممارسات وراجعها مع أسرتك.'
                 : state.score >= Math.ceil(totalQuestions / 2)
-                  ? 'قريب. راجع صفحة هذا القسم ثم أعد المحاولة.'
-                  : 'هذا القسم يستحق قراءة هادئة. ابدأ من صفحته.'}
+                  ? 'بداية جيدة. راجع تفسيرات الإجابات التي أخطأت فيها ثم أعد الاختبار.'
+                  : 'راجع صفحات التوعية وتفسيرات الإجابات، ثم أعد الاختبار.'}
             </h2>
             <div className="quiz-result-actions">
               <Link href="/protect" className="quiz-action" data-testid="link-result-protect">احمِ</Link>
               <button type="button" className="quiz-action quiz-action-primary" onClick={restartQuiz} data-testid="button-restart-quiz">
-                أعد الاختبار
+                إعادة الاختبار
               </button>
             </div>
           </section>
