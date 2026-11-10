@@ -256,7 +256,6 @@ type HeaderProps = {
   title: string;
   description: string;
   kids?: boolean;
-  eyebrow?: string;
   breadcrumbHome?: string;
   breadcrumbSeparator?: string;
 };
@@ -264,7 +263,6 @@ export function PageHeader({
   title,
   description,
   kids = false,
-  eyebrow,
   breadcrumbHome = 'الرئيسية',
   breadcrumbSeparator = '‹',
 }: HeaderProps) {
@@ -276,7 +274,6 @@ export function PageHeader({
           <span aria-hidden="true">{breadcrumbSeparator}</span>
           <span aria-current="page" data-testid="breadcrumb-current">{title}</span>
         </nav>
-        <p className="page-eyebrow" data-testid="text-page-eyebrow">{eyebrow ?? title}</p>
         <h1 className={`section-title mb-4 ${kids ? 'kids-accent' : ''}`} data-testid="heading-page-title">{title}</h1>
         {description.trim() && (
           <p className="max-w-[68ch] text-[1.0625rem] leading-8 text-[var(--navy)]/80 sm:text-lg" data-testid="text-page-description">{description}</p>

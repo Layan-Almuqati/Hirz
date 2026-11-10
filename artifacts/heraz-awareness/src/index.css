@@ -1724,7 +1724,9 @@ html[data-theme="dark"] .emergency-button {
 .source-marker:focus-visible { outline: 2px solid var(--turquoise); outline-offset: 2px; }
 
 @media (max-width: 767px) {
-  .site-footer-inner { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 24px; padding-block: 40px 24px; text-align: center; }
+  .site-footer { padding-block: 36px !important; }
+  .site-footer-logo { max-width: 170px; }
+  .site-footer-inner { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 24px; padding-block: 0; text-align: center; }
   .site-footer-main { flex-direction: column; gap: 16px; }
   .site-footer-copy { justify-items: center; }
   .site-footer-description { text-align: center; }

@@ -378,3 +378,59 @@ mtime_ms = 1794291480864
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/13d50fdb-028c-4d7b-a356-72ef32c68a04/4e7267af-e019-4c6e-86fb-2a25ab5b2475"
 storage_version_token = "1794291507002037"
 content_type = "image/jpeg"
+
+[[outputs]]
+id = "mhSS_GdDFNdwnBA1KYB0D"
+uri = "file://generated-artifacts/heraz-text-fixes/risks-390x844.jpg"
+type = "image"
+title = "/risks — 390×844"
+description = "Mobile screenshot after the requested text fixes."
+logical_id = "1e7fa05a-e4aa-48b9-84f1-a0581c31f1d7"
+content_hash = "sha256:862f809a2dd69e2bb0915b4b6e73bf2d95459a595a6ea4cfaec9f084813c1268"
+size = 46264
+mtime_ms = 1794293898977
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/1e7fa05a-e4aa-48b9-84f1-a0581c31f1d7/f135eeae-f266-457f-8d9f-4e6041487655"
+storage_version_token = "1794293937471508"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "FtCN4-luJ5wTpUPVGJZTQ"
+uri = "file://generated-artifacts/heraz-text-fixes/protect-390x844.jpg"
+type = "image"
+title = "/protect — 390×844"
+description = "Mobile screenshot after the requested text fixes."
+logical_id = "c589ed17-2c60-479c-90e1-fae9a993e061"
+content_hash = "sha256:43b95c768efa1881673d97ea4199ea783a9492139577ad8733b5660db2fbe990"
+size = 41312
+mtime_ms = 1794293900548
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/c589ed17-2c60-479c-90e1-fae9a993e061/910d87d5-c0d2-4133-b649-e882afc121d0"
+storage_version_token = "1794293938781294"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "Ja44ockHXhWPmq7UWDBVD"
+uri = "file://generated-artifacts/heraz-text-fixes/kids-390x844.jpg"
+type = "image"
+title = "/kids — 390×844"
+description = "Mobile screenshot after the requested text fixes."
+logical_id = "5734efcc-48a4-4090-aec0-afa2ce4444fc"
+content_hash = "sha256:4b5f79aae4c601cb558fd42e1663e4bdbafa314c3d079e1442be115709d4e4db"
+size = 36354
+mtime_ms = 1794293901929
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/5734efcc-48a4-4090-aec0-afa2ce4444fc/0a2ce364-4e50-44b4-a66a-c6761143bff1"
+storage_version_token = "1794293940085468"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "akndnxdJich58EKVhmJM8"
+uri = "file://generated-artifacts/heraz-text-fixes/about-390x844.jpg"
+type = "image"
+title = "/about — 390×844"
+description = "Mobile screenshot after the requested text fixes."
+logical_id = "8789a313-1cf3-489e-91d7-033a0d8ad489"
+content_hash = "sha256:27b0e51a6ba6ac0b8b1425293679ad46b325fb10d131b788a0642fe362536f68"
+size = 33905
+mtime_ms = 1794293903369
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/8789a313-1cf3-489e-91d7-033a0d8ad489/d378fa94-805b-4705-811a-10eb4e309e91"
+storage_version_token = "1794293941357056"
+content_type = "image/jpeg"

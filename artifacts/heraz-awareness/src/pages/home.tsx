@@ -170,7 +170,7 @@ function HomePage() {
             </span>
             <div>
               <h2 id="kids-title" className="heading-font text-[1.75rem] leading-relaxed kids-accent" data-testid="heading-kids-world">عالم حرز</h2>
-              <p className="max-w-[52ch] text-[1.0625rem] leading-7" data-testid="text-kids-description">مجلة حرز التفاعلية للأطفال من 8 إلى 11 سنة</p>
+              <p className="max-w-[52ch] text-[1.0625rem] leading-7" data-testid="text-kids-description">مجلة درع المستقبل التفاعلية للأطفال من 8 إلى 11 سنة.</p>
             </div>
           </div>
           <Link href="/kids" data-testid="button-enter-kids-world" className="primary-button kids-button shrink-0">

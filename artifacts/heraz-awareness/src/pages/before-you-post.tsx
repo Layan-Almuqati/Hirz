@@ -32,7 +32,6 @@ export default function BeforeYouPostPage() {
     <main id="main-content" tabIndex={-1} className="page-wrap min-h-[56vh] py-10 sm:py-16" data-testid="page-before-you-post">
       <header className="page-heading-band mb-9">
         <div className="page-heading-content">
-        <p className="page-eyebrow" data-testid="text-page-eyebrow">{postChecklistCopy.pageTitle}</p>
         <h1 className="section-title mb-8" data-testid="heading-before-you-post">{postChecklistCopy.pageTitle}</h1>
         </div>
       </header>

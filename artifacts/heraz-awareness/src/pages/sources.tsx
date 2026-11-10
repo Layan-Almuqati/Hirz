@@ -30,7 +30,6 @@ export default function SourcesPage() {
     <main id="main-content" tabIndex={-1} className="page-wrap sources-page py-10 md:py-14" data-testid="page-sources">
       <header className="mb-8 page-heading-band sources-heading-band">
         <div className="page-heading-content">
-        <p className="page-eyebrow">المصادر</p>
         <h1 className="section-title mb-0" data-testid="heading-sources">المصادر</h1>
         </div>
       </header>

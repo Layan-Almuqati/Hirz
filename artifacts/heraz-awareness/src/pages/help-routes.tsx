@@ -145,7 +145,6 @@ export function HelpPlanPage() {
       </Link>
       <header className="mb-7 mt-6 help-heading-band">
         <div className="page-heading-content">
-        <p className="page-eyebrow">{helpFlowCopy.pageTitle}</p>
         <h1 ref={headingRef} tabIndex={-1} className="section-title mb-3" data-testid={`heading-help-plan-${selectedCase.number}`}>
           <BidiText text={selectedCase.title} />
         </h1>

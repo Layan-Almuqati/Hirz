@@ -13,7 +13,7 @@ const aboutAnchors = [
   { id: 'objectives', label: 'الأهداف' },
   { id: 'why-heraz', label: 'لماذا حرز؟' },
   { id: 'visual-identity', label: 'الهوية البصرية' },
-  { id: 'downloads', label: 'ملفات الهوية' },
+  { id: 'downloads', label: 'الهوية البصرية' },
   { id: 'team', label: 'فريق العمل' },
   { id: 'values', label: 'القيم' },
 ] as const;
@@ -93,7 +93,6 @@ export default function AboutPage() {
     <main id="main-content" tabIndex={-1} className="about-page" data-testid="page-about">
       <header className="about-page-heading">
         <div className="page-wrap">
-          <p className="page-eyebrow">عن حِرز</p>
           <h1 className="section-title mb-0" data-testid="heading-about">عن حِرز</h1>
         </div>
       </header>

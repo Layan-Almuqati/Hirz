@@ -121,7 +121,6 @@ export default function QuizPage() {
       <div className="quiz-shell">
         <header className="quiz-heading">
           <div className="page-heading-content">
-          <p className="page-eyebrow" data-testid="text-page-eyebrow">اختبر وعيك</p>
           <h1 className="quiz-title" data-testid="heading-quiz">اختبر وعيك</h1>
           {state.view === 'intro' && (
             <>

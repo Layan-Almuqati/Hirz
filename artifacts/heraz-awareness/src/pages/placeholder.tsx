@@ -29,7 +29,7 @@ const pageContent = {
   kids: {
     path: '/kids',
     title: 'عالم حرز',
-    description: 'مجلة حرز التفاعلية للأطفال من 8 إلى 11 سنة.',
+    description: 'مجلة درع المستقبل التفاعلية للأطفال من 8 إلى 11 سنة.',
     kids: true,
   },
 } as const;
@@ -99,7 +99,6 @@ function LawsPage() {
       <div className="laws-content">
         <header className="laws-heading">
           <div className="page-heading-content">
-          <p className="laws-eyebrow">التشريعات</p>
           <h1 data-testid="heading-laws">ماذا تقول الأنظمة السعودية عن صور طفلك وبياناته؟</h1>
           <p className="laws-intro" data-testid="text-laws-intro">
             هذه الصفحة توعوية وليست استشارة قانونية. تنقل ما تنص عليه الأنظمة السعودية، وتطبيقها على حالة بعينها يرجع للجهات المختصة.
