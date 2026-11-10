@@ -434,3 +434,17 @@ mtime_ms = 1794293903369
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/8789a313-1cf3-489e-91d7-033a0d8ad489/d378fa94-805b-4705-811a-10eb4e309e91"
 storage_version_token = "1794293941357056"
 content_type = "image/jpeg"
+
+[[outputs]]
+id = "qgV9wJT6HdxyzYulDgXLq"
+uri = "file://generated-artifacts/heraz-home-text/protect-card-390x844.jpg"
+type = "image"
+title = "Home card — 390×844"
+description = "Updated «احمِ هوية طفلك» description, verified on mobile."
+logical_id = "d227ce78-836e-436e-beed-55f61b858517"
+content_hash = "sha256:30fd963e80fd0b9c23b129006fb650d12e13375063d455727cb76c0d4ba4adee"
+size = 37886
+mtime_ms = 1794294219564
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/d227ce78-836e-436e-beed-55f61b858517/91d1afb9-38a0-4f69-97ce-b8d9c859e0f9"
+storage_version_token = "1794294238834826"
+content_type = "image/jpeg"
