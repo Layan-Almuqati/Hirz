@@ -49,6 +49,7 @@ function MagazineReader() {
   const [transitionDirection, setTransitionDirection] = useState<'next' | 'previous'>('next');
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const loadedAudioPage = useRef<number | null>(null);
+  const reportedAudioErrors = useRef<Set<number>>(new Set());
   const audioContext = useRef<AudioContext | null>(null);
   const audioUnlocked = useRef(false);
   const pointerStart = useRef<{ x: number; y: number } | null>(null);
@@ -111,6 +112,17 @@ function MagazineReader() {
     setAudioStatus('idle');
   }, []);
 
+  const reportAudioFailure = useCallback((page: number, audio: HTMLAudioElement) => {
+    if (!reportedAudioErrors.current.has(page)) {
+      reportedAudioErrors.current.add(page);
+      console.error('Story audio failed to load.', audio.currentSrc, audio.error);
+    }
+    setFailedAudioPages((current) => new Set(current).add(page));
+    audio.pause();
+    setAudioCurrentTime(0);
+    setAudioStatus('idle');
+  }, []);
+
   const playStoryAudio = useCallback(() => {
     const audio = audioRef.current;
     const source = getStoryAudioSrc(pageIndex);
@@ -132,10 +144,10 @@ function MagazineReader() {
     void audio.play().then(() => {
       setDismissedHintPages((current) => new Set(current).add(pageIndex));
       setHintVisible(false);
-    }).catch((error: unknown) => {
-      console.error('Story audio playback failed.', error);
+    }).catch(() => {
+      if (audio.error) reportAudioFailure(pageIndex, audio);
     });
-  }, [audioStatus, failedAudioPages, pageIndex]);
+  }, [audioStatus, failedAudioPages, pageIndex, reportAudioFailure]);
 
   const toggleStoryAudio = useCallback(() => {
     const audio = audioRef.current;
@@ -244,11 +256,7 @@ function MagazineReader() {
     const audio = audioRef.current;
     const page = loadedAudioPage.current;
     if (!audio || page === null) return;
-    console.error('Story audio failed to load.', audio.currentSrc, audio.error);
-    setFailedAudioPages((current) => new Set(current).add(page));
-    audio.pause();
-    setAudioCurrentTime(0);
-    setAudioStatus('idle');
+    reportAudioFailure(page, audio);
   };
 
   const handleProgressChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -324,7 +332,7 @@ function MagazineReader() {
         </div>
       </div>
 
-      {canReadStory ? (
+      {isStoryPage ? (
         <>
           <p
             className={`magazine-audio-hint${hintVisible && !dismissedHintPages.has(pageIndex) ? ' is-visible' : ''}`}
@@ -336,6 +344,7 @@ function MagazineReader() {
               type="button"
               className="magazine-audio-play-button"
               onClick={toggleStoryAudio}
+              disabled={audioFailed}
               aria-label={buttonLabel}
               aria-pressed={audioStatus === 'playing'}
               data-testid="button-story-audio"

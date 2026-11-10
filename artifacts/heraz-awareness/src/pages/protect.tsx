@@ -1,7 +1,7 @@
 import { Link } from 'wouter';
 import { PageHeader } from '@/components/heraz/layout';
-import { helpFlowCopy } from '@/data/helpFlow';
 import { protectContent } from '@/data/protectContent';
+import { SourceReference } from '@/components/heraz/SourceMarker';
 
 export default function ProtectPage() {
   return (
@@ -12,7 +12,8 @@ export default function ProtectPage() {
         <section aria-labelledby="protect-entry-title" className="page-card w-full border-[var(--teal)] bg-[var(--turquoise-10)]" style={{ padding: '24px' }} data-testid="card-protect-entry">
           <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
             <div className="min-w-0">
-              <h2 id="protect-entry-title" className="mb-3 text-2xl font-bold" data-testid="heading-protect-entry">
+              <h2 id="protect-entry-title" className="mb-3 flex items-center gap-3 text-2xl font-bold" data-testid="heading-protect-entry">
+                <span className="help-action-number" aria-hidden="true">١</span>
                 {protectContent.entry.title}
               </h2>
               <p className="text-[1.0625rem] leading-8 text-[var(--navy)]/80" data-testid="text-protect-entry">
@@ -27,7 +28,8 @@ export default function ProtectPage() {
         </section>
 
         <section aria-labelledby="protect-family-password-title" className="page-card w-full p-5 sm:p-8" data-testid="card-protect-family-password">
-          <h2 id="protect-family-password-title" className="mb-4 text-xl font-bold" data-testid="heading-protect-family-password">
+          <h2 id="protect-family-password-title" className="mb-4 flex items-center gap-3 text-xl font-bold" data-testid="heading-protect-family-password">
+            <span className="help-action-number" aria-hidden="true">٢</span>
             {protectContent.familyPassword.title}
           </h2>
           <p className="mb-5 text-[1.0625rem] leading-8 text-[var(--navy)]/80" data-testid="text-protect-family-password">
@@ -39,16 +41,7 @@ export default function ProtectPage() {
           <p className="mb-4 text-sm text-[var(--navy)]/75" data-testid="text-protect-family-password-note">
             {protectContent.familyPassword.note}
           </p>
-          <a
-            href={protectContent.familyPassword.sourceHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${protectContent.familyPassword.source}، ${helpFlowCopy.externalNewTab}`}
-            className="inline-flex min-h-11 items-center text-sm font-semibold underline underline-offset-4"
-            data-testid="link-protect-family-password-source"
-          >
-            {protectContent.familyPassword.source}
-          </a>
+          <SourceReference url={protectContent.familyPassword.sourceHref} number={1} testId="link-protect-family-password-source" />
         </section>
       </div>
     </main>

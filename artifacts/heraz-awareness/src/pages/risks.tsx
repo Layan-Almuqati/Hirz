@@ -1,6 +1,7 @@
 import { Link } from 'wouter';
 import { PageHeader } from '@/components/heraz/layout';
 import { BidiText } from '@/components/heraz/BidiText';
+import { SourceReference } from '@/components/heraz/SourceMarker';
 
 const sources = {
   sdaia: 'https://sdaia.gov.sa/ar/MediaCenter/KnowledgeCenter/ResearchLibrary/DeepfakeStudy.pdf',
@@ -12,19 +13,19 @@ const sources = {
   iwfReport: 'https://www.iwf.org.uk/annual-data-insights-report-2025/emerging-and-persistent-harms/ai-generated-child-sexual-abuse-material',
 } as const;
 
-function ExternalSourceLink({ href, children }: { href: string; children: React.ReactNode }) {
-  const content = typeof children === 'string' ? <BidiText text={children} /> : children;
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex min-h-11 items-center rounded-sm text-[var(--navy)] underline decoration-[var(--teal)] underline-offset-4 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-[var(--navy)]"
-    >
-      {content}
-      <span className="sr-only"> (يفتح في نافذة جديدة)</span>
-    </a>
-  );
+const riskSourceNumbers: Record<string, number> = {
+  'https://sdaia.gov.sa/ar/MediaCenter/KnowledgeCenter/ResearchLibrary/DeepfakeStudy.pdf': 1,
+  'https://www.unicef.org/asia-pacific/press-releases/deepfake-abuse-abuse': 2,
+  'https://www.hrw.org/news/2024/06/10/brazil-childrens-personal-photos-misused-power-ai-tools': 3,
+  'https://hrw.org/news/2024/07/03/australia-childrens-personal-photos-misused-power-ai-tools': 4,
+  'https://www.ic3.gov/PSA/2023/psa230605': 5,
+  'https://www.iwf.org.uk/news-media/news/more-ai-generated-child-sexual-abuse-images-found-in-the-first-six-months-of-2026-than-all-of-2025-iwf-warns': 6,
+  'https://www.iwf.org.uk/annual-data-insights-report-2025/emerging-and-persistent-harms/ai-generated-child-sexual-abuse-material': 7,
+};
+
+function ExternalSourceLink({ href }: { href: string; children?: React.ReactNode }) {
+  const number = riskSourceNumbers[href] ?? 1;
+  return <SourceReference url={href} number={number} testId={`link-risk-source-${number}`} />;
 }
 
 function SourceLine({ children }: { children: React.ReactNode }) {

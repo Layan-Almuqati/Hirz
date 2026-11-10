@@ -70,10 +70,21 @@ export function UtilityBar() {
 export function Navbar({ onMenuOpenChange }: { onMenuOpenChange?: (open: boolean) => void }) {
   const [location] = useLocation();
   const [open, setOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLElement>(null);
   const previousLocation = useRef(location);
   const wasOpen = useRef(false);
+
+  useEffect(() => {
+    const scrollContainer = document.querySelector<HTMLElement>('[data-testid="page-scroll-container"]');
+    if (!scrollContainer) return;
+
+    const updateScrollState = () => setIsScrolled(scrollContainer.scrollTop > 0);
+    updateScrollState();
+    scrollContainer.addEventListener('scroll', updateScrollState, { passive: true });
+    return () => scrollContainer.removeEventListener('scroll', updateScrollState);
+  }, []);
 
   useEffect(() => {
     onMenuOpenChange?.(open);
@@ -144,7 +155,7 @@ export function Navbar({ onMenuOpenChange }: { onMenuOpenChange?: (open: boolean
   }, [open]);
 
   return (
-    <header className="site-navbar" data-testid="site-header">
+    <header className={`site-navbar${isScrolled ? ' is-scrolled' : ''}`} data-testid="site-header">
       <div className="navbar-inner page-wrap flex items-center justify-between gap-4">
         <Link href="/" aria-label="حِرز - الرئيسية" data-testid="link-brand-home" className="brand-link">
           <img src="/assets/logo/heraz-logo-horizontal-white-turquoise.png" alt="شعار حِرز" width="143" height="56" className="navbar-logo" />
@@ -197,7 +208,7 @@ export function Footer() {
   return (
     <footer className="site-footer" data-testid="site-footer">
       <div className="site-footer-inner page-wrap">
-        <div className="site-footer-brand">
+        <div className="site-footer-main">
           <img
             src="/assets/logo/heraz-logo-horizontal-white-turquoise.png"
             alt="شعار حِرز"
@@ -205,22 +216,24 @@ export function Footer() {
             height="96"
             className="site-footer-logo"
           />
-          <p className="privacy-badge" data-testid="text-data-privacy">
-            <ShieldCheck size={20} strokeWidth={1.75} aria-hidden="true" />
-        <span>لا نجمع أي بيانات من زوارنا.</span>
-          </p>
+          <div className="site-footer-copy">
+            <p className="site-footer-description" data-testid="text-footer-description">
+              منصة توعوية عربية تساعد أولياء الأمور على فهم مخاطر الاستنساخ الرقمي لصور الأطفال بالذكاء الاصطناعي، وتبنّي ممارسات وقائية.
+            </p>
+            <p className="privacy-badge" data-testid="text-data-privacy">
+              <ShieldCheck size={20} strokeWidth={1.75} aria-hidden="true" />
+              <span>لا نجمع أي بيانات من زوارنا.</span>
+            </p>
+          </div>
         </div>
-        <p className="site-footer-description" data-testid="text-footer-description">
-          منصة توعوية عربية تساعد أولياء الأمور على فهم مخاطر الاستنساخ الرقمي لصور الأطفال بالذكاء الاصطناعي، وتبنّي ممارسات وقائية.
-        </p>
         <nav aria-label="روابط إضافية" className="footer-links">
           <Link href="/about" data-testid="footer-about">عن حرز</Link>
-          <Link href="/understand#understand-sources-title" data-testid="footer-sources">المصادر</Link>
+          <Link href="/sources" data-testid="footer-sources">المصادر</Link>
           <Link href="/privacy" data-testid="footer-privacy">الخصوصية</Link>
         </nav>
       </div>
       <div className="site-footer-bottom">
-        <p data-testid="text-footer-copyright">© 2026 منصة حِرز.</p>
+        <p data-testid="text-footer-copyright"><bdi dir="ltr">© 2026</bdi> منصة حِرز.</p>
       </div>
     </footer>
   );
@@ -254,16 +267,18 @@ export function PageHeader({
 }: HeaderProps) {
   return (
     <header className="page-heading-band mb-9" data-testid="page-header">
-      <nav aria-label="مسار الصفحة" className="mb-4 flex items-center gap-2 text-sm text-[var(--navy)]/75">
-        <Link href="/" data-testid="breadcrumb-home" className="underline-offset-4 hover:underline">{breadcrumbHome}</Link>
-        <span aria-hidden="true">{breadcrumbSeparator}</span>
-        <span aria-current="page" data-testid="breadcrumb-current">{title}</span>
-      </nav>
-      <p className="page-eyebrow" data-testid="text-page-eyebrow">{eyebrow ?? title}</p>
-      <h1 className={`section-title mb-4 ${kids ? 'kids-accent' : ''}`} data-testid="heading-page-title">{title}</h1>
-      {description.trim() && (
-        <p className="max-w-[68ch] text-[1.0625rem] leading-8 text-[var(--navy)]/80 sm:text-lg" data-testid="text-page-description">{description}</p>
-      )}
+      <div className="page-heading-content">
+        <nav aria-label="مسار الصفحة" className="mb-4 flex items-center gap-2 text-sm text-[var(--navy)]/75">
+          <Link href="/" data-testid="breadcrumb-home" className="underline-offset-4 hover:underline">{breadcrumbHome}</Link>
+          <span aria-hidden="true">{breadcrumbSeparator}</span>
+          <span aria-current="page" data-testid="breadcrumb-current">{title}</span>
+        </nav>
+        <p className="page-eyebrow" data-testid="text-page-eyebrow">{eyebrow ?? title}</p>
+        <h1 className={`section-title mb-4 ${kids ? 'kids-accent' : ''}`} data-testid="heading-page-title">{title}</h1>
+        {description.trim() && (
+          <p className="max-w-[68ch] text-[1.0625rem] leading-8 text-[var(--navy)]/80 sm:text-lg" data-testid="text-page-description">{description}</p>
+        )}
+      </div>
     </header>
   );
 }
@@ -274,7 +289,7 @@ export function NextStep({ path }: StepProps) {
   const next = index >= 0 ? journey[index + 1] : undefined;
   if (!next) return null;
   return (
-    <nav aria-label="التنقل بين الصفحات" className="next-page-card page-wrap mt-12 border-t border-[var(--navy-10)] pt-7" data-testid="next-step-navigation">
+    <nav aria-label="التنقل بين الصفحات" className="next-step-navigation next-page-card page-wrap" data-testid="next-step-navigation">
       <Link href={next.path} data-testid="button-next-page" className="primary-button">
         <span>التالي: {next.label}</span>
         <ArrowLeft size={18} aria-hidden="true" />

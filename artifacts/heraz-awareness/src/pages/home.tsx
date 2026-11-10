@@ -1,6 +1,8 @@
 import { Link } from 'wouter';
 import { ArrowLeft, Check, ClipboardCheck } from 'lucide-react';
 import { stats } from '@/data/stats';
+import { SourceMarker } from '@/components/heraz/SourceMarker';
+import { toArabicIndic } from '@/lib/utils';
 
 const journeyCards = [
   {
@@ -54,7 +56,6 @@ function HomePage() {
   return (
     <main id="main-content" tabIndex={-1}>
       <section className="hero-section relative isolate overflow-hidden text-white" aria-labelledby="hero-title" data-testid="section-hero">
-        <img src="/assets/brand-svg/heraz-mark-turquoise.svg" alt="" aria-hidden="true" width="640" height="640" className="hero-mark" />
         <div className="page-wrap relative z-10 flex min-h-[440px] flex-col justify-center py-10 md:min-h-[520px] md:py-16">
           <div className="hero-grid">
             <div className="hero-copy">
@@ -83,26 +84,28 @@ function HomePage() {
                 </span>
               </div>
             </div>
-            <svg className="hero-geometric-illustration" viewBox="0 0 420 360" aria-hidden="true" focusable="false">
-              <circle cx="164" cy="176" r="102" fill="none" stroke="var(--turquoise)" strokeWidth="2" opacity=".8" />
-              <circle cx="246" cy="132" r="74" fill="none" stroke="var(--teal)" strokeWidth="2" opacity=".9" />
-              <circle cx="244" cy="231" r="58" fill="none" stroke="var(--turquoise)" strokeWidth="2" opacity=".7" />
-              <path d="M210 68 290 99v61c0 56-33 99-80 125-47-26-80-69-80-125V99l80-31Z" fill="rgba(81,237,200,.08)" stroke="var(--turquoise)" strokeWidth="3" />
-              <path d="m178 160 22 22 43-47" fill="none" stroke="var(--turquoise)" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-              <circle cx="88" cy="76" r="8" fill="var(--teal)" />
-              <circle cx="332" cy="274" r="7" fill="var(--turquoise)" />
-            </svg>
+            <div className="hero-art-block">
+              <svg className="hero-geometric-illustration" viewBox="0 0 420 360" aria-hidden="true" focusable="false">
+                <circle cx="164" cy="176" r="102" fill="none" stroke="var(--turquoise)" strokeWidth="2" opacity=".8" />
+                <circle cx="246" cy="132" r="74" fill="none" stroke="var(--teal)" strokeWidth="2" opacity=".9" />
+                <circle cx="244" cy="231" r="58" fill="none" stroke="var(--turquoise)" strokeWidth="2" opacity=".7" />
+                <path d="M210 68 290 99v61c0 56-33 99-80 125-47-26-80-69-80-125V99l80-31Z" fill="rgba(81,237,200,.08)" stroke="var(--turquoise)" strokeWidth="3" />
+                <path d="m178 160 22 22 43-47" fill="none" stroke="var(--turquoise)" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="88" cy="76" r="8" fill="var(--teal)" />
+                <circle cx="332" cy="274" r="7" fill="var(--turquoise)" />
+              </svg>
+            </div>
           </div>
         </div>
       </section>
 
       {stats.length > 0 && (
         <section className="stat-strip page-wrap" aria-label="إحصاءات موثقة" data-testid="section-stat-strip">
-          {stats.slice(0, 3).map((stat) => (
+          {stats.slice(0, 3).map((stat, index) => (
             <article className="stat-item" key={stat.sourceId}>
               <bdi dir="ltr" className="stat-value">{stat.value}</bdi>
               <p>{stat.label}</p>
-              <Link href={`/sources#${stat.sourceId}`} aria-label={`المصدر ${stat.sourceId}`} className="stat-source">المصدر</Link>
+              <SourceMarker sourceId={stat.sourceId} number={index + 1} />
             </article>
           ))}
         </section>
@@ -125,7 +128,7 @@ function HomePage() {
               <Link href={card.path} key={card.path} data-testid={`card-journey-${card.n}`} className="journey-card">
                 <div className="mb-4 flex items-center justify-between">
                   <IdentityIcon icon={card.icon} label={card.title} />
-                  <span className="journey-number" aria-label={`الخطوة ${card.n}`} data-testid={`text-journey-number-${card.n}`}>{card.n.padStart(2, '0')}</span>
+                  <span className="journey-number" aria-label={`الخطوة ${toArabicIndic(card.n)}`} data-testid={`text-journey-number-${card.n}`}>{toArabicIndic(card.n)}</span>
                 </div>
                 <h3 className="heading-font mb-1 text-[1.375rem] leading-[1.5]">{card.title}</h3>
                 <p className="mb-4 text-[1.0625rem] leading-[1.9]">{card.description}</p>

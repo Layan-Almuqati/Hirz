@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import { Check, X } from 'lucide-react';
-import { helpFlowCopy } from '@/data/helpFlow';
 import { postChecklistCopy, postChecklistGroups } from '@/data/postChecklist';
 import { BidiText } from '@/components/heraz/BidiText';
+import { SourceReference } from '@/components/heraz/SourceMarker';
 
 type Answer = 'yes' | 'no';
 type ChecklistQuestion = (typeof postChecklistGroups)[number]['questions'][number];
 
 const questionCount = postChecklistGroups.reduce((count, group) => count + group.questions.length, 0);
+const checklistSourceNumbers: Record<string, number> = {
+  'https://www.esafety.gov.au/parents/issues-and-advice/privacy-child': 1,
+  'https://www.ic3.gov/PSA/2023/psa230605': 2,
+};
 
 export default function BeforeYouPostPage() {
   const [answers, setAnswers] = useState<Record<number, Answer>>({});
@@ -27,8 +31,10 @@ export default function BeforeYouPostPage() {
   return (
     <main id="main-content" tabIndex={-1} className="page-wrap min-h-[56vh] py-10 sm:py-16" data-testid="page-before-you-post">
       <header className="page-heading-band mb-9">
+        <div className="page-heading-content">
         <p className="page-eyebrow" data-testid="text-page-eyebrow">{postChecklistCopy.pageTitle}</p>
         <h1 className="section-title mb-8" data-testid="heading-before-you-post">{postChecklistCopy.pageTitle}</h1>
+        </div>
       </header>
 
       <button
@@ -120,16 +126,13 @@ export default function BeforeYouPostPage() {
                   <p className="text-[1rem] leading-7" data-testid={`result-advice-${item.id}`}>
                     <BidiText text={item.advice} />
                   </p>
-                  <a
-                    href={item.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${item.sourceLabel}، ${helpFlowCopy.externalNewTab}`}
-                    className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold underline underline-offset-4"
-                    data-testid={`result-source-${item.id}`}
-                  >
-                    <BidiText text={item.sourceLabel} />
-                  </a>
+                  <div className="mt-3">
+                    <SourceReference
+                      url={item.sourceUrl}
+                      number={checklistSourceNumbers[item.sourceUrl] ?? 1}
+                      testId={`result-source-${item.id}`}
+                    />
+                  </div>
                 </li>
               ))}
             </ul>
@@ -137,7 +140,7 @@ export default function BeforeYouPostPage() {
               {postChecklistCopy.afterEditing}
             </p>
           </div>
-        )}
+        ) : null}
         <button type="button" onClick={() => setAnswers({})} className="secondary-button min-h-11" data-testid="button-reset-checklist">
           {postChecklistCopy.reset}
         </button>

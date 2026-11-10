@@ -4,7 +4,7 @@ import { ErrorBoundary } from '@/components/error-boundary';
 import NotFound from '@/pages/not-found';
 import HomePage from '@/pages/home';
 import BeforeYouPostPage from '@/pages/before-you-post';
-import HelpPage from '@/pages/help';
+import { HelpPickerPage, HelpPlanPage } from '@/pages/help-routes';
 import PlaceholderPage from '@/pages/placeholder';
 import RisksPage from '@/pages/risks';
 import ProtectPage from '@/pages/protect';
@@ -13,6 +13,8 @@ import { EmergencyButton, Footer, Navbar, NextStep, UtilityBar } from '@/compone
 import AboutPage from '@/pages/about';
 import PrivacyPage from '@/pages/privacy';
 import BackToTopButton from '@/components/heraz/back-to-top';
+import { helpCases } from '@/data/helpFlow';
+import SourcesPage from '@/pages/sources';
 
 function Shell({ children }: { children: ReactNode }) {
   const [location] = useLocation();
@@ -52,6 +54,7 @@ const pageTitles: Record<string, string> = {
   '/kids': 'عالم حرز',
   '/about': 'عن حِرز',
   '/privacy': 'سياسة الخصوصية',
+  '/sources': 'المصادر',
 };
 
 function RouteMetadataAndScroll() {
@@ -59,6 +62,7 @@ function RouteMetadataAndScroll() {
   const routePath = location.split(/[?#]/, 1)[0] || '/';
   const isPopState = useRef(false);
   const priorLocation = useRef(location);
+  const savedScrollPositions = useRef(new Map<string, number>());
 
   useEffect(() => {
     const onPopState = () => { isPopState.current = true; };
@@ -74,18 +78,31 @@ function RouteMetadataAndScroll() {
     priorLocation.current = location;
     const isBackNavigation = isPopState.current;
     isPopState.current = false;
-    if (!isBackNavigation && !location.includes('#')) {
-      document.querySelector<HTMLElement>('[data-testid="page-scroll-container"]')?.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'auto',
-      });
+    const scroller = document.querySelector<HTMLElement>('[data-testid="page-scroll-container"]');
+    if (isBackNavigation) {
+      const savedTop = savedScrollPositions.current.get(location);
+      if (savedTop !== undefined && scroller) {
+        window.requestAnimationFrame(() => scroller.scrollTo({ top: savedTop, left: 0, behavior: 'auto' }));
+      }
+    } else if (!location.includes('#')) {
+      savedScrollPositions.current.set(location, 0);
+      scroller?.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     }
   }, [location]);
 
   useEffect(() => {
+    const scroller = document.querySelector<HTMLElement>('[data-testid="page-scroll-container"]');
+    if (!scroller) return;
+    const saveScroll = () => savedScrollPositions.current.set(location, scroller.scrollTop);
+    scroller.addEventListener('scroll', saveScroll, { passive: true });
+    return () => scroller.removeEventListener('scroll', saveScroll);
+  }, [location]);
+
+  useEffect(() => {
     const path = routePath;
-    const name = pageTitles[path] ?? (path.startsWith('/protect/help/') ? 'المساعدة' : 'الصفحة غير موجودة');
+    const caseId = path.match(/^\/protect\/help\/([^/]+)$/)?.[1];
+    const selectedHelpCase = caseId ? helpCases.find((item) => String(item.number) === caseId) : undefined;
+    const name = selectedHelpCase?.title ?? pageTitles[path] ?? (path.startsWith('/protect/help/') ? 'المساعدة' : 'الصفحة غير موجودة');
     const title = `${name} — حِرز`;
     const main = document.querySelector('main');
     const description = main?.querySelector('p')?.textContent?.trim() ||
@@ -111,7 +128,7 @@ function RouteMetadataAndScroll() {
         entry.target.classList.add('is-revealed');
         observer.unobserve(entry.target);
       });
-    }, { threshold: 0.08 });
+    }, { threshold: 0.01 });
     blocks.forEach((block) => {
       block.classList.add('reveal-section');
       observer.observe(block);
@@ -132,10 +149,12 @@ function Router() {
           <Route path="/" component={HomePage} />
           <Route path="/about" component={AboutPage} />
           <Route path="/privacy" component={PrivacyPage} />
+          <Route path="/sources" component={SourcesPage} />
           <Route path="/understand"><PlaceholderPage pageKey="understand" /></Route>
           <Route path="/risks" component={RisksPage} />
           <Route path="/before-you-post" component={BeforeYouPostPage} />
-          <Route path="/protect/help" component={HelpPage} />
+          <Route path="/protect/help/:caseId" component={HelpPlanPage} />
+          <Route path="/protect/help" component={HelpPickerPage} />
           <Route path="/protect" component={ProtectPage} />
           <Route path="/laws"><PlaceholderPage pageKey="laws" /></Route>
           <Route path="/quiz" component={QuizPage} />

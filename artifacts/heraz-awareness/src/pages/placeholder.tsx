@@ -1,12 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { PageHeader } from '@/components/heraz/layout';
 import { BidiText } from '@/components/heraz/BidiText';
-import { Link } from 'wouter';
-import { ExternalLink, Heart, Scale, Shield } from 'lucide-react';
+import { ChevronDown, Heart, Scale, Shield } from 'lucide-react';
 import './laws.css';
 import './understand-content.css';
 import { understandContent } from '@/data/understandContent';
+import { SourceReference } from '@/components/heraz/SourceMarker';
 import MagazineReader from '@/components/heraz/MagazineReader';
+import { toArabicIndic } from '@/lib/utils';
+import { sources } from '@/data/sources';
 
 const pageContent = {
   understand: {
@@ -44,16 +46,33 @@ const externalSources = {
   familyViolence: 'https://www.hrsd.gov.sa/ar/ministry-services/services/1155125',
 } as const;
 
-function SourceLink({ href, children, testId }: { href: string; children: string; testId: string }) {
-  return (
-    <a className="laws-source-link" href={href} target="_blank" rel="noopener noreferrer" data-testid={testId}>
-      <span>{children}</span>
-      <ExternalLink aria-hidden="true" size={15} strokeWidth={1.8} />
-    </a>
-  );
+const lawSourceNumbers: Record<string, number> = {
+  [externalSources.executiveRegulations]: 1,
+  [externalSources.article35]: 2,
+  [externalSources.cybercrime]: 3,
+  [externalSources.childProtection]: 4,
+  [externalSources.familyViolence]: 5,
+};
+
+function SourceLink({ href, testId }: { href: string; testId: string }) {
+  return <SourceReference url={href} number={lawSourceNumbers[href] ?? 1} testId={testId} />;
 }
 
 function LawsPage() {
+  const [openLawIds, setOpenLawIds] = useState<Set<string>>(() => new Set(['personal-data']));
+  const latestLawCheck = sources
+    .filter((source) => source.page === 'التشريعات' && source.lastChecked)
+    .map((source) => ({ date: source.lastChecked, timestamp: Date.parse(source.lastChecked) }))
+    .filter((source) => Number.isFinite(source.timestamp))
+    .sort((first, second) => second.timestamp - first.timestamp)[0]?.date;
+  const toggleLaw = (lawId: string) => {
+    setOpenLawIds((current) => {
+      const next = new Set(current);
+      if (next.has(lawId)) next.delete(lawId);
+      else next.add(lawId);
+      return next;
+    });
+  };
   useEffect(() => {
     const page = document.querySelector<HTMLElement>('.laws-page');
     const cards = page?.querySelectorAll<HTMLElement>('.laws-reveal');
@@ -79,23 +98,43 @@ function LawsPage() {
     <main id="main-content" tabIndex={-1} className="laws-page" dir="rtl" data-testid="page-laws">
       <div className="laws-content">
         <header className="laws-heading">
+          <div className="page-heading-content">
           <p className="laws-eyebrow">التشريعات</p>
           <h1 data-testid="heading-laws">ماذا تقول الأنظمة السعودية عن صور طفلك وبياناته؟</h1>
           <p className="laws-intro" data-testid="text-laws-intro">
             هذه الصفحة توعوية وليست استشارة قانونية. تنقل ما تنص عليه الأنظمة السعودية، وتطبيقها على حالة بعينها يرجع للجهات المختصة.
           </p>
+          {latestLawCheck && (
+            <p className="laws-last-checked" data-testid="text-laws-last-checked">
+              آخر تحقق: <bdi dir="ltr">{latestLawCheck}</bdi>
+            </p>
+          )}
+          </div>
         </header>
 
         <div className="laws-cards">
           <article className="laws-card laws-reveal" aria-labelledby="laws-title-1" data-testid="card-law-personal-data">
             <div className="laws-card-heading">
-              <span className="laws-number" aria-hidden="true">01</span>
+              <span className="laws-number" aria-hidden="true">١</span>
               <span className="laws-icon" aria-hidden="true"><Shield size={23} strokeWidth={1.8} /></span>
               <div className="laws-title-wrap">
-                <h2 id="laws-title-1">نظام حماية البيانات الشخصية</h2>
+                <h2 id="laws-title-1">
+                  <button
+                    type="button"
+                    className="laws-accordion-trigger"
+                    aria-expanded={openLawIds.has('personal-data')}
+                    aria-controls="laws-content-personal-data"
+                    onClick={() => toggleLaw('personal-data')}
+                    data-testid="button-law-personal-data"
+                  >
+                    نظام حماية البيانات الشخصية
+                    <ChevronDown aria-hidden="true" size={20} />
+                  </button>
+                </h2>
                 <p className="laws-decree">المرسوم الملكي م/19 بتاريخ 9/2/1443هـ، المعدّل بالمرسوم م/148 بتاريخ 5/9/1444هـ</p>
               </div>
             </div>
+            <div id="laws-content-personal-data" className="laws-accordion-content" hidden={!openLawIds.has('personal-data')}>
             <ol className="laws-list">
               <li>صورة طفلك بيانٌ شخصي. يعرّف النظام البيانات الشخصية بأنها كل بيان يؤدي إلى معرفة الفرد على وجه التحديد، ويذكر من أمثلتها «صور الفرد الثابتة أو المتحركة» (المادة 1).</li>
               <li>«المعالجة» في النظام تشمل الجمع والتخزين والإفصاح والنقل (المادة 1).</li>
@@ -109,19 +148,33 @@ function LawsPage() {
               <p>من أفصح عن بيانات حساسة أو نشرها مخالفًا النظام، بقصد الإضرار بصاحبها أو تحقيق منفعة شخصية، يُعاقب بالسجن مدة لا تزيد على <strong>سنتين</strong> وبغرامة لا تزيد على <strong>3 ملايين ريال</strong>، أو بإحدى العقوبتين (المادة 35).</p>
             </section>
             <div className="laws-sources">
-              <SourceLink href={externalSources.executiveRegulations} testId="link-source-executive-regulations">جريدة أم القرى — اللائحة التنفيذية</SourceLink>
-              <SourceLink href={externalSources.article35} testId="link-source-article-35">عكاظ — المادة 35</SourceLink>
+              <SourceLink href={externalSources.executiveRegulations} testId="link-source-executive-regulations" />
+              <SourceLink href={externalSources.article35} testId="link-source-article-35" />
+            </div>
             </div>
           </article>
 
           <article className="laws-card laws-reveal" aria-labelledby="laws-title-2" data-testid="card-law-cybercrime">
             <div className="laws-card-heading">
-              <span className="laws-number" aria-hidden="true">02</span>
+              <span className="laws-number" aria-hidden="true">٢</span>
               <span className="laws-icon" aria-hidden="true"><Scale size={23} strokeWidth={1.8} /></span>
               <div className="laws-title-wrap">
-                <h2 id="laws-title-2">نظام مكافحة جرائم المعلوماتية</h2>
+                <h2 id="laws-title-2">
+                  <button
+                    type="button"
+                    className="laws-accordion-trigger"
+                    aria-expanded={openLawIds.has('cybercrime')}
+                    aria-controls="laws-content-cybercrime"
+                    onClick={() => toggleLaw('cybercrime')}
+                    data-testid="button-law-cybercrime"
+                  >
+                    نظام مكافحة جرائم المعلوماتية
+                    <ChevronDown aria-hidden="true" size={20} />
+                  </button>
+                </h2>
               </div>
             </div>
+            <div id="laws-content-cybercrime" className="laws-accordion-content" hidden={!openLawIds.has('cybercrime')}>
             <ol className="laws-list">
               <li>الجريمة المعلوماتية في النظام هي أي فعل يُرتكب باستخدام الحاسب الآلي أو الشبكة المعلوماتية بالمخالفة لأحكامه (المادة 1).</li>
             </ol>
@@ -135,19 +188,33 @@ function LawsPage() {
               </ol>
             </section>
             <div className="laws-sources">
-              <SourceLink href={externalSources.cybercrime} testId="link-source-cybercrime">نظام مكافحة جرائم المعلوماتية (نسخة جامعة الملك فيصل)</SourceLink>
+              <SourceLink href={externalSources.cybercrime} testId="link-source-cybercrime" />
+            </div>
             </div>
           </article>
 
           <article className="laws-card laws-reveal" aria-labelledby="laws-title-3" data-testid="card-law-child-protection">
             <div className="laws-card-heading">
-              <span className="laws-number" aria-hidden="true">03</span>
+              <span className="laws-number" aria-hidden="true">٣</span>
               <span className="laws-icon" aria-hidden="true"><Heart size={23} strokeWidth={1.8} /></span>
               <div className="laws-title-wrap">
-                <h2 id="laws-title-3">نظام حماية الطفل</h2>
+                <h2 id="laws-title-3">
+                  <button
+                    type="button"
+                    className="laws-accordion-trigger"
+                    aria-expanded={openLawIds.has('child-protection')}
+                    aria-controls="laws-content-child-protection"
+                    onClick={() => toggleLaw('child-protection')}
+                    data-testid="button-law-child-protection"
+                  >
+                    نظام حماية الطفل
+                    <ChevronDown aria-hidden="true" size={20} />
+                  </button>
+                </h2>
                 <p className="laws-decree">المرسوم الملكي م/14 بتاريخ 3/2/1436هـ</p>
               </div>
             </div>
+            <div id="laws-content-child-protection" className="laws-accordion-content" hidden={!openLawIds.has('child-protection')}>
             <ol className="laws-list">
               <li>الطفل: كل إنسان لم يتجاوز الثامنة عشرة من عمره.</li>
               <li>الإيذاء: كل شكل من أشكال الإساءة للطفل أو استغلاله أو التهديد بذلك، ومنه الإساءة الجسدية والنفسية والجنسية.</li>
@@ -163,37 +230,33 @@ function LawsPage() {
               </p>
             </section>
             <div className="laws-sources">
-              <SourceLink href={externalSources.childProtection} testId="link-source-child-protection">وزارة الموارد البشرية — نظام حماية الطفل</SourceLink>
-              <SourceLink href={externalSources.familyViolence} testId="link-source-family-violence">وزارة الموارد البشرية — الإبلاغ عن العنف الأسري</SourceLink>
+              <SourceLink href={externalSources.childProtection} testId="link-source-child-protection" />
+              <SourceLink href={externalSources.familyViolence} testId="link-source-family-violence" />
+            </div>
             </div>
           </article>
         </div>
-
-        <aside className="laws-closing">
-          <p data-testid="text-laws-closing">قبل أي صورة راجع قائمة «قبل أن تنشر»، وإن حدث موقف فصفحة «احمِ» ترتّب لك الخطوات.</p>
-          <div className="laws-closing-actions">
-            <Link href="/before-you-post" className="laws-action laws-action-primary" data-testid="link-laws-before-you-post">قبل أن تنشر</Link>
-            <Link href="/protect" className="laws-action laws-action-outline" data-testid="link-laws-protect">احمِ</Link>
-          </div>
-        </aside>
       </div>
     </main>
   );
 }
 
 function UnderstandSourceLink({ href, testId }: { href: string; testId: string }) {
-  return (
-    <a className="understand-source-link" href={href} target="_blank" rel="noopener noreferrer" data-testid={testId}>
-      «المصدر ↗»
-    </a>
-  );
+  const sourceNumbers: Record<string, number> = {
+    'https://www.gao.gov/products/gao-20-379sp': 1,
+    'https://sdaia.gov.sa/ar/SDAIA/eParticipation/consulting/SDAIADeepfakesGuidelinesAr.pdf': 2,
+    'https://consumer.ftc.gov/consumer-alerts/2023/03/scammers-use-ai-enhance-their-family-emergency-schemes': 3,
+    'https://www.hrw.org/news/2024/06/10/brazil-childrens-personal-photos-misused-power-ai-tools': 4,
+    'https://www.ic3.gov/PSA/2023/psa230605': 5,
+  };
+  return <SourceReference url={href} number={sourceNumbers[href] ?? 1} testId={testId} />;
 }
 
 function UnderstandContent() {
   const { definition, process, examples } = understandContent;
 
   return (
-    <section className="understand-content" aria-label="محتوى الاستنساخ الرقمي" data-testid="understand-content">
+    <section className="understand-content" style={{ maxWidth: '68ch', marginInline: 'auto' }} aria-label="محتوى الاستنساخ الرقمي" data-testid="understand-content">
       <article className="understand-card" aria-labelledby="understand-definition-title" data-testid="card-understand-definition">
         <h2 id="understand-definition-title">{definition.title}</h2>
         <div className="understand-callout"><BidiText text={definition.callout} /></div>
@@ -215,7 +278,7 @@ function UnderstandContent() {
           {process.steps.map((step, index) => (
             <section className="understand-step" key={step.title} data-testid={`step-understand-${index + 1}`}>
               <div className="understand-step-head">
-                <span className="understand-step-number" aria-hidden="true">{index + 1}</span>
+                <span className="understand-step-number" aria-hidden="true">{toArabicIndic(index + 1)}</span>
                 <h3><BidiText text={step.title} /></h3>
               </div>
               <p><BidiText text={step.text} /></p>
@@ -256,7 +319,11 @@ function PlaceholderPage({ pageKey }: { pageKey: PageKey }) {
   const page = pageContent[pageKey];
   return (
     <main id="main-content" tabIndex={-1} className="page-wrap min-h-[56vh] py-10 sm:py-16" data-testid={`page-${pageKey}`}>
-      <PageHeader title={page.title} description={page.description} kids={'kids' in page && page.kids} />
+      <PageHeader
+        title={page.title}
+        description={page.description}
+        kids={'kids' in page && page.kids}
+      />
       {pageKey === 'understand' ? (
         <UnderstandContent />
       ) : pageKey === 'kids' ? (
