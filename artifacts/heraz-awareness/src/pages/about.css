@@ -168,12 +168,6 @@
 }
 .about-supervisor-card { width: min(100%, 420px); margin: 20px auto 0; }
 
-.about-updated-date { margin: -7px 0 18px; color: var(--text-secondary); font-size: .875rem; }
-.about-downloads-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
 .about-download-card {
   display: flex;
   min-width: 0;
@@ -235,11 +229,39 @@
   .about-team-grid { gap: 12px; }
   .about-team-card { min-height: 154px; padding: 16px 12px; }
   .about-team-name { font-size: .8125rem; }
-  .about-downloads-grid { grid-template-columns: minmax(0, 1fr); }
   .about-download-card { padding: 14px; }
   .about-download-button { min-width: 78px; padding-inline: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .about-download-card { transition: none; }
+}
+
+/* About-only spacing and anchor clearance; shared pages and footer stay untouched. */
+.about-page { --about-anchor-offset: 152px; }
+.shell-content > main.about-page { padding-block-end: 0 !important; flex: 0 0 auto; }
+.about-page .about-content { padding-block-end: 32px; }
+.about-page .about-section {
+  margin-top: 40px !important;
+  padding-block: 0;
+}
+.about-page section[id],
+.about-page #downloads { scroll-margin-top: var(--about-anchor-offset); }
+.page-scroll:has(.about-page) { scroll-padding-top: 0; }
+.about-page #team .about-supervisor-card { margin: 24px auto 0; max-width: 420px; }
+.about-page .about-values-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  align-items: stretch;
+}
+.about-page .about-values-grid > .about-value-card {
+  grid-column: auto;
+  width: auto;
+  min-height: 96px;
+  justify-self: stretch;
+}
+@media (max-width: 767px) {
+  .about-page { --about-anchor-offset: 144px; }
+  .about-page .about-values-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .about-page .about-values-grid > .about-value-card:last-child { grid-column: 1 / -1; }
 }

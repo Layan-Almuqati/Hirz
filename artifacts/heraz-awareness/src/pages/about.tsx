@@ -155,21 +155,16 @@ export default function AboutPage() {
         <section id="visual-identity" className="about-section" aria-labelledby="visual-identity-heading" data-testid="section-about-visual-identity">
           <SectionHeading id="visual-identity">الهوية البصرية</SectionHeading>
           <AboutVisualIdentity />
-        </section>
-
-        {downloads.length > 0 && (
-          <section id="downloads" className="about-section about-downloads-section" aria-labelledby="downloads-heading" data-testid="section-about-downloads">
-            <SectionHeading id="downloads">ملفات الهوية</SectionHeading>
-            <p className="about-updated-date">تاريخ آخر تعديل: 10 نوفمبر 2026</p>
-            <div className="about-downloads-grid">
+          {downloads.length > 0 && (
+            <div className="about-identity-download">
               {downloads.map((item) => (
-                <article className="about-download-card" key={item.file} data-testid="about-download-brand-guide">
+                <article id="downloads" aria-labelledby="downloads-heading" className="about-download-card" key={item.file} data-testid="about-download-brand-guide">
                   <div className="about-download-copy">
                     <span className="about-download-badge"><BidiText text={item.badge} /></span>
                     <div>
-                      <h3 className="about-download-title">{item.title}</h3>
+                      <h3 id="downloads-heading" className="about-download-title">دليل الهوية البصرية</h3>
                       <p className="about-download-meta">
-                        <bdi dir="ltr">{item.size}</bdi><span aria-hidden="true"> · </span><bdi dir="ltr">{item.date}</bdi>
+                        <bdi dir="ltr">{item.size}</bdi>
                       </p>
                     </div>
                   </div>
@@ -179,15 +174,11 @@ export default function AboutPage() {
                 </article>
               ))}
             </div>
-          </section>
-        )}
+          )}
+        </section>
 
         <section id="team" className="about-section" aria-labelledby="team-heading" data-testid="section-about-team">
           <SectionHeading id="team">فريق العمل</SectionHeading>
-          <article className="about-team-card about-supervisor-card" data-testid="about-supervisor">
-            <SupervisorAvatar />
-            <p className="about-team-name"><BidiText text={supervisorName} /></p>
-          </article>
           <div className="about-team-grid">
             {studentNames.map((name, index) => (
               <article className="about-team-card" key={name} data-testid={`about-team-member-${index + 1}`}>
@@ -196,6 +187,10 @@ export default function AboutPage() {
               </article>
             ))}
           </div>
+          <article className="about-team-card about-supervisor-card" data-testid="about-supervisor">
+            <SupervisorAvatar />
+            <p className="about-team-name"><BidiText text={supervisorName} /></p>
+          </article>
         </section>
 
         <section id="values" className="about-section" aria-labelledby="values-heading" data-testid="section-about-values">

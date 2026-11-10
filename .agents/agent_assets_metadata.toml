@@ -294,3 +294,87 @@ mtime_ms = 1794290513628
 storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/254a4e28-f25f-4e52-a8bf-cd8cc4986407/efd0960c-a9a7-4805-b844-08745cdb16b9"
 storage_version_token = "1794290652129547"
 content_type = "image/jpeg"
+
+[[outputs]]
+id = "GX5tLIkOvk7obH_luuyPW"
+uri = "file://generated-artifacts/heraz-about-final/screenshots.html"
+type = "html"
+title = "About final fixes — screenshot gallery"
+description = "Identity, download, team, supervisor, values and footer verified at 390×844, 820×1180 and 1280×800."
+logical_id = "4431d9b2-e9dc-4b8c-912c-8b01d61068b5"
+content_hash = "sha256:0176f5a48eca29177545c683740261a471d9258ed3e8e6956a6ec943c7586063"
+size = 940573
+mtime_ms = 1794291314589
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/4431d9b2-e9dc-4b8c-912c-8b01d61068b5/d8b3e7d7-5b80-49f1-ac70-98584ecf5ec5"
+storage_version_token = "1794291406045567"
+content_type = "text/html"
+
+[[outputs]]
+id = "O1ywAWIjSph49qLQEkgYw"
+uri = "file://generated-artifacts/heraz-about-final/identity-390x844.jpg"
+type = "image"
+title = "Identity and download — 390×844"
+description = "Exact compact copy, existing logo and identity-guide download."
+logical_id = "4e397000-ee2d-46e3-9967-70fc8e9a99b1"
+content_hash = "sha256:978418c460b004225140e3502a7c1474511e9368b6280129f9c06c12463c71ed"
+size = 48295
+mtime_ms = 1794291311089
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/4e397000-ee2d-46e3-9967-70fc8e9a99b1/3d774b35-be31-488f-a856-24401b98f700"
+storage_version_token = "1794291407465905"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "mwCRXGXyFGMEAaD4a4cgh"
+uri = "file://generated-artifacts/heraz-about-final/team-820x1180.jpg"
+type = "image"
+title = "Team and supervisor — 820×1180"
+description = "Eight members in unchanged order, with the centered supervisor below the grid."
+logical_id = "1e6efb4e-e0da-4b71-8f0a-f2c3859ecf5d"
+content_hash = "sha256:106092b2e309aba56fa088abd8b3beff94d7f0f33aeba9485e5bf80b2b29618a"
+size = 87056
+mtime_ms = 1794291313081
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/1e6efb4e-e0da-4b71-8f0a-f2c3859ecf5d/744b3457-a0bb-4885-b22a-90bbd5a44710"
+storage_version_token = "1794291408873663"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "F3C1XYSLY90OaOG4WHoR8"
+uri = "file://generated-artifacts/heraz-about-final/bottom-1280x800.jpg"
+type = "image"
+title = "Values and footer — 1280×800"
+description = "Equal-height values cards, reduced bottom spacing and unchanged footer."
+logical_id = "9ab027eb-72b4-43c6-860c-4b77aad80177"
+content_hash = "sha256:bc81e00c704a4730fb2a6b01325fcc663a8fa9241641b023f50f006804c667c4"
+size = 71457
+mtime_ms = 1794291314577
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/9ab027eb-72b4-43c6-860c-4b77aad80177/f57b4c9b-ddfe-4ce4-bc44-d3f56948bc66"
+storage_version_token = "1794291410214166"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "6EKiA6_1z5jSKhgWOTHfW"
+uri = "file://generated-artifacts/heraz-about-no-logo/identity-390x844.jpg"
+type = "image"
+title = "About identity — 390×844"
+description = "Logo card removed; intro, three rows and PDF download retained."
+logical_id = "9ead537f-e721-4337-b178-6cabd3a20e09"
+content_hash = "sha256:6057b8d9bfb66a072be8dd34892a532b6cbbd2c3944f7d17ec6508b995862cc8"
+size = 34240
+mtime_ms = 1794291479256
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/9ead537f-e721-4337-b178-6cabd3a20e09/6cc64e54-c140-4df5-8d8c-7bf12ab96450"
+storage_version_token = "1794291505696925"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "sISdUHgTffXneOVgfIJF_"
+uri = "file://generated-artifacts/heraz-about-no-logo/identity-820x1180.jpg"
+type = "image"
+title = "About identity — 820×1180"
+description = "Identity-guide download directly below the three rows, with no logo, swatches or font chips."
+logical_id = "13d50fdb-028c-4d7b-a356-72ef32c68a04"
+content_hash = "sha256:64ebe0db403369277a7bf1c2158e250e204ea1e669ca5fc5bb1cdc04c7d8b907"
+size = 84600
+mtime_ms = 1794291480864
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:050f4aad-a010-495c-ad3a-8b5e590ee432/13d50fdb-028c-4d7b-a356-72ef32c68a04/4e7267af-e019-4c6e-86fb-2a25ab5b2475"
+storage_version_token = "1794291507002037"
+content_type = "image/jpeg"
